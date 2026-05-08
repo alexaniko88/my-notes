@@ -10,5 +10,21 @@
   "addNote": "Add note",
   "@addNote": {
     "description": "Tooltip for the add note FAB"
+  },
+  "fabOptionText": "Text",
+  "@fabOptionText": {
+    "description": "FAB speed dial option — plain text note"
+  },
+  "fabOptionImage": "Image",
+  "@fabOptionImage": {
+    "description": "FAB speed dial option — image note"
+  },
+  "fabOptionAudio": "Audio",
+  "@fabOptionAudio": {
+    "description": "FAB speed dial option — voice recording note"
+  },
+  "fabOptionPdf": "PDF",
+  "@fabOptionPdf": {
+    "description": "FAB speed dial option — PDF note"
   }
 }

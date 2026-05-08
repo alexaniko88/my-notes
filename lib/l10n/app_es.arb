@@ -1,5 +1,9 @@
 {
   "appTitle": "Mis Notas",
   "notesEmptyState": "Aún no hay notas",
-  "addNote": "Agregar nota"
+  "addNote": "Agregar nota",
+  "fabOptionText": "Texto",
+  "fabOptionImage": "Imagen",
+  "fabOptionAudio": "Audio",
+  "fabOptionPdf": "PDF"
 }

@@ -16,4 +16,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addNote => 'Add note';
+
+  @override
+  String get fabOptionText => 'Text';
+
+  @override
+  String get fabOptionImage => 'Image';
+
+  @override
+  String get fabOptionAudio => 'Audio';
+
+  @override
+  String get fabOptionPdf => 'PDF';
 }

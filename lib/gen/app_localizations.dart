@@ -115,6 +115,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add note'**
   String get addNote;
+
+  /// FAB speed dial option — plain text note
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get fabOptionText;
+
+  /// FAB speed dial option — image note
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get fabOptionImage;
+
+  /// FAB speed dial option — voice recording note
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get fabOptionAudio;
+
+  /// FAB speed dial option — PDF note
+  ///
+  /// In en, this message translates to:
+  /// **'PDF'**
+  String get fabOptionPdf;
 }
 
 class _AppLocalizationsDelegate
