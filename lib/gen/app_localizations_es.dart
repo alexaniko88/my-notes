@@ -10,4 +10,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get appTitle => 'Mis Notas';
+
+  @override
+  String get notesEmptyState => 'Aún no hay notas';
+
+  @override
+  String get addNote => 'Agregar nota';
 }

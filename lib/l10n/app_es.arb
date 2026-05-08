@@ -1,3 +1,5 @@
 {
-  "appTitle": "Mis Notas"
+  "appTitle": "Mis Notas",
+  "notesEmptyState": "Aún no hay notas",
+  "addNote": "Agregar nota"
 }

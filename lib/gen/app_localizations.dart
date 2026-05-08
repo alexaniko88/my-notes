@@ -103,6 +103,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My Notes'**
   String get appTitle;
+
+  /// Shown when the notes list is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No notes yet'**
+  String get notesEmptyState;
+
+  /// Tooltip for the add note FAB
+  ///
+  /// In en, this message translates to:
+  /// **'Add note'**
+  String get addNote;
 }
 
 class _AppLocalizationsDelegate

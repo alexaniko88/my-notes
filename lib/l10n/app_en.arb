@@ -2,5 +2,13 @@
   "appTitle": "My Notes",
   "@appTitle": {
     "description": "The application title"
+  },
+  "notesEmptyState": "No notes yet",
+  "@notesEmptyState": {
+    "description": "Shown when the notes list is empty"
+  },
+  "addNote": "Add note",
+  "@addNote": {
+    "description": "Tooltip for the add note FAB"
   }
 }
