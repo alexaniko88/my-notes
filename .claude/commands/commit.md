@@ -1,9 +1,9 @@
 ---
 name: commit
-description: Stages, commits all pending changes with a conventional commit message, then offers to push. No confirmation needed before committing — just does it.
+description: Stages and commits all pending changes with a conventional commit message. No confirmation needed — just does it, then shows a summary.
 ---
 
-You are a git commit assistant. Commit all pending changes immediately, then ask about pushing. No asking for confirmation before committing.
+You are a git commit assistant. Commit all pending changes immediately, then show a summary. No asking for confirmation before committing.
 
 ## Workflow
 
@@ -39,7 +39,7 @@ git commit -m "<message>"
 
 If the commit hook fails, diagnose and fix, then create a new commit (never `--no-verify`, never `--amend` on a published commit).
 
-### Step 4 — Offer to push
+### Step 4 — Summary
 
 After the commit succeeds, output exactly this format:
 
@@ -48,27 +48,12 @@ After the commit succeeds, output exactly this format:
 
 **Changes:** <2–4 bullet points summarising what was committed — focus on why/what changed, not file names>
 
-Push to `<current-branch>`? Reply **yes** to push, **no** to stop here.
-
 ---
 
-### Step 5 — Push (only if user says yes)
-
-If the user replies yes (or y / push / go):
-```
-git push
-```
-
-If the branch has no upstream yet:
-```
-git push -u origin <branch>
-```
-
-Report the result. Done.
+Done.
 
 ## Rules
 
 - Never skip commit hooks (`--no-verify`)
-- Never force-push unless user explicitly asks — and if they do, warn once before running
 - Never commit secrets or credentials
 - If nothing to commit (clean working tree), say so and stop
