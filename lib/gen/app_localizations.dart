@@ -139,6 +139,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PDF'**
   String get fabOptionPdf;
+
+  /// Note card footer showing when the note was last updated
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated: {timeLabel}'**
+  String noteLastUpdated(String timeLabel);
+
+  /// Relative time label for a note updated today
+  ///
+  /// In en, this message translates to:
+  /// **'today at {time}'**
+  String noteUpdatedTodayAt(String time);
+
+  /// Relative time label for a note updated yesterday
+  ///
+  /// In en, this message translates to:
+  /// **'yesterday at {time}'**
+  String noteUpdatedYesterdayAt(String time);
+
+  /// Time label for a note updated on a specific date
+  ///
+  /// In en, this message translates to:
+  /// **'{date} at {time}'**
+  String noteUpdatedDateAt(String date, String time);
 }
 
 class _AppLocalizationsDelegate

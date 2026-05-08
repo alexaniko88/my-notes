@@ -28,4 +28,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fabOptionPdf => 'PDF';
+
+  @override
+  String noteLastUpdated(String timeLabel) {
+    return 'Last updated: $timeLabel';
+  }
+
+  @override
+  String noteUpdatedTodayAt(String time) {
+    return 'today at $time';
+  }
+
+  @override
+  String noteUpdatedYesterdayAt(String time) {
+    return 'yesterday at $time';
+  }
+
+  @override
+  String noteUpdatedDateAt(String date, String time) {
+    return '$date at $time';
+  }
 }
