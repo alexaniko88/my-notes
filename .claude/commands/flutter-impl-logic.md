@@ -51,7 +51,7 @@ Once the user approves:
 - Implement each step in order
 - Use `AsyncNotifier` or `StreamNotifier` for async Riverpod providers
 - Use `@riverpod` code generation if `riverpod_annotation` is in pubspec; otherwise use manual providers
-- Dart null safety — no `!` force-unwrap; handle nulls explicitly
+- Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by external contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
 - After finishing, list every file created/modified and note anything the UI layer will need to consume
 

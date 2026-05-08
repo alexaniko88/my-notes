@@ -56,19 +56,26 @@ Once the user approves:
 - Use `StatelessWidget` by default; `StatefulWidget` only for local ephemeral state (e.g. `TextEditingController`, animation controllers)
 - Consume Riverpod via `ConsumerWidget` or `ConsumerStatefulWidget` — never call `ref.read` inside `build`; use `ref.watch` for reactive state, `ref.read` only in callbacks
 - Handle all three async states explicitly: loading, error, data — no silent failures
-- Dart null safety — no `!` force-unwrap; handle nulls explicitly
+- Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by framework contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
 - After finishing, list every file created/modified and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
 
 ## Coding Rules
 
 - `StatelessWidget` by default; `StatefulWidget` only for local mutable state
+- Widget member order: `static const` fields → instance fields → constructor → methods/`build`
 - Prefer composition over inheritance for widgets
 - Extract widgets when `build` exceeds ~50 lines or a subtree has a clear single responsibility
 - `ref.watch` in `build` for reactive state; `ref.read` only inside callbacks/event handlers
 - Always handle `AsyncValue.loading`, `AsyncValue.error`, `AsyncValue.data` — use `.when()` or `.maybeWhen()`
 - Navigation: use `context.go()` / `context.push()` from `go_router` — no `Navigator.push` unless justified
 - No hardcoded strings — use localisation keys if `AppLocalizations` is set up; otherwise use `const` string constants
+- If `Theme.of(context)` is needed, assign it once at the top of `build`: `final theme = Theme.of(context);` — never call it inline multiple times
+- Never declare `Duration` inline inside widgets — declare as `static const` field on the widget class: `static const _animationDuration = Duration(milliseconds: 250);`
+- Layout/size values (e.g. fixed heights, icon sizes not from theme) are private `final` instance fields, not `static const`: `final _fabSize = 56.0;`
+- Never call `AppLocalizations.of(context)` directly — use `context.l10n` from `lib/shared/extensions/build_context_extensions.dart`. Assign once: `final l10n = context.l10n;`
+- No hardcoded padding/spacing values — always read from `context.dimensions` (`lib/shared/extensions/build_context_extensions.dart`). Example: `EdgeInsets.all(context.dimensions.spacing.md)`
+- No `SizedBox` for spacing between widgets — use `Gap(context.dimensions.spacing.sm)` from the `gap` package instead
 - File names: `snake_case.dart`; screens go in `lib/screens/<feature>/`, widgets in `lib/widgets/<feature>/`
 
 ## Feature to implement
