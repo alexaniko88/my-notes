@@ -56,8 +56,7 @@ class _VariantSection extends StatelessWidget {
         Text(
           variant.label,
           style: theme.textTheme.labelSmall?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-            letterSpacing: 0.8,
+            color: theme.colorScheme.onSurface,
           ),
         ),
         Gap(spacing.xs),
