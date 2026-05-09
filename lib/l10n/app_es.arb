@@ -5,5 +5,9 @@
   "fabOptionText": "Texto",
   "fabOptionImage": "Imagen",
   "fabOptionAudio": "Audio",
-  "fabOptionPdf": "PDF"
+  "fabOptionPdf": "PDF",
+  "noteLastUpdated": "Última actualización: {timeLabel}",
+  "noteUpdatedTodayAt": "hoy a las {time}",
+  "noteUpdatedYesterdayAt": "ayer a las {time}",
+  "noteUpdatedDateAt": "{date} a las {time}"
 }

@@ -26,5 +26,44 @@
   "fabOptionPdf": "PDF",
   "@fabOptionPdf": {
     "description": "FAB speed dial option — PDF note"
+  },
+  "noteLastUpdated": "Last updated: {timeLabel}",
+  "@noteLastUpdated": {
+    "description": "Note card footer showing when the note was last updated",
+    "placeholders": {
+      "timeLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "noteUpdatedTodayAt": "today at {time}",
+  "@noteUpdatedTodayAt": {
+    "description": "Relative time label for a note updated today",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noteUpdatedYesterdayAt": "yesterday at {time}",
+  "@noteUpdatedYesterdayAt": {
+    "description": "Relative time label for a note updated yesterday",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "noteUpdatedDateAt": "{date} at {time}",
+  "@noteUpdatedDateAt": {
+    "description": "Time label for a note updated on a specific date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
   }
 }
