@@ -14,18 +14,23 @@ class NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final spacing = context.dimensions.spacing;
+    final dimensions = context.dimensions;
+    final spacing = dimensions.spacing;
+    final radius = dimensions.borderRadius;
 
     final noteColor = note.color;
     final backgroundColor = noteColor != null
         ? Color(noteColor)
         : theme.cardTheme.color ?? theme.colorScheme.surfaceContainerHighest;
-
     final title = note.title;
     final body = note.body;
 
     return Card(
       color: backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius.md),
+        side: BorderSide(color: theme.colorScheme.outlineVariant),
+      ),
       child: Padding(
         padding: EdgeInsets.all(spacing.md),
         child: Column(
@@ -48,7 +53,7 @@ class NoteCard extends StatelessWidget {
             Text(
               l10n.noteLastUpdated(_formatUpdatedAt(note.updatedAt, l10n)),
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
               ),
             ),
           ],

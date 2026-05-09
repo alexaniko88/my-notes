@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_notes/gen/app_localizations.dart';
 import 'package:my_notes/presentation/providers/theme/theme_provider.dart';
-import 'package:my_notes/router.dart';
+import 'package:my_notes/shared/navigation/router.dart';
 import 'package:my_notes/shared/theme/app_theme.dart';
 
 void main() {

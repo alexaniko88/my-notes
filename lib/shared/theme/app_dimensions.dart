@@ -5,11 +5,13 @@ class AppDimensions extends ThemeExtension<AppDimensions> {
     this.spacing = const AppSpacing(),
     this.iconSize = const AppIconSize(),
     this.imageSize = const AppImageSize(),
+    this.borderRadius = const AppBorderRadius(),
   });
 
   final AppSpacing spacing;
   final AppIconSize iconSize;
   final AppImageSize imageSize;
+  final AppBorderRadius borderRadius;
 
   static const defaults = AppDimensions();
 
@@ -18,11 +20,13 @@ class AppDimensions extends ThemeExtension<AppDimensions> {
     AppSpacing? spacing,
     AppIconSize? iconSize,
     AppImageSize? imageSize,
+    AppBorderRadius? borderRadius,
   }) =>
       AppDimensions(
         spacing: spacing ?? this.spacing,
         iconSize: iconSize ?? this.iconSize,
         imageSize: imageSize ?? this.imageSize,
+        borderRadius: borderRadius ?? this.borderRadius,
       );
 
   @override
@@ -32,6 +36,7 @@ class AppDimensions extends ThemeExtension<AppDimensions> {
       spacing: AppSpacing.lerp(spacing, other.spacing, t),
       iconSize: AppIconSize.lerp(iconSize, other.iconSize, t),
       imageSize: AppImageSize.lerp(imageSize, other.imageSize, t),
+      borderRadius: AppBorderRadius.lerp(borderRadius, other.borderRadius, t),
     );
   }
 }
@@ -104,5 +109,27 @@ class AppImageSize {
         sm: a.sm + (b.sm - a.sm) * t,
         md: a.md + (b.md - a.md) * t,
         lg: a.lg + (b.lg - a.lg) * t,
+      );
+}
+
+class AppBorderRadius {
+  const AppBorderRadius({
+    this.sm = 8,
+    this.md = 12,
+    this.lg = 16,
+    this.xl = 24,
+  });
+
+  final double sm;
+  final double md;
+  final double lg;
+  final double xl;
+
+  static AppBorderRadius lerp(AppBorderRadius a, AppBorderRadius b, double t) =>
+      AppBorderRadius(
+        sm: a.sm + (b.sm - a.sm) * t,
+        md: a.md + (b.md - a.md) * t,
+        lg: a.lg + (b.lg - a.lg) * t,
+        xl: a.xl + (b.xl - a.xl) * t,
       );
 }
