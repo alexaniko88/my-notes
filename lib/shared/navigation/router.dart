@@ -21,7 +21,7 @@ final appRouter = GoRouter(
       path: AppRoute.playgroundItem.path,
       name: AppRoute.playgroundItem.name,
       builder: (context, state) => PlaygroundItemScreen(
-        config: state.extra! as PlaygroundItemConfig,
+        config: state.extra! as PlaygroundItemConfig, // always set — only pushed from PlaygroundScreen with extra
       ),
     ),
   ],
