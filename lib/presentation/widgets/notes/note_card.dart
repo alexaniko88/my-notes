@@ -48,6 +48,8 @@ class NoteCard extends StatelessWidget {
               Text(
                 body,
                 style: theme.textTheme.bodyMedium,
+                maxLines: 8,
+                overflow: TextOverflow.ellipsis,
               ),
             Gap(spacing.sm),
             Text(
