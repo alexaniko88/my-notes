@@ -71,15 +71,18 @@ Once the user approves:
 - Use `AsyncNotifier` or `StreamNotifier` for async Riverpod providers; plain `Notifier` for sync state (like `NotesNotifier`)
 - Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by external contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
-- After finishing, list every file created/modified and note anything the UI layer will need to consume
+- After finishing, run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note anything the UI layer will need to consume
 
 ## Coding Rules
 
+- Class member order — **strictly**: `static const` fields → instance fields → constructor → methods. Never put the constructor before fields.
 - Models: immutable, `const` constructors, `copyWith`, `==` and `hashCode` (use `equatable` — already in pubspec)
 - Repository interfaces: abstract class, pure domain types in and out, no storage imports
 - Repository implementations: implement the interface; use in-memory storage until Firebase is wired; throw typed domain exceptions on errors
 - Providers: one provider per logical unit; `ref.watch` for dependencies; `keepAlive` only where justified; group provider files under `lib/presentation/providers/<feature>/`
 - File names: `snake_case.dart`
+- Trailing commas: add a trailing comma to every constructor call or function with 2 or more arguments — required for `dart format` to expand args onto separate lines
+- Format all output as `dart format` would produce it
 
 ## Feature to implement
 

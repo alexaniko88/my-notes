@@ -77,12 +77,30 @@ Once the user approves:
 - Handle all three async states explicitly: loading, error, data — no silent failures
 - Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by framework contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
-- After finishing, list every file created/modified and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
+- After finishing, run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
 
 ## Coding Rules
 
 - `StatelessWidget` by default; `StatefulWidget` only for local mutable state
-- Widget member order: `static const` fields → instance fields → constructor → methods/`build`
+- Widget member order — **strictly**: `static const` fields → instance fields → constructor → methods/`build`. Never put the constructor before fields. Example:
+  ```dart
+  // ✅ correct
+  class _Foo extends StatelessWidget {
+    static const _duration = Duration(milliseconds: 150);
+    final String label;
+    final VoidCallback onTap;
+    const _Foo({required this.label, required this.onTap});
+    @override Widget build(BuildContext context) { ... }
+  }
+
+  // ❌ wrong — constructor before fields
+  class _Foo extends StatelessWidget {
+    const _Foo({required this.label, required this.onTap});
+    final String label;
+    final VoidCallback onTap;
+    @override Widget build(BuildContext context) { ... }
+  }
+  ```
 - Prefer composition over inheritance for widgets
 - Extract widgets when `build` exceeds ~50 lines or a subtree has a clear single responsibility
 - `ref.watch` in `build` for reactive state; `ref.read` only inside callbacks/event handlers
@@ -97,6 +115,8 @@ Once the user approves:
 - No `SizedBox` for spacing between widgets — use `Gap(context.dimensions.spacing.sm)` from the `gap` package instead
 - File names: `snake_case.dart`; screens go in `lib/presentation/screens/<feature>/`, widgets in `lib/presentation/widgets/<feature>/`
 - Nullable class fields: extract to local var before use — never `field!`; Dart doesn't promote class fields through null checks
+- Trailing commas: add a trailing comma to every constructor call or widget with 2 or more arguments — required for `dart format` to expand args onto separate lines
+- Format all output as `dart format` would produce it
 
 ## Feature to implement
 
