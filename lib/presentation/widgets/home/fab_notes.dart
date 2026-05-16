@@ -86,7 +86,9 @@ class _FabScrim extends StatelessWidget {
           duration: _duration,
           child: GestureDetector(
             onTap: onTap,
-            child: const ColoredBox(color: Colors.black54),
+            child: ColoredBox(
+              color: context.colors.fabScrim,
+            ),
           ),
         ),
       ),

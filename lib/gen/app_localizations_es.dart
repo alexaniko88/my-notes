@@ -48,4 +48,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String noteUpdatedDateAt(String date, String time) {
     return '$date a las $time';
   }
+
+  @override
+  String get searchHint => 'Buscar notas';
+
+  @override
+  String get searchNoResults => 'Sin notas coincidentes';
 }

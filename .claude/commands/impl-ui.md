@@ -77,7 +77,8 @@ Once the user approves:
 - Handle all three async states explicitly: loading, error, data — no silent failures
 - Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by framework contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
-- After finishing, run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
+- After finishing, audit every constructor call and widget in every file touched: any call with more than 2 arguments must have a trailing comma. Fix any missing ones.
+- Run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
 
 ## Coding Rules
 

@@ -65,5 +65,13 @@
         "type": "String"
       }
     }
+  },
+  "searchHint": "Search notes",
+  "@searchHint": {
+    "description": "Hint text in the search field"
+  },
+  "searchNoResults": "No matching notes",
+  "@searchNoResults": {
+    "description": "Shown when search returns no results"
   }
 }
