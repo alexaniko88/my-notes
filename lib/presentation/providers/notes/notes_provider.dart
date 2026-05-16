@@ -12,6 +12,9 @@ const _uuid = Uuid();
 NoteRepository noteRepository(Ref ref) => InMemoryNoteRepository();
 
 @riverpod
+Note note(Ref ref, String id) => ref.watch(noteRepositoryProvider).getNote(id);
+
+@riverpod
 class NotesNotifier extends _$NotesNotifier {
   NoteRepository get _repo => ref.read(noteRepositoryProvider);
 

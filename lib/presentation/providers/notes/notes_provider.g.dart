@@ -50,6 +50,86 @@ final class NoteRepositoryProvider
 
 String _$noteRepositoryHash() => r'f54200dfddf4fb6cc4303ff3520bc2d1cd1e213b';
 
+@ProviderFor(note)
+final noteProvider = NoteFamily._();
+
+final class NoteProvider extends $FunctionalProvider<Note, Note, Note>
+    with $Provider<Note> {
+  NoteProvider._(
+      {required NoteFamily super.from, required String super.argument})
+      : super(
+          retry: null,
+          name: r'noteProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$noteHash();
+
+  @override
+  String toString() {
+    return r'noteProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $ProviderElement<Note> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Note create(Ref ref) {
+    final argument = this.argument as String;
+    return note(
+      ref,
+      argument,
+    );
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Note value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Note>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NoteProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$noteHash() => r'0745703fb79fae02f1d1dea3d988dc847575ef25';
+
+final class NoteFamily extends $Family
+    with $FunctionalFamilyOverride<Note, String> {
+  NoteFamily._()
+      : super(
+          retry: null,
+          name: r'noteProvider',
+          dependencies: null,
+          $allTransitiveDependencies: null,
+          isAutoDispose: true,
+        );
+
+  NoteProvider call(
+    String id,
+  ) =>
+      NoteProvider._(argument: id, from: this);
+
+  @override
+  String toString() => r'noteProvider';
+}
+
 @ProviderFor(NotesNotifier)
 final notesProvider = NotesNotifierProvider._();
 
