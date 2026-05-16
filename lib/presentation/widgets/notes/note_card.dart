@@ -6,9 +6,44 @@ import 'package:my_notes/gen/app_localizations.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 
 class NoteCard extends StatelessWidget {
-  const NoteCard({super.key, required this.note});
+  const NoteCard({
+    super.key,
+    required this.note,
+    this.searchQuery = '',
+  });
 
   final Note note;
+  final String searchQuery;
+
+  TextSpan _highlight(String text, TextStyle base) {
+    if (searchQuery.isEmpty) return TextSpan(text: text, style: base);
+
+    final q = searchQuery.toLowerCase();
+    final lower = text.toLowerCase();
+    final spans = <TextSpan>[];
+    var start = 0;
+
+    while (true) {
+      final index = lower.indexOf(q, start);
+      if (index == -1) {
+        spans.add(TextSpan(text: text.substring(start), style: base));
+        break;
+      }
+      if (index > start) {
+        spans.add(TextSpan(text: text.substring(start, index), style: base));
+      }
+      spans.add(TextSpan(
+        text: text.substring(index, index + q.length),
+        style: base.copyWith(
+          backgroundColor: Colors.yellow,
+          fontWeight: FontWeight.bold,
+        ),
+      ));
+      start = index + q.length;
+    }
+
+    return TextSpan(children: spans);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +60,9 @@ class NoteCard extends StatelessWidget {
     final title = note.title;
     final body = note.body;
 
+    final titleStyle = theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold) ?? const TextStyle();
+    final bodyStyle = theme.textTheme.bodyMedium ?? const TextStyle();
+
     return Card(
       color: backgroundColor,
       shape: RoundedRectangleBorder(
@@ -38,16 +76,12 @@ class NoteCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (title != null) ...[
-              Text(
-                title,
-                style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-              ),
+              Text.rich(_highlight(title, titleStyle)),
               if (body != null) Gap(spacing.sm),
             ],
             if (body != null)
-              Text(
-                body,
-                style: theme.textTheme.bodyMedium,
+              Text.rich(
+                _highlight(body, bodyStyle),
                 maxLines: 8,
                 overflow: TextOverflow.ellipsis,
               ),

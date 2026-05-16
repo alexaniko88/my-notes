@@ -219,6 +219,7 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
             child: _MasonryColumn(
               items: leftItems,
               cardWidth: cardWidth,
+              searchQuery: query,
               onReorder: _onReorder,
             ),
           ),
@@ -227,6 +228,7 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
             child: _MasonryColumn(
               items: rightItems,
               cardWidth: cardWidth,
+              searchQuery: query,
               onReorder: _onReorder,
             ),
           ),
@@ -239,11 +241,13 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
 class _MasonryColumn extends StatelessWidget {
   final List<(int, Note)> items;
   final double cardWidth;
+  final String searchQuery;
   final void Function(int from, int to) onReorder;
 
   const _MasonryColumn({
     required this.items,
     required this.cardWidth,
+    required this.searchQuery,
     required this.onReorder,
   });
 
@@ -260,6 +264,7 @@ class _MasonryColumn extends StatelessWidget {
             note: items[i].$2,
             index: items[i].$1,
             cardWidth: cardWidth,
+            searchQuery: searchQuery,
             onReorder: onReorder,
           ),
         ],
@@ -274,6 +279,7 @@ class _DraggableNoteItem extends StatelessWidget {
   final Note note;
   final int index;
   final double cardWidth;
+  final String searchQuery;
   final void Function(int from, int to) onReorder;
 
   const _DraggableNoteItem({
@@ -281,6 +287,7 @@ class _DraggableNoteItem extends StatelessWidget {
     required this.note,
     required this.index,
     required this.cardWidth,
+    required this.searchQuery,
     required this.onReorder,
   });
 
@@ -298,14 +305,14 @@ class _DraggableNoteItem extends StatelessWidget {
               width: cardWidth,
               child: Material(
                 color: Colors.transparent,
-                child: NoteCard(note: note),
+                child: NoteCard(note: note, searchQuery: searchQuery),
               ),
             ),
             childWhenDragging: Opacity(
               opacity: 0.3,
-              child: NoteCard(note: note),
+              child: NoteCard(note: note, searchQuery: searchQuery),
             ),
-            child: NoteCard(note: note),
+            child: NoteCard(note: note, searchQuery: searchQuery),
           ),
         );
       },
