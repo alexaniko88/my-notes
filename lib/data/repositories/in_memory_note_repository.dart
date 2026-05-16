@@ -36,7 +36,6 @@ List<Note> _seedNotes() {
       title: 'Shopping list',
       body: 'Milk, eggs, bread, butter, coffee',
       isPinned: true,
-      color: 0xFFFFF9C4,
       createdAt: now,
       updatedAt: now,
     ),
