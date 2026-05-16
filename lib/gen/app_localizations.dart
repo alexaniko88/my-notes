@@ -163,6 +163,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{date} at {time}'**
   String noteUpdatedDateAt(String date, String time);
+
+  /// Hint text in the search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search notes'**
+  String get searchHint;
+
+  /// Shown when search returns no results
+  ///
+  /// In en, this message translates to:
+  /// **'No matching notes'**
+  String get searchNoResults;
 }
 
 class _AppLocalizationsDelegate
