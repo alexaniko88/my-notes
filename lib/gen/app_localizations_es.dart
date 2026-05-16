@@ -54,4 +54,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get searchNoResults => 'Sin notas coincidentes';
+
+  @override
+  String get noteTitleHint => 'Título';
+
+  @override
+  String get noteBodyHint => 'Nota';
 }

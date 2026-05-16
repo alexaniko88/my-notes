@@ -175,6 +175,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No matching notes'**
   String get searchNoResults;
+
+  /// Placeholder for the note title field
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get noteTitleHint;
+
+  /// Placeholder for the note body field
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get noteBodyHint;
 }
 
 class _AppLocalizationsDelegate

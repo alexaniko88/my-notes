@@ -312,7 +312,13 @@ class _DraggableNoteItem extends StatelessWidget {
               opacity: 0.3,
               child: NoteCard(note: note, searchQuery: searchQuery),
             ),
-            child: NoteCard(note: note, searchQuery: searchQuery),
+            child: GestureDetector(
+              onTap: () => context.pushNamed(
+                AppRoute.note.name,
+                pathParameters: {'id': note.id},
+              ),
+              child: NoteCard(note: note, searchQuery: searchQuery),
+            ),
           ),
         );
       },

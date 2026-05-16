@@ -54,4 +54,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchNoResults => 'No matching notes';
+
+  @override
+  String get noteTitleHint => 'Title';
+
+  @override
+  String get noteBodyHint => 'Note';
 }

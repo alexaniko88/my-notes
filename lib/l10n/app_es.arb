@@ -11,5 +11,7 @@
   "noteUpdatedYesterdayAt": "ayer a las {time}",
   "noteUpdatedDateAt": "{date} a las {time}",
   "searchHint": "Buscar notas",
-  "searchNoResults": "Sin notas coincidentes"
+  "searchNoResults": "Sin notas coincidentes",
+  "noteTitleHint": "Título",
+  "noteBodyHint": "Nota"
 }
