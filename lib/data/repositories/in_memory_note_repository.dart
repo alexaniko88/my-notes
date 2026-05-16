@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/domain/repositories/note_repository.dart';
 
@@ -9,8 +11,48 @@ class InMemoryNoteRepository implements NoteRepository {
 
   final List<Note> _notes = [];
 
+  static const _dummyTitles = [
+    'Quick thought',
+    'Reminder',
+    'Idea',
+    'Draft',
+    'Note to self',
+  ];
+
+  static const _dummyBodies = [
+    'This is a placeholder note body. Real content will load from Firestore.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    'Work in progress — content coming soon.',
+    'Remember to follow up on this.',
+    'Just a temporary stub while persistence is being wired up.',
+  ];
+
+  static const _dummyColors = [
+    0xFFB2EBF2,
+    0xFFFFCDD2,
+    0xFFC8E6C9,
+    0xFFE1BEE7,
+    0xFFFFE0B2,
+    0xFFFFF9C4,
+    0xFFB2DFDB,
+  ];
+
   @override
   List<Note> getAll() => List.unmodifiable(_notes);
+
+  @override
+  Note getNote(String id) {
+    final rng = Random();
+    return Note(
+      id: id,
+      title: _dummyTitles[rng.nextInt(_dummyTitles.length)],
+      body: _dummyBodies[rng.nextInt(_dummyBodies.length)],
+      color: _dummyColors[rng.nextInt(_dummyColors.length)],
+      isPinned: false,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+  }
 
   @override
   void add(Note note) => _notes.add(note);
