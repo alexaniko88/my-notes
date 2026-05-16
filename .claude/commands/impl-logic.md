@@ -71,7 +71,8 @@ Once the user approves:
 - Use `AsyncNotifier` or `StreamNotifier` for async Riverpod providers; plain `Notifier` for sync state (like `NotesNotifier`)
 - Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by external contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
-- After finishing, run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note anything the UI layer will need to consume
+- After finishing, audit every constructor call and function call in every file touched: any call with more than 2 arguments must have a trailing comma. Fix any missing ones.
+- Run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note anything the UI layer will need to consume
 
 ## Coding Rules
 
