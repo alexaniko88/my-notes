@@ -73,5 +73,13 @@
   "searchNoResults": "No matching notes",
   "@searchNoResults": {
     "description": "Shown when search returns no results"
+  },
+  "noteTitleHint": "Title",
+  "@noteTitleHint": {
+    "description": "Placeholder for the note title field"
+  },
+  "noteBodyHint": "Note",
+  "@noteBodyHint": {
+    "description": "Placeholder for the note body field"
   }
 }

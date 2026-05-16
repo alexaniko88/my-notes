@@ -109,6 +109,7 @@ Once the user approves:
 - Navigation: use `context.go()` / `context.push()` from `go_router` — no `Navigator.push` unless justified
 - No hardcoded strings — use localisation keys if `AppLocalizations` is set up; otherwise use `const` string constants
 - If `Theme.of(context)` is needed, assign it once at the top of `build`: `final theme = Theme.of(context);` — never call it inline multiple times
+- Any value derived from the theme (e.g. `theme.textTheme.headlineSmall?.copyWith(...)`) must be extracted as a named `final` local variable at the top of `build` before being passed to any widget — never inline derived theme values inside widget constructors
 - Never declare `Duration` inline inside widgets — declare as `static const` field on the widget class: `static const _animationDuration = Duration(milliseconds: 250);`
 - Layout/size values (e.g. fixed heights, icon sizes not from theme) are private `final` instance fields, not `static const`: `final _fabSize = 56.0;`
 - Never call `AppLocalizations.of(context)` directly — use `context.l10n` from `lib/shared/extensions/build_context_extensions.dart`. Assign once: `final l10n = context.l10n;`
