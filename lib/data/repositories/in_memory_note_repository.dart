@@ -27,7 +27,7 @@ class InMemoryNoteRepository implements NoteRepository {
     'Just a temporary stub while persistence is being wired up.',
   ];
 
-  static const _dummyColors = [
+  static const _dummyColors = <int?>[
     0xFFB2EBF2,
     0xFFFFCDD2,
     0xFFC8E6C9,
@@ -35,6 +35,12 @@ class InMemoryNoteRepository implements NoteRepository {
     0xFFFFE0B2,
     0xFFFFF9C4,
     0xFFB2DFDB,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
   ];
 
   @override
