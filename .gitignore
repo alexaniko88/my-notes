@@ -94,7 +94,6 @@ app.*.symbols
 # FVM Version Cache
 .fvm/
 
-# Firebase — contains project IDs and app identifiers; excluded from public repos
-lib/firebase_options.dart
+# Firebase native config — contains project IDs and app identifiers; excluded from public repos
 **/google-services.json
 **/GoogleService-Info.plist
