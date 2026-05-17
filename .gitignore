@@ -93,3 +93,7 @@ app.*.symbols
 
 # FVM Version Cache
 .fvm/
+
+# Firebase native config — contains project IDs and app identifiers; excluded from public repos
+**/google-services.json
+**/GoogleService-Info.plist
