@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_notes/presentation/widgets/auth/google_sign_in_button.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
+import 'package:my_notes/shared/navigation/app_route.dart';
 
 enum _AuthMode { signIn, signUp }
 
@@ -56,12 +58,11 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() => _errorMessage = l10n.authErrorEmptyFields);
       return;
     }
-    // Business logic hook — auth provider wires in here; result sets _errorMessage
-    setState(() => _errorMessage = null);
+    context.goNamed(AppRoute.home.name);
   }
 
   void _onSignUp() {
-    // Business logic hook — Google Sign-In goes here
+    context.goNamed(AppRoute.home.name);
   }
 
   void _onToggleObscure() =>
