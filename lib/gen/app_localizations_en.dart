@@ -60,4 +60,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noteBodyHint => 'Note';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get noAccount => 'Don\'t have an account?';
+
+  @override
+  String get haveAccount => 'Already have an account?';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get gmailOnly => 'Gmail accounts only';
+
+  @override
+  String get authErrorEmptyFields => 'Please enter your email and password.';
 }

@@ -187,6 +187,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Note'**
   String get noteBodyHint;
+
+  /// Sign-in button label and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// Sign-up button label and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// Email input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// Password input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// Prompt shown below the sign-in form
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get noAccount;
+
+  /// Prompt shown below the sign-up form
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get haveAccount;
+
+  /// Label for the Google sign-up button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// Subtitle clarifying only Gmail is supported for sign-up
+  ///
+  /// In en, this message translates to:
+  /// **'Gmail accounts only'**
+  String get gmailOnly;
+
+  /// Validation error when sign-in fields are empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email and password.'**
+  String get authErrorEmptyFields;
 }
 
 class _AppLocalizationsDelegate
