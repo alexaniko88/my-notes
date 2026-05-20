@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/home/fab_option_item.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 
 class FabNotes extends StatefulWidget {
-  final List<(IconData, String)> options;
+  final List<(AppIconName, String)> options;
 
   const FabNotes({super.key, required this.options});
 
@@ -59,7 +60,7 @@ class _FabNotesState extends State<FabNotes> with SingleTickerProviderStateMixin
             child: AnimatedRotation(
               turns: _isOpen ? 0.125 : 0.0,
               duration: _toggleDuration,
-              child: const Icon(Icons.add),
+              child: const AppIcon(name: AppIconName.add),
             ),
           ),
         ),
@@ -86,7 +87,9 @@ class _FabScrim extends StatelessWidget {
           duration: _duration,
           child: GestureDetector(
             onTap: onTap,
-            child: const ColoredBox(color: Colors.black54),
+            child: ColoredBox(
+              color: context.colors.fabScrim,
+            ),
           ),
         ),
       ),
@@ -97,7 +100,7 @@ class _FabScrim extends StatelessWidget {
 class _FabSpeedDialOptions extends StatelessWidget {
   final bool isOpen;
   final AnimationController controller;
-  final List<(IconData, String)> options;
+  final List<(AppIconName, String)> options;
   final double bottom;
 
   const _FabSpeedDialOptions({

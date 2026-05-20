@@ -9,5 +9,21 @@
   "noteLastUpdated": "Última actualización: {timeLabel}",
   "noteUpdatedTodayAt": "hoy a las {time}",
   "noteUpdatedYesterdayAt": "ayer a las {time}",
-  "noteUpdatedDateAt": "{date} a las {time}"
+  "noteUpdatedDateAt": "{date} a las {time}",
+  "searchHint": "Buscar notas",
+  "searchNoResults": "Sin notas coincidentes",
+  "noteTitleHint": "Título",
+  "noteBodyHint": "Nota",
+  "signIn": "Iniciar sesión",
+  "signUp": "Registrarse",
+  "emailLabel": "Correo electrónico",
+  "passwordLabel": "Contraseña",
+  "noAccount": "¿No tienes una cuenta?",
+  "haveAccount": "¿Ya tienes una cuenta?",
+  "continueWithGoogle": "Continuar con Google",
+  "authErrorEmptyFields": "Por favor ingresa tu correo y contraseña.",
+  "signOut": "Cerrar sesión",
+  "exitAppTitle": "¿Salir de la app?",
+  "exitAppConfirm": "Salir",
+  "exitAppCancel": "Cancelar"
 }

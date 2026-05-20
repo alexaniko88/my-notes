@@ -163,6 +163,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{date} at {time}'**
   String noteUpdatedDateAt(String date, String time);
+
+  /// Hint text in the search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search notes'**
+  String get searchHint;
+
+  /// Shown when search returns no results
+  ///
+  /// In en, this message translates to:
+  /// **'No matching notes'**
+  String get searchNoResults;
+
+  /// Placeholder for the note title field
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get noteTitleHint;
+
+  /// Placeholder for the note body field
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get noteBodyHint;
+
+  /// Sign-in button label and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// Sign-up button label and screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// Email input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// Password input field label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// Prompt shown below the sign-in form
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get noAccount;
+
+  /// Prompt shown below the sign-up form
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get haveAccount;
+
+  /// Label for the Google sign-up button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// Validation error when sign-in fields are empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email and password.'**
+  String get authErrorEmptyFields;
+
+  /// Sign-out action in the navigation drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOut;
+
+  /// Title of the confirmation dialog shown when the user tries to exit the app
+  ///
+  /// In en, this message translates to:
+  /// **'Exit app?'**
+  String get exitAppTitle;
+
+  /// Confirm button in the exit-app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exitAppConfirm;
+
+  /// Cancel button in the exit-app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get exitAppCancel;
 }
 
 class _AppLocalizationsDelegate

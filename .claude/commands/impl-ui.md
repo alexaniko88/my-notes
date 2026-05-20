@@ -77,12 +77,31 @@ Once the user approves:
 - Handle all three async states explicitly: loading, error, data — no silent failures
 - Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by framework contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
-- After finishing, list every file created/modified and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
+- After finishing, audit every constructor call and widget in every file touched: any call with more than 2 arguments must have a trailing comma. Fix any missing ones.
+- Run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
 
 ## Coding Rules
 
 - `StatelessWidget` by default; `StatefulWidget` only for local mutable state
-- Widget member order: `static const` fields → instance fields → constructor → methods/`build`
+- Widget member order — **strictly**: `static const` fields → instance fields → constructor → methods/`build`. Never put the constructor before fields. Example:
+  ```dart
+  // ✅ correct
+  class _Foo extends StatelessWidget {
+    static const _duration = Duration(milliseconds: 150);
+    final String label;
+    final VoidCallback onTap;
+    const _Foo({required this.label, required this.onTap});
+    @override Widget build(BuildContext context) { ... }
+  }
+
+  // ❌ wrong — constructor before fields
+  class _Foo extends StatelessWidget {
+    const _Foo({required this.label, required this.onTap});
+    final String label;
+    final VoidCallback onTap;
+    @override Widget build(BuildContext context) { ... }
+  }
+  ```
 - Prefer composition over inheritance for widgets
 - Extract widgets when `build` exceeds ~50 lines or a subtree has a clear single responsibility
 - `ref.watch` in `build` for reactive state; `ref.read` only inside callbacks/event handlers
@@ -90,6 +109,7 @@ Once the user approves:
 - Navigation: use `context.go()` / `context.push()` from `go_router` — no `Navigator.push` unless justified
 - No hardcoded strings — use localisation keys if `AppLocalizations` is set up; otherwise use `const` string constants
 - If `Theme.of(context)` is needed, assign it once at the top of `build`: `final theme = Theme.of(context);` — never call it inline multiple times
+- Any value derived from the theme (e.g. `theme.textTheme.headlineSmall?.copyWith(...)`) must be extracted as a named `final` local variable at the top of `build` before being passed to any widget — never inline derived theme values inside widget constructors
 - Never declare `Duration` inline inside widgets — declare as `static const` field on the widget class: `static const _animationDuration = Duration(milliseconds: 250);`
 - Layout/size values (e.g. fixed heights, icon sizes not from theme) are private `final` instance fields, not `static const`: `final _fabSize = 56.0;`
 - Never call `AppLocalizations.of(context)` directly — use `context.l10n` from `lib/shared/extensions/build_context_extensions.dart`. Assign once: `final l10n = context.l10n;`
@@ -97,6 +117,9 @@ Once the user approves:
 - No `SizedBox` for spacing between widgets — use `Gap(context.dimensions.spacing.sm)` from the `gap` package instead
 - File names: `snake_case.dart`; screens go in `lib/presentation/screens/<feature>/`, widgets in `lib/presentation/widgets/<feature>/`
 - Nullable class fields: extract to local var before use — never `field!`; Dart doesn't promote class fields through null checks
+- Trailing commas: add a trailing comma to every constructor call or widget with 2 or more arguments — required for `dart format` to expand args onto separate lines
+- Format all output as `dart format` would produce it
+- Always use common widgets from `lib/presentation/widgets/common/` instead of Flutter primitives: `AppIcon` (not `Icon`), `AppButton.primary` / `AppButton.secondary` (not `FilledButton` / `OutlinedButton`), `AppTextButton` (not `TextButton`). If a new icon or button variant is needed, add it to the common widget first.
 
 ## Feature to implement
 

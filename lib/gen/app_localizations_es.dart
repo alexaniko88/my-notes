@@ -48,4 +48,53 @@ class AppLocalizationsEs extends AppLocalizations {
   String noteUpdatedDateAt(String date, String time) {
     return '$date a las $time';
   }
+
+  @override
+  String get searchHint => 'Buscar notas';
+
+  @override
+  String get searchNoResults => 'Sin notas coincidentes';
+
+  @override
+  String get noteTitleHint => 'Título';
+
+  @override
+  String get noteBodyHint => 'Nota';
+
+  @override
+  String get signIn => 'Iniciar sesión';
+
+  @override
+  String get signUp => 'Registrarse';
+
+  @override
+  String get emailLabel => 'Correo electrónico';
+
+  @override
+  String get passwordLabel => 'Contraseña';
+
+  @override
+  String get noAccount => '¿No tienes una cuenta?';
+
+  @override
+  String get haveAccount => '¿Ya tienes una cuenta?';
+
+  @override
+  String get continueWithGoogle => 'Continuar con Google';
+
+  @override
+  String get authErrorEmptyFields =>
+      'Por favor ingresa tu correo y contraseña.';
+
+  @override
+  String get signOut => 'Cerrar sesión';
+
+  @override
+  String get exitAppTitle => '¿Salir de la app?';
+
+  @override
+  String get exitAppConfirm => 'Salir';
+
+  @override
+  String get exitAppCancel => 'Cancelar';
 }
