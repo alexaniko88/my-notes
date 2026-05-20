@@ -13,5 +13,14 @@
   "searchHint": "Buscar notas",
   "searchNoResults": "Sin notas coincidentes",
   "noteTitleHint": "Título",
-  "noteBodyHint": "Nota"
+  "noteBodyHint": "Nota",
+  "signIn": "Iniciar sesión",
+  "signUp": "Registrarse",
+  "emailLabel": "Correo electrónico",
+  "passwordLabel": "Contraseña",
+  "noAccount": "¿No tienes una cuenta?",
+  "haveAccount": "¿Ya tienes una cuenta?",
+  "continueWithGoogle": "Continuar con Google",
+  "gmailOnly": "Solo cuentas de Gmail",
+  "authErrorEmptyFields": "Por favor ingresa tu correo y contraseña."
 }

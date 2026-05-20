@@ -1,5 +1,6 @@
 enum AppRoute {
-  home('/'),
+  auth('/'),
+  home('/home'),
   playground('/playground'),
   playgroundItem('/playground/item'),
   note('/notes/:id');
