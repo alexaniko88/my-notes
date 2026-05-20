@@ -117,5 +117,17 @@
   "signOut": "Sign Out",
   "@signOut": {
     "description": "Sign-out action in the navigation drawer"
+  },
+  "exitAppTitle": "Exit app?",
+  "@exitAppTitle": {
+    "description": "Title of the confirmation dialog shown when the user tries to exit the app"
+  },
+  "exitAppConfirm": "Exit",
+  "@exitAppConfirm": {
+    "description": "Confirm button in the exit-app dialog"
+  },
+  "exitAppCancel": "Cancel",
+  "@exitAppCancel": {
+    "description": "Cancel button in the exit-app dialog"
   }
 }
