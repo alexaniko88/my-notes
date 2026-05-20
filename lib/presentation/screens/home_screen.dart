@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
+import 'package:my_notes/presentation/widgets/home/app_drawer.dart';
 import 'package:my_notes/presentation/widgets/home/fab_notes.dart';
 import 'package:my_notes/presentation/widgets/notes/note_card.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
@@ -52,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!didPop) _stopSearch();
       },
       child: Scaffold(
+        drawer: const AppDrawer(),
         appBar: _isSearching
             ? AppBar(
                 leading: BackButton(onPressed: _stopSearch),
@@ -76,6 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               )
             : AppBar(
+                leading: Builder(
+                  builder: (context) => IconButton(
+                    icon: const AppIcon(name: AppIconName.menu),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  ),
+                ),
                 title: _PlaygroundTitle(label: l10n.appTitle),
                 actions: [
                   IconButton(

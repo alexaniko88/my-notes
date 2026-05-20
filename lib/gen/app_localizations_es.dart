@@ -85,4 +85,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get authErrorEmptyFields =>
       'Por favor ingresa tu correo y contraseña.';
+
+  @override
+  String get signOut => 'Cerrar sesión';
 }

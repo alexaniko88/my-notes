@@ -21,5 +21,6 @@
   "noAccount": "¿No tienes una cuenta?",
   "haveAccount": "¿Ya tienes una cuenta?",
   "continueWithGoogle": "Continuar con Google",
-  "authErrorEmptyFields": "Por favor ingresa tu correo y contraseña."
+  "authErrorEmptyFields": "Por favor ingresa tu correo y contraseña.",
+  "signOut": "Cerrar sesión"
 }

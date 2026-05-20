@@ -235,6 +235,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter your email and password.'**
   String get authErrorEmptyFields;
+
+  /// Sign-out action in the navigation drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOut;
 }
 
 class _AppLocalizationsDelegate
