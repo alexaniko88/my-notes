@@ -83,9 +83,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get continueWithGoogle => 'Continuar con Google';
 
   @override
-  String get gmailOnly => 'Solo cuentas de Gmail';
-
-  @override
   String get authErrorEmptyFields =>
       'Por favor ingresa tu correo y contraseña.';
 }

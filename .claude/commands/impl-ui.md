@@ -119,6 +119,7 @@ Once the user approves:
 - Nullable class fields: extract to local var before use — never `field!`; Dart doesn't promote class fields through null checks
 - Trailing commas: add a trailing comma to every constructor call or widget with 2 or more arguments — required for `dart format` to expand args onto separate lines
 - Format all output as `dart format` would produce it
+- Always use common widgets from `lib/presentation/widgets/common/` instead of Flutter primitives: `AppIcon` (not `Icon`), `AppButton.primary` / `AppButton.secondary` (not `FilledButton` / `OutlinedButton`), `AppTextButton` (not `TextButton`). If a new icon or button variant is needed, add it to the common widget first.
 
 ## Feature to implement
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/presentation/screens/playground/items/note_card_item.dart';
 import 'package:my_notes/presentation/screens/playground/playground_item_screen.dart';
+import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
 
 class PlaygroundScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class PlaygroundScreen extends StatelessWidget {
         separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) => ListTile(
           title: Text(_configs[index].label),
-          trailing: const Icon(Icons.chevron_right),
+          trailing: const AppIcon(name: AppIconName.chevronRight),
           onTap: () => context.push(
             AppRoute.playgroundItem.path,
             extra: _configs[index],

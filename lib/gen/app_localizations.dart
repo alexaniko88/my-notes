@@ -230,12 +230,6 @@ abstract class AppLocalizations {
   /// **'Continue with Google'**
   String get continueWithGoogle;
 
-  /// Subtitle clarifying only Gmail is supported for sign-up
-  ///
-  /// In en, this message translates to:
-  /// **'Gmail accounts only'**
-  String get gmailOnly;
-
   /// Validation error when sign-in fields are empty
   ///
   /// In en, this message translates to:

@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
+import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/home/fab_notes.dart';
 import 'package:my_notes/presentation/widgets/notes/note_card.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
@@ -39,10 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final options = [
-      (Icons.text_fields, l10n.fabOptionText),
-      (Icons.image_outlined, l10n.fabOptionImage),
-      (Icons.mic_outlined, l10n.fabOptionAudio),
-      (Icons.picture_as_pdf_outlined, l10n.fabOptionPdf),
+      (AppIconName.textFields, l10n.fabOptionText),
+      (AppIconName.imageOutlined, l10n.fabOptionImage),
+      (AppIconName.micOutlined, l10n.fabOptionAudio),
+      (AppIconName.pictureAsPdfOutlined, l10n.fabOptionPdf),
     ];
 
     return PopScope(
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 actions: [
                   if (_searchController.text.isNotEmpty)
                     IconButton(
-                      icon: const Icon(Icons.close),
+                      icon: const AppIcon(name: AppIconName.close),
                       onPressed: () {
                         _searchController.clear();
                         setState(() {});
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: _PlaygroundTitle(label: l10n.appTitle),
                 actions: [
                   IconButton(
-                    icon: const Icon(Icons.search),
+                    icon: const AppIcon(name: AppIconName.search),
                     onPressed: _startSearch,
                   ),
                 ],
