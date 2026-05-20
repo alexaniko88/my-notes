@@ -113,5 +113,9 @@
   "authErrorEmptyFields": "Please enter your email and password.",
   "@authErrorEmptyFields": {
     "description": "Validation error when sign-in fields are empty"
+  },
+  "signOut": "Sign Out",
+  "@signOut": {
+    "description": "Sign-out action in the navigation drawer"
   }
 }
