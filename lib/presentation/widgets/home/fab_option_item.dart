@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 
 class FabOptionItem extends StatelessWidget {
-  final IconData icon;
+  final AppIconName icon;
   final String label;
   final Animation<double> animation;
   final VoidCallback? onPressed;
@@ -41,7 +42,7 @@ class FabOptionItem extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: dimensions.iconSize.md),
+              AppIcon(name: icon, size: dimensions.iconSize.md),
               Gap(dimensions.spacing.sm),
               Text(label, style: theme.textTheme.titleMedium),
             ],

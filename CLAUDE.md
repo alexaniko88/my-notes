@@ -62,13 +62,26 @@ Google Keep-inspired notes app. Users create notes (text, image, PDF, voice), vi
 
 ## Architecture
 
-Project scaffolded. Structure:
-- `lib/` — Dart source, `main.dart` entry point
-- `lib/models/` — data models
-- `lib/screens/` — UI screens
-- `lib/widgets/` — reusable widgets
-- `lib/services/` — business logic, data access (Firestore, Storage, Auth)
-- `lib/providers/` — Riverpod providers
+Structure:
+- `lib/main.dart` — entry point
+- `lib/domain/` — models and repository interfaces
+  - `models/note.dart`
+  - `repositories/note_repository.dart`
+- `lib/data/` — repository implementations
+  - `repositories/in_memory_note_repository.dart`
+- `lib/presentation/` — UI layer
+  - `screens/` — full screens (`home_screen.dart`, `auth/auth_screen.dart`, `note/note_screen.dart`, `playground/`)
+  - `widgets/` — reusable widgets
+    - `common/` — app-wide: `AppIcon`, `AppButton`, `AppTextButton`
+    - `auth/` — auth-specific widgets
+    - `home/` — home screen widgets (`FabNotes`, `FabOptionItem`)
+    - `notes/` — note card widget
+  - `providers/` — Riverpod providers (`notes`, `theme`)
+- `lib/shared/` — cross-cutting utilities
+  - `extensions/` — `BuildContext`, `DateTime` extensions
+  - `navigation/` — `go_router` setup and route definitions
+  - `theme/` — `AppTheme`, `AppColors`, `AppDimensions`
+- `lib/gen/` — generated localization files (do not edit)
 - `test/` — unit and widget tests
 - `integration_test/` — integration tests
 
@@ -86,3 +99,5 @@ Project scaffolded. Structure:
 - Prefer composition over inheritance for widgets.
 - State management: Riverpod — apply consistently throughout.
 - Dart null safety is on — avoid `!` force-unwrap; handle nulls explicitly.
+- Declare fields before constructors in every Dart class.
+- Always use the common widgets in `lib/presentation/widgets/common/` instead of Flutter primitives directly: `AppIcon` (not `Icon`), `AppButton.primary` / `AppButton.secondary` (not `FilledButton` / `OutlinedButton`), `AppTextButton` (not `TextButton`). Add new icons/variants there if needed.

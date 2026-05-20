@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/presentation/widgets/auth/google_sign_in_button.dart';
+import 'package:my_notes/presentation/widgets/common/app_button.dart';
+import 'package:my_notes/presentation/widgets/common/app_icon.dart';
+import 'package:my_notes/presentation/widgets/common/app_text_button.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
 
@@ -53,8 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _onSignIn() {
     final l10n = context.l10n;
-    if (_emailController.text.trim().isEmpty ||
-        _passwordController.text.isEmpty) {
+    if (_emailController.text.trim().isEmpty || _passwordController.text.isEmpty) {
       setState(() => _errorMessage = l10n.authErrorEmptyFields);
       return;
     }
@@ -65,8 +67,7 @@ class _AuthScreenState extends State<AuthScreen> {
     context.goNamed(AppRoute.home.name);
   }
 
-  void _onToggleObscure() =>
-      setState(() => _obscurePassword = !_obscurePassword);
+  void _onToggleObscure() => setState(() => _obscurePassword = !_obscurePassword);
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +137,8 @@ class _AppLogo extends StatelessWidget {
             color: theme.colorScheme.primaryContainer,
             borderRadius: BorderRadius.circular(dimensions.borderRadius.xl),
           ),
-          child: Icon(
-            Icons.sticky_note_2_outlined,
+          child: AppIcon(
+            name: AppIconName.stickyNote2Outlined,
             size: dimensions.iconSize.xl,
             color: theme.colorScheme.onPrimaryContainer,
           ),
@@ -194,7 +195,7 @@ class _SignInForm extends StatelessWidget {
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: l10n.emailLabel,
-            prefixIcon: const Icon(Icons.email_outlined),
+            prefixIcon: const AppIcon(name: AppIconName.emailOutlined),
             border: inputBorder,
           ),
         ),
@@ -206,13 +207,11 @@ class _SignInForm extends StatelessWidget {
           onSubmitted: (_) => onSignIn(),
           decoration: InputDecoration(
             labelText: l10n.passwordLabel,
-            prefixIcon: const Icon(Icons.lock_outlined),
+            prefixIcon: const AppIcon(name: AppIconName.lockOutlined),
             border: inputBorder,
             suffixIcon: IconButton(
-              icon: Icon(
-                obscurePassword
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+              icon: AppIcon(
+                name: obscurePassword ? AppIconName.visibilityOutlined : AppIconName.visibilityOffOutlined,
               ),
               onPressed: onToggleObscure,
             ),
@@ -223,33 +222,14 @@ class _SignInForm extends StatelessWidget {
           Text(error, style: errorStyle),
         ],
         Gap(dimensions.spacing.lg),
-        FilledButton(
-          onPressed: onSignIn,
-          style: FilledButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: dimensions.spacing.md),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(dimensions.borderRadius.md),
-            ),
-          ),
-          child: Text(l10n.signIn),
-        ),
+        AppButton.primary(label: l10n.signIn, onPressed: onSignIn),
         Gap(dimensions.spacing.lg),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(l10n.noAccount, style: togglePromptStyle),
             Gap(dimensions.spacing.xs),
-            TextButton(
-              onPressed: onSwitchToSignUp,
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                  horizontal: dimensions.spacing.xs,
-                ),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(l10n.signUp),
-            ),
+            AppTextButton(label: l10n.signUp, onPressed: onSwitchToSignUp),
           ],
         ),
       ],
@@ -275,9 +255,6 @@ class _SignUpForm extends StatelessWidget {
     final titleStyle = theme.textTheme.titleLarge?.copyWith(
       fontWeight: FontWeight.w600,
     );
-    final subtitleStyle = theme.textTheme.bodyMedium?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
     final togglePromptStyle = theme.textTheme.bodyMedium?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
@@ -286,12 +263,6 @@ class _SignUpForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(l10n.signUp, style: titleStyle, textAlign: TextAlign.center),
-        Gap(dimensions.spacing.xs),
-        Text(
-          l10n.gmailOnly,
-          style: subtitleStyle,
-          textAlign: TextAlign.center,
-        ),
         Gap(dimensions.spacing.xl),
         GoogleSignInButton(onPressed: onSignUp),
         Gap(dimensions.spacing.lg),
@@ -300,17 +271,7 @@ class _SignUpForm extends StatelessWidget {
           children: [
             Text(l10n.haveAccount, style: togglePromptStyle),
             Gap(dimensions.spacing.xs),
-            TextButton(
-              onPressed: onSwitchToSignIn,
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                  horizontal: dimensions.spacing.xs,
-                ),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(l10n.signIn),
-            ),
+            AppTextButton(label: l10n.signIn, onPressed: onSwitchToSignIn),
           ],
         ),
       ],
