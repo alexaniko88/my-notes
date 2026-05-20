@@ -22,5 +22,8 @@
   "haveAccount": "¿Ya tienes una cuenta?",
   "continueWithGoogle": "Continuar con Google",
   "authErrorEmptyFields": "Por favor ingresa tu correo y contraseña.",
-  "signOut": "Cerrar sesión"
+  "signOut": "Cerrar sesión",
+  "exitAppTitle": "¿Salir de la app?",
+  "exitAppConfirm": "Salir",
+  "exitAppCancel": "Cancelar"
 }

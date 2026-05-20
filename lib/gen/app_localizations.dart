@@ -241,6 +241,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get signOut;
+
+  /// Title of the confirmation dialog shown when the user tries to exit the app
+  ///
+  /// In en, this message translates to:
+  /// **'Exit app?'**
+  String get exitAppTitle;
+
+  /// Confirm button in the exit-app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exitAppConfirm;
+
+  /// Cancel button in the exit-app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get exitAppCancel;
 }
 
 class _AppLocalizationsDelegate

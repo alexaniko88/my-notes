@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -31,6 +32,27 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() => _isSearching = false);
   }
 
+  Future<void> _confirmExit(BuildContext context) async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.exitAppTitle),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(l10n.exitAppCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(l10n.exitAppConfirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed ?? false) SystemNavigator.pop();
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -48,9 +70,13 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     return PopScope(
-      canPop: !_isSearching,
+      canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) _stopSearch();
+        if (_isSearching) {
+          _stopSearch();
+        } else {
+          _confirmExit(context);
+        }
       },
       child: Scaffold(
         drawer: const AppDrawer(),

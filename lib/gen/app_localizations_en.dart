@@ -87,4 +87,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signOut => 'Sign Out';
+
+  @override
+  String get exitAppTitle => 'Exit app?';
+
+  @override
+  String get exitAppConfirm => 'Exit';
+
+  @override
+  String get exitAppCancel => 'Cancel';
 }
