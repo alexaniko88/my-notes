@@ -1,9 +1,13 @@
 import 'package:my_notes/domain/models/note.dart';
 
 abstract class NoteRepository {
-  List<Note> getAll();
-  Note getNote(String id);
-  void add(Note note);
-  void update(Note note);
-  void delete(String id);
+  Stream<List<Note>> watchAll();
+
+  Future<Note?> getNote(String id);
+
+  Future<String> add(Note note);
+
+  Future<String> update(Note note);
+
+  Future<String> delete(String id);
 }

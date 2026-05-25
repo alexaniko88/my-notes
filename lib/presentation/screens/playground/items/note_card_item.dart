@@ -14,6 +14,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '1',
+          position: 0,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -26,6 +27,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '2',
+          position: 1,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -38,6 +40,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '3',
+          position: 3,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -51,6 +54,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '4',
+          position: 4,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -65,6 +69,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '5',
+          position: 5,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -79,6 +84,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '6',
+          position: 6,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -94,6 +100,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '7',
+          position: 7,
           isPinned: false,
           createdAt: _yesterday,
           updatedAt: _yesterday,
@@ -107,6 +114,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '8',
+          position: 8,
           isPinned: false,
           createdAt: _pastDate,
           updatedAt: _pastDate,
@@ -121,6 +129,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '9',
+          position: 9,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,

@@ -3,7 +3,7 @@ enum AppRoute {
   home('/home'),
   playground('/playground'),
   playgroundItem('/playground/item'),
-  note('/notes/:id');
+  note('/notes');
 
   const AppRoute(this.path);
 
