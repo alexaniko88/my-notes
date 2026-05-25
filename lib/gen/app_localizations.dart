@@ -236,11 +236,35 @@ abstract class AppLocalizations {
   /// **'Please enter your email and password.'**
   String get authErrorEmptyFields;
 
+  /// Error shown when sign-in fails due to a network issue
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Check your connection and try again.'**
+  String get authErrorNetwork;
+
+  /// Generic error shown when sign-in fails for an unknown reason
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authErrorUnknown;
+
   /// Sign-out action in the navigation drawer
   ///
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get signOut;
+
+  /// Title of the confirmation dialog before signing out
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutConfirmTitle;
+
+  /// Confirm button in the sign-out dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOutConfirm;
 
   /// Title of the confirmation dialog shown when the user tries to exit the app
   ///

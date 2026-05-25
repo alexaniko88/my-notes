@@ -40,6 +40,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '883536780495',
     projectId: 'my-notes-a1eb6',
     storageBucket: 'my-notes-a1eb6.firebasestorage.app',
+    androidClientId:
+        '883536780495-kvlpa7vm9h2q4dn6t5bje2m2qh8c0qke.apps.googleusercontent.com',
+    iosClientId:
+        '883536780495-3o7hvd440bl1d21b1lqnqusc0fs0u9qc.apps.googleusercontent.com',
     iosBundleId: 'com.example.myNotes',
   );
 
@@ -49,6 +53,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '883536780495',
     projectId: 'my-notes-a1eb6',
     storageBucket: 'my-notes-a1eb6.firebasestorage.app',
+    androidClientId:
+        '883536780495-kvlpa7vm9h2q4dn6t5bje2m2qh8c0qke.apps.googleusercontent.com',
+    iosClientId:
+        '883536780495-3o7hvd440bl1d21b1lqnqusc0fs0u9qc.apps.googleusercontent.com',
     iosBundleId: 'com.example.myNotes',
   );
 }

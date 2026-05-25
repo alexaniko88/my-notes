@@ -72,12 +72,14 @@ Flag any **open questions or risks** at the bottom (e.g. provider not yet implem
 
 Once the user approves:
 - Implement each step in order
+- When adding packages with `flutter pub add`, immediately remove the `^` caret from the version in `pubspec.yaml` — always pin exact versions
 - Use `StatelessWidget` by default; `StatefulWidget` only for local ephemeral state (e.g. `TextEditingController`, animation controllers)
 - Consume Riverpod via `ConsumerWidget` or `ConsumerStatefulWidget` — never call `ref.read` inside `build`; use `ref.watch` for reactive state, `ref.read` only in callbacks
 - Handle all three async states explicitly: loading, error, data — no silent failures
 - Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by framework contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
 - After finishing, audit every constructor call and widget in every file touched: any call with more than 2 arguments must have a trailing comma. Fix any missing ones.
+- Run `dart fix --apply` then `dart format .` to organize imports and format all files
 - Run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note any follow-up needed (e.g. localisation strings, assets, theme tokens)
 
 ## Coding Rules
@@ -115,7 +117,9 @@ Once the user approves:
 - Never call `AppLocalizations.of(context)` directly — use `context.l10n` from `lib/shared/extensions/build_context_extensions.dart`. Assign once: `final l10n = context.l10n;`
 - No hardcoded padding/spacing values — always read from `context.dimensions` (`lib/shared/extensions/build_context_extensions.dart`). Example: `EdgeInsets.all(context.dimensions.spacing.md)`
 - No `SizedBox` for spacing between widgets — use `Gap(context.dimensions.spacing.sm)` from the `gap` package instead
+- Data model classes (if any must be created in the UI layer): annotate with `@immutable` (from `package:meta/meta.dart`)
 - File names: `snake_case.dart`; screens go in `lib/presentation/screens/<feature>/`, widgets in `lib/presentation/widgets/<feature>/`
+- Always wrap `if`/`else` bodies in `{}` — single-line bodies without braces are not allowed (ternary operators are exempt)
 - Nullable class fields: extract to local var before use — never `field!`; Dart doesn't promote class fields through null checks
 - Trailing commas: add a trailing comma to every constructor call or widget with 2 or more arguments — required for `dart format` to expand args onto separate lines
 - Format all output as `dart format` would produce it

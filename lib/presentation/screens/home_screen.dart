@@ -232,18 +232,25 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
     final displayedNotes = _applyQuery(query);
 
     if (_notes.isEmpty) {
-      return Center(child: Text(widget.emptyLabel, style: theme.textTheme.bodyLarge));
+      return Center(
+          child: Text(widget.emptyLabel, style: theme.textTheme.bodyLarge));
     }
 
     if (displayedNotes.isEmpty) {
-      return Center(child: Text(widget.noResultsLabel, style: theme.textTheme.bodyLarge));
+      return Center(
+          child: Text(widget.noResultsLabel, style: theme.textTheme.bodyLarge));
     }
 
     final spacing = context.dimensions.spacing;
-    final cardWidth = (MediaQuery.sizeOf(context).width - spacing.md * 2 - spacing.sm) / 2;
+    final cardWidth =
+        (MediaQuery.sizeOf(context).width - spacing.md * 2 - spacing.sm) / 2;
 
-    final leftItems = [for (var i = 0; i < displayedNotes.length; i += 2) (i, displayedNotes[i])];
-    final rightItems = [for (var i = 1; i < displayedNotes.length; i += 2) (i, displayedNotes[i])];
+    final leftItems = [
+      for (var i = 0; i < displayedNotes.length; i += 2) (i, displayedNotes[i])
+    ];
+    final rightItems = [
+      for (var i = 1; i < displayedNotes.length; i += 2) (i, displayedNotes[i])
+    ];
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(spacing.md),

@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+import 'package:my_notes/domain/models/auth_exception.dart';
+import 'package:my_notes/gen/app_localizations.dart';
+import 'package:my_notes/presentation/providers/auth/auth_provider.dart';
 import 'package:my_notes/presentation/widgets/auth/google_sign_in_button.dart';
 import 'package:my_notes/presentation/widgets/common/app_button.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/common/app_text_button.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
-import 'package:my_notes/shared/navigation/app_route.dart';
 
 enum _AuthMode { signIn, signUp }
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthScreenState extends ConsumerState<AuthScreen> {
   static const _fadeDuration = Duration(milliseconds: 120);
 
   final _emailController = TextEditingController();
@@ -56,22 +58,38 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _onSignIn() {
     final l10n = context.l10n;
-    if (_emailController.text.trim().isEmpty || _passwordController.text.isEmpty) {
+    if (_emailController.text.trim().isEmpty ||
+        _passwordController.text.isEmpty) {
       setState(() => _errorMessage = l10n.authErrorEmptyFields);
       return;
     }
-    context.goNamed(AppRoute.home.name);
   }
 
-  void _onSignUp() {
-    context.goNamed(AppRoute.home.name);
+  Future<void> _onSignUp() async {
+    print("ON SIGN UP");
+    setState(() => _errorMessage = null);
+    await ref.read(authProvider.notifier).signInWithGoogle();
+    if (!mounted) return;
+    final error = ref.read(authProvider).error;
+    if (error != null) {
+      setState(() => _errorMessage = _mapAuthError(error, context.l10n));
+    }
   }
 
-  void _onToggleObscure() => setState(() => _obscurePassword = !_obscurePassword);
+  String? _mapAuthError(Object error, AppLocalizations l10n) {
+    if (error is AuthCancelledException) return null;
+    if (error is AuthNetworkException) return l10n.authErrorNetwork;
+    return l10n.authErrorUnknown;
+  }
+
+  void _onToggleObscure() =>
+      setState(() => _obscurePassword = !_obscurePassword);
 
   @override
   Widget build(BuildContext context) {
     final dimensions = context.dimensions;
+    final authState = ref.watch(authProvider);
+    final isLoading = authState.isLoading;
     final errorMsg = _errorMessage;
 
     return Scaffold(
@@ -102,6 +120,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         onSwitchToSignUp: () => _switchMode(_AuthMode.signUp),
                       )
                     : _SignUpForm(
+                        isLoading: isLoading,
+                        errorMessage: errorMsg,
                         onSignUp: _onSignUp,
                         onSwitchToSignIn: () => _switchMode(_AuthMode.signIn),
                       ),
@@ -211,7 +231,9 @@ class _SignInForm extends StatelessWidget {
             border: inputBorder,
             suffixIcon: IconButton(
               icon: AppIcon(
-                name: obscurePassword ? AppIconName.visibilityOutlined : AppIconName.visibilityOffOutlined,
+                name: obscurePassword
+                    ? AppIconName.visibilityOutlined
+                    : AppIconName.visibilityOffOutlined,
               ),
               onPressed: onToggleObscure,
             ),
@@ -238,10 +260,14 @@ class _SignInForm extends StatelessWidget {
 }
 
 class _SignUpForm extends StatelessWidget {
+  final bool isLoading;
+  final String? errorMessage;
   final VoidCallback onSignUp;
   final VoidCallback onSwitchToSignIn;
 
   const _SignUpForm({
+    required this.isLoading,
+    required this.errorMessage,
     required this.onSignUp,
     required this.onSwitchToSignIn,
   });
@@ -251,6 +277,7 @@ class _SignUpForm extends StatelessWidget {
     final theme = Theme.of(context);
     final dimensions = context.dimensions;
     final l10n = context.l10n;
+    final error = errorMessage;
 
     final titleStyle = theme.textTheme.titleLarge?.copyWith(
       fontWeight: FontWeight.w600,
@@ -258,13 +285,20 @@ class _SignUpForm extends StatelessWidget {
     final togglePromptStyle = theme.textTheme.bodyMedium?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
+    final errorStyle = theme.textTheme.bodySmall?.copyWith(
+      color: theme.colorScheme.error,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(l10n.signUp, style: titleStyle, textAlign: TextAlign.center),
         Gap(dimensions.spacing.xl),
-        GoogleSignInButton(onPressed: onSignUp),
+        GoogleSignInButton(onPressed: isLoading ? null : onSignUp),
+        if (error != null) ...[
+          Gap(dimensions.spacing.sm),
+          Text(error, style: errorStyle),
+        ],
         Gap(dimensions.spacing.lg),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

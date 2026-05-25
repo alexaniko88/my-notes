@@ -1,6 +1,16 @@
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
+@immutable
 class Note extends Equatable {
+  final String id;
+  final String? title;
+  final String? body;
+  final int? color;
+  final bool isPinned;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
   const Note({
     required this.id,
     required this.isPinned,
@@ -11,16 +21,9 @@ class Note extends Equatable {
     this.color,
   });
 
-  final String id;
-  final String? title;
-  final String? body;
-  final int? color;
-  final bool isPinned;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-
   @override
-  List<Object?> get props => [id, title, body, color, isPinned, createdAt, updatedAt];
+  List<Object?> get props =>
+      [id, title, body, color, isPinned, createdAt, updatedAt];
 
   Note copyWith({
     String? id,

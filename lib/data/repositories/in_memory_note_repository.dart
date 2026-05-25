@@ -115,7 +115,8 @@ List<Note> _seedNotes() {
     Note(
       id: '5',
       title: 'Flutter tips',
-      body: 'Use const constructors, prefer StatelessWidget, extract widgets for readability',
+      body:
+          'Use const constructors, prefer StatelessWidget, extract widgets for readability',
       isPinned: true,
       color: 0xFFC8E6C9,
       createdAt: yesterday,

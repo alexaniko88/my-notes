@@ -87,7 +87,21 @@ class AppLocalizationsEs extends AppLocalizations {
       'Por favor ingresa tu correo y contraseña.';
 
   @override
+  String get authErrorNetwork =>
+      'Error de red. Verifica tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get authErrorUnknown => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
   String get signOut => 'Cerrar sesión';
+
+  @override
+  String get signOutConfirmTitle =>
+      '¿Estás seguro de que quieres cerrar sesión?';
+
+  @override
+  String get signOutConfirm => 'Cerrar sesión';
 
   @override
   String get exitAppTitle => '¿Salir de la app?';

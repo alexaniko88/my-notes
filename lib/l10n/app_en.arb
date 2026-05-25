@@ -114,9 +114,25 @@
   "@authErrorEmptyFields": {
     "description": "Validation error when sign-in fields are empty"
   },
+  "authErrorNetwork": "Network error. Check your connection and try again.",
+  "@authErrorNetwork": {
+    "description": "Error shown when sign-in fails due to a network issue"
+  },
+  "authErrorUnknown": "Something went wrong. Please try again.",
+  "@authErrorUnknown": {
+    "description": "Generic error shown when sign-in fails for an unknown reason"
+  },
   "signOut": "Sign Out",
   "@signOut": {
     "description": "Sign-out action in the navigation drawer"
+  },
+  "signOutConfirmTitle": "Are you sure you want to sign out?",
+  "@signOutConfirmTitle": {
+    "description": "Title of the confirmation dialog before signing out"
+  },
+  "signOutConfirm": "Sign Out",
+  "@signOutConfirm": {
+    "description": "Confirm button in the sign-out dialog"
   },
   "exitAppTitle": "Exit app?",
   "@exitAppTitle": {

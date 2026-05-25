@@ -28,7 +28,7 @@ dart fix --apply
 
 # Dependencies
 flutter pub get
-flutter pub add <package>
+flutter pub add <package>  # then remove ^ from the version in pubspec.yaml — always pin exact versions
 flutter pub upgrade
 ```
 

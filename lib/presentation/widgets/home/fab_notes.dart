@@ -12,7 +12,8 @@ class FabNotes extends StatefulWidget {
   State<FabNotes> createState() => _FabNotesState();
 }
 
-class _FabNotesState extends State<FabNotes> with SingleTickerProviderStateMixin {
+class _FabNotesState extends State<FabNotes>
+    with SingleTickerProviderStateMixin {
   static const _toggleDuration = Duration(milliseconds: 250);
 
   final _fabSize = 56.0;

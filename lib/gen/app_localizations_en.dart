@@ -86,7 +86,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authErrorEmptyFields => 'Please enter your email and password.';
 
   @override
+  String get authErrorNetwork =>
+      'Network error. Check your connection and try again.';
+
+  @override
+  String get authErrorUnknown => 'Something went wrong. Please try again.';
+
+  @override
   String get signOut => 'Sign Out';
+
+  @override
+  String get signOutConfirmTitle => 'Are you sure you want to sign out?';
+
+  @override
+  String get signOutConfirm => 'Sign Out';
 
   @override
   String get exitAppTitle => 'Exit app?';

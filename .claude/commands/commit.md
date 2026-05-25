@@ -14,7 +14,17 @@ Run these in parallel:
 - `git diff HEAD`
 - `git log --oneline -5` (to match existing commit style)
 
-### Step 2 — Stage
+### Step 2 — Format & organize imports
+
+Run in sequence:
+```
+dart fix --apply
+dart format .
+```
+
+These are non-destructive — always safe to run. If either fails, report the error and stop.
+
+### Step 3 — Stage
 
 Stage all modified and untracked files relevant to the change:
 ```
@@ -23,7 +33,7 @@ git add -A
 
 Exclude: `.env`, `*.key`, `*.pem`, `*secret*`, credential files. If any such files appear in `git status`, warn the user and do NOT stage them.
 
-### Step 3 — Commit
+### Step 4 — Commit
 
 Write a commit message following Conventional Commits:
 - Format: `<type>(<scope>): <imperative summary>`
@@ -39,7 +49,7 @@ git commit -m "<message>"
 
 If the commit hook fails, diagnose and fix, then create a new commit (never `--no-verify`, never `--amend` on a published commit).
 
-### Step 4 — Summary
+### Step 5 — Summary
 
 After the commit succeeds, output exactly this format:
 
