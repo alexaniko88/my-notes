@@ -26,7 +26,8 @@ class Note extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, title, body, label, color, position, isPinned, createdAt, updatedAt];
+  List<Object?> get props =>
+      [id, title, body, label, color, position, isPinned, createdAt, updatedAt];
 
   Note copyWith({
     String? id,

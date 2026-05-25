@@ -228,7 +228,8 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(notesProvider, (AsyncValue<List<Note>>? _, AsyncValue<List<Note>> next) {
+    ref.listen(notesProvider,
+        (AsyncValue<List<Note>>? _, AsyncValue<List<Note>> next) {
       final notes = next.asData?.value;
       if (notes != null) {
         setState(() => _notes = List.of(notes));

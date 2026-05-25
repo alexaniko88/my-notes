@@ -9,8 +9,10 @@ class FirebaseNoteRepository implements NoteRepository {
   final CollectionReference<Map<String, dynamic>> _notesCollection;
 
   FirebaseNoteRepository({required String userId})
-      : _notesCollection =
-            FirebaseFirestore.instance.collection(FirestorePaths.users).doc(userId).collection(FirestorePaths.notes);
+      : _notesCollection = FirebaseFirestore.instance
+            .collection(FirestorePaths.users)
+            .doc(userId)
+            .collection(FirestorePaths.notes);
 
   @override
   Stream<List<Note>> watchAll() {
@@ -18,7 +20,9 @@ class FirebaseNoteRepository implements NoteRepository {
         .orderBy('position')
         .snapshots()
         .map(
-          (snapshot) => snapshot.docs.map((doc) => NoteDto.fromFirestore(doc.data(), doc.id).toNote()).toList(),
+          (snapshot) => snapshot.docs
+              .map((doc) => NoteDto.fromFirestore(doc.data(), doc.id).toNote())
+              .toList(),
         )
         .handleError((Object e) {
       throw NoteException('Failed to watch notes', cause: e);
@@ -42,7 +46,9 @@ class FirebaseNoteRepository implements NoteRepository {
   @override
   Future<String> add(Note note) async {
     try {
-      await _notesCollection.doc(note.id).set(NoteDto.fromNote(note).toFirestore());
+      await _notesCollection
+          .doc(note.id)
+          .set(NoteDto.fromNote(note).toFirestore());
       return note.id;
     } on FirebaseException catch (e) {
       throw NoteException('Failed to add note', cause: e);
@@ -52,7 +58,9 @@ class FirebaseNoteRepository implements NoteRepository {
   @override
   Future<String> update(Note note) async {
     try {
-      await _notesCollection.doc(note.id).update(NoteDto.fromNote(note).toFirestore());
+      await _notesCollection
+          .doc(note.id)
+          .update(NoteDto.fromNote(note).toFirestore());
       return note.id;
     } on FirebaseException catch (e) {
       if (e.code == 'not-found') {
