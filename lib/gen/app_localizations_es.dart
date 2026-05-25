@@ -65,29 +65,24 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signIn => 'Iniciar sesión';
 
   @override
-  String get signUp => 'Registrarse';
-
-  @override
-  String get emailLabel => 'Correo electrónico';
-
-  @override
-  String get passwordLabel => 'Contraseña';
-
-  @override
-  String get noAccount => '¿No tienes una cuenta?';
-
-  @override
-  String get haveAccount => '¿Ya tienes una cuenta?';
-
-  @override
   String get continueWithGoogle => 'Continuar con Google';
 
   @override
-  String get authErrorEmptyFields =>
-      'Por favor ingresa tu correo y contraseña.';
+  String get authErrorNetwork =>
+      'Error de red. Verifica tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get authErrorUnknown => 'Algo salió mal. Inténtalo de nuevo.';
 
   @override
   String get signOut => 'Cerrar sesión';
+
+  @override
+  String get signOutConfirmTitle =>
+      '¿Estás seguro de que quieres cerrar sesión?';
+
+  @override
+  String get signOutConfirm => 'Cerrar sesión';
 
   @override
   String get exitAppTitle => '¿Salir de la app?';

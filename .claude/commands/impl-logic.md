@@ -67,21 +67,24 @@ Flag any **open questions or risks** at the bottom (e.g. missing info, potential
 
 Once the user approves:
 - Implement each step in order
+- When adding packages with `flutter pub add`, immediately remove the `^` caret from the version in `pubspec.yaml` — always pin exact versions
 - Use `@riverpod` code generation (`riverpod_annotation` is in pubspec); run `flutter pub run build_runner build` after adding providers
 - Use `AsyncNotifier` or `StreamNotifier` for async Riverpod providers; plain `Notifier` for sync state (like `NotesNotifier`)
 - Avoid `!` force-unwrap — handle nulls explicitly with `??`, `if`, or early return. When `!` is truly unavoidable (e.g. value is guaranteed non-null by external contract), add a short inline comment explaining why
 - No placeholder `// TODO` unless you flag it explicitly to the user
 - After finishing, audit every constructor call and function call in every file touched: any call with more than 2 arguments must have a trailing comma. Fix any missing ones.
+- Run `dart fix --apply` then `dart format .` to organize imports and format all files
 - Run `flutter analyze <file1> <file2> ...` on every file created or modified, fix any errors, then list the files and note anything the UI layer will need to consume
 
 ## Coding Rules
 
 - Class member order — **strictly**: `static const` fields → instance fields → constructor → methods. Never put the constructor before fields.
-- Models: immutable, `const` constructors, `copyWith`, `==` and `hashCode` (use `equatable` — already in pubspec)
+- Models: annotate with `@immutable` (from `package:meta/meta.dart`), `const` constructors, `copyWith`, `==` and `hashCode` (use `equatable` — already in pubspec)
 - Repository interfaces: abstract class, pure domain types in and out, no storage imports
 - Repository implementations: implement the interface; use in-memory storage until Firebase is wired; throw typed domain exceptions on errors
 - Providers: one provider per logical unit; `ref.watch` for dependencies; `keepAlive` only where justified; group provider files under `lib/presentation/providers/<feature>/`
 - File names: `snake_case.dart`
+- Always wrap `if`/`else` bodies in `{}` — single-line bodies without braces are not allowed (ternary operators are exempt)
 - Trailing commas: add a trailing comma to every constructor call or function with 2 or more arguments — required for `dart format` to expand args onto separate lines
 - Format all output as `dart format` would produce it
 

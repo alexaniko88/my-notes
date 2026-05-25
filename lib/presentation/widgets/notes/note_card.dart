@@ -74,11 +74,13 @@ class NoteCard extends StatelessWidget {
     final radius = dimensions.borderRadius;
 
     final noteColor = note.color;
-    final backgroundColor = noteColor != null ? Color(noteColor) : theme.cardColor;
+    final backgroundColor =
+        noteColor != null ? Color(noteColor) : theme.cardColor;
     final title = note.title;
     final body = note.body;
 
-    final titleStyle = theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold);
+    final titleStyle =
+        theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold);
     final bodyStyle = theme.textTheme.bodyMedium;
     final highlightColor = context.colors.searchHighlight;
     final lastUpdatedTheme = theme.textTheme.labelSmall?.copyWith(
@@ -128,5 +130,4 @@ class NoteCard extends StatelessWidget {
       ),
     );
   }
-
 }

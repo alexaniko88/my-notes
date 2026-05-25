@@ -194,53 +194,41 @@ abstract class AppLocalizations {
   /// **'Sign In'**
   String get signIn;
 
-  /// Sign-up button label and screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get signUp;
-
-  /// Email input field label
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get emailLabel;
-
-  /// Password input field label
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get passwordLabel;
-
-  /// Prompt shown below the sign-in form
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t have an account?'**
-  String get noAccount;
-
-  /// Prompt shown below the sign-up form
-  ///
-  /// In en, this message translates to:
-  /// **'Already have an account?'**
-  String get haveAccount;
-
   /// Label for the Google sign-up button
   ///
   /// In en, this message translates to:
   /// **'Continue with Google'**
   String get continueWithGoogle;
 
-  /// Validation error when sign-in fields are empty
+  /// Error shown when sign-in fails due to a network issue
   ///
   /// In en, this message translates to:
-  /// **'Please enter your email and password.'**
-  String get authErrorEmptyFields;
+  /// **'Network error. Check your connection and try again.'**
+  String get authErrorNetwork;
+
+  /// Generic error shown when sign-in fails for an unknown reason
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authErrorUnknown;
 
   /// Sign-out action in the navigation drawer
   ///
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get signOut;
+
+  /// Title of the confirmation dialog before signing out
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutConfirmTitle;
+
+  /// Confirm button in the sign-out dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOutConfirm;
 
   /// Title of the confirmation dialog shown when the user tries to exit the app
   ///

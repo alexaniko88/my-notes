@@ -65,28 +65,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signIn => 'Sign In';
 
   @override
-  String get signUp => 'Sign Up';
-
-  @override
-  String get emailLabel => 'Email';
-
-  @override
-  String get passwordLabel => 'Password';
-
-  @override
-  String get noAccount => 'Don\'t have an account?';
-
-  @override
-  String get haveAccount => 'Already have an account?';
-
-  @override
   String get continueWithGoogle => 'Continue with Google';
 
   @override
-  String get authErrorEmptyFields => 'Please enter your email and password.';
+  String get authErrorNetwork =>
+      'Network error. Check your connection and try again.';
+
+  @override
+  String get authErrorUnknown => 'Something went wrong. Please try again.';
 
   @override
   String get signOut => 'Sign Out';
+
+  @override
+  String get signOutConfirmTitle => 'Are you sure you want to sign out?';
+
+  @override
+  String get signOutConfirm => 'Sign Out';
 
   @override
   String get exitAppTitle => 'Exit app?';

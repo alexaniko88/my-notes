@@ -82,7 +82,8 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
-          title: 'This is a very long title that might wrap onto multiple lines',
+          title:
+              'This is a very long title that might wrap onto multiple lines',
           body: 'And here is a body that also has quite a bit of content. '
               'It keeps going to show how the card handles overflow gracefully.',
         ),
