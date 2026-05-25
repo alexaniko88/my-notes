@@ -14,7 +14,7 @@ Run these in parallel:
 - `git diff HEAD`
 - `git log --oneline -5` (to match existing commit style)
 
-### Step 2 — Format & organize imports
+### Step 2 — Format, organize imports & analyze
 
 Run in sequence:
 ```
@@ -23,6 +23,30 @@ dart format .
 ```
 
 These are non-destructive — always safe to run. If either fails, report the error and stop.
+
+Then run `flutter analyze` on every file that appears as modified or untracked in `git status`:
+```
+flutter analyze <file1> <file2> ...
+```
+
+If analyze passes: continue to Step 3.
+
+If analyze fails: **stop immediately** and show a detailed error report in this format:
+
+---
+❌ **Analyze failed — commit aborted**
+
+**File:** `<path>`
+**Line:** `<line:col>`
+**Rule:** `<lint rule or error code>`
+**Message:** `<full error message>`
+**Severity:** error | warning | info
+
+_(repeat for each issue)_
+
+Fix all errors before committing. Warnings and infos are your call.
+
+---
 
 ### Step 3 — Stage
 
