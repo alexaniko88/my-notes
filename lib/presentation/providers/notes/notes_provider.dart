@@ -1,5 +1,6 @@
 import 'package:my_notes/data/repositories/firebase_note_repository.dart';
 import 'package:my_notes/domain/models/note.dart';
+import 'package:my_notes/domain/models/note_exception.dart';
 import 'package:my_notes/domain/repositories/note_repository.dart';
 import 'package:my_notes/presentation/providers/auth/auth_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,9 +27,10 @@ class NotesNotifier extends _$NotesNotifier {
   Future<String> add({
     String? title,
     String? body,
-    String? label,
+    List<String> labelIds = const [],
     int? color,
   }) async {
+    final validLabelIds = _validateLabelIds(labelIds);
     final now = DateTime.now();
     final notes = state.asData?.value ?? [];
     final id = _uuid.v4();
@@ -37,7 +39,7 @@ class NotesNotifier extends _$NotesNotifier {
         id: id,
         title: title,
         body: body,
-        label: label,
+        labelIds: validLabelIds,
         color: color,
         position: notes.length,
         isPinned: false,
@@ -61,6 +63,22 @@ class NotesNotifier extends _$NotesNotifier {
     final note = notes.where((n) => n.id == id).firstOrNull;
     if (note == null) return;
     await updateNote(note.copyWith(isPinned: !note.isPinned));
+  }
+
+  Future<void> setLabels(String noteId, List<String> labelIds) async {
+    final validLabelIds = _validateLabelIds(labelIds);
+    final notes = state.asData?.value ?? [];
+    final note = notes.where((n) => n.id == noteId).firstOrNull;
+    if (note == null) return;
+    await updateNote(note.copyWith(labelIds: validLabelIds));
+  }
+
+  List<String> _validateLabelIds(List<String> labelIds) {
+    final uniqueLabelIds = labelIds.toSet().toList();
+    if (uniqueLabelIds.length > Note.maxLabels) {
+      throw NoteException('A note can have at most ${Note.maxLabels} labels');
+    }
+    return uniqueLabelIds;
   }
 }
 

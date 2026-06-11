@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 
 enum AppIconName {
   add,
+  check,
   chevronRight,
   close,
+  deleteOutlined,
+  editOutlined,
   emailOutlined,
   imageOutlined,
+  labelOutlined,
   lockOutlined,
   logout,
   menu,
@@ -38,10 +42,14 @@ class AppIcon extends StatelessWidget {
 
 IconData _iconData(AppIconName name) => switch (name) {
       AppIconName.add => Icons.add,
+      AppIconName.check => Icons.check,
       AppIconName.chevronRight => Icons.chevron_right,
       AppIconName.close => Icons.close,
+      AppIconName.deleteOutlined => Icons.delete_outline,
+      AppIconName.editOutlined => Icons.edit_outlined,
       AppIconName.emailOutlined => Icons.email_outlined,
       AppIconName.imageOutlined => Icons.image_outlined,
+      AppIconName.labelOutlined => Icons.label_outline,
       AppIconName.lockOutlined => Icons.lock_outlined,
       AppIconName.logout => Icons.logout,
       AppIconName.menu => Icons.menu,

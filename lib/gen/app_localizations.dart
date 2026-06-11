@@ -247,6 +247,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get exitAppCancel;
+
+  /// Header of the labels section in the navigation drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Labels'**
+  String get labelsSectionTitle;
+
+  /// Button in the labels section header that opens label editing
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get labelsEdit;
+
+  /// Row in the labels section that creates a new label
+  ///
+  /// In en, this message translates to:
+  /// **'Create new label'**
+  String get createNewLabel;
+
+  /// App bar title of the edit labels screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit labels'**
+  String get editLabelsTitle;
+
+  /// Title of the confirmation dialog before deleting a label
+  ///
+  /// In en, this message translates to:
+  /// **'Delete label?'**
+  String get deleteLabelDialogTitle;
+
+  /// Body of the confirmation dialog before deleting a label
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll delete this label and remove it from all of your notes. Your notes won\'t be deleted.'**
+  String get deleteLabelDialogBody;
+
+  /// Confirm button in the delete-label dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteLabelConfirm;
+
+  /// Shown on the edit labels screen when the labels stream fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load labels'**
+  String get labelsLoadError;
+
+  /// Snackbar shown when adding, renaming, or deleting a label fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save label. Try again.'**
+  String get labelSaveError;
+
+  /// Shown when the active label filter matches no notes
+  ///
+  /// In en, this message translates to:
+  /// **'No notes with this label'**
+  String get labelNoNotes;
+
+  /// Hint in the label picker search field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter label name'**
+  String get labelSearchHint;
+
+  /// Row in the label picker that creates a label from the search query
+  ///
+  /// In en, this message translates to:
+  /// **'Create \"{name}\"'**
+  String labelCreateNew(String name);
+
+  /// Snackbar shown when trying to select more labels than allowed on a note
+  ///
+  /// In en, this message translates to:
+  /// **'You can add up to {count} labels'**
+  String labelMaxReached(int count);
 }
 
 class _AppLocalizationsDelegate

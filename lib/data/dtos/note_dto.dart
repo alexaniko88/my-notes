@@ -8,7 +8,7 @@ class NoteDto extends Equatable {
   final String id;
   final String? title;
   final String? body;
-  final String? label;
+  final List<String> labelIds;
   final int? color;
   final int position;
   final bool isPinned;
@@ -23,20 +23,30 @@ class NoteDto extends Equatable {
     required this.updatedAt,
     this.title,
     this.body,
-    this.label,
+    this.labelIds = const [],
     this.color,
   });
 
   @override
-  List<Object?> get props =>
-      [id, title, body, label, color, position, isPinned, createdAt, updatedAt];
+  List<Object?> get props => [
+        id,
+        title,
+        body,
+        labelIds,
+        color,
+        position,
+        isPinned,
+        createdAt,
+        updatedAt,
+      ];
 
   factory NoteDto.fromFirestore(Map<String, dynamic> data, String id) {
     return NoteDto(
       id: id,
       title: data['title'] as String?,
       body: data['body'] as String?,
-      label: data['label'] as String?,
+      labelIds:
+          (data['labelIds'] as List<dynamic>?)?.cast<String>() ?? const [],
       color: data['color'] as int?,
       position: data['position'] as int? ?? 0,
       isPinned: data['isPinned'] as bool? ?? false,
@@ -50,7 +60,7 @@ class NoteDto extends Equatable {
       id: note.id,
       title: note.title,
       body: note.body,
-      label: note.label,
+      labelIds: note.labelIds,
       color: note.color,
       position: note.position,
       isPinned: note.isPinned,
@@ -64,7 +74,7 @@ class NoteDto extends Equatable {
       id: id,
       title: title,
       body: body,
-      label: label,
+      labelIds: labelIds,
       color: color,
       position: position,
       isPinned: isPinned,
@@ -77,7 +87,7 @@ class NoteDto extends Equatable {
     return {
       'title': title,
       'body': body,
-      'label': label,
+      'labelIds': labelIds,
       'color': color,
       'position': position,
       'isPinned': isPinned,

@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/domain/models/note_type.dart';
+import 'package:my_notes/presentation/providers/labels/selected_label_provider.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/home/app_drawer.dart';
@@ -128,6 +129,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             _NotesGrid(
               emptyLabel: l10n.notesEmptyState,
               noResultsLabel: l10n.searchNoResults,
+              labelNoNotesLabel: l10n.labelNoNotes,
               searchQuery: _searchController.text,
             ),
             FabNotes(options: options),
@@ -187,11 +189,13 @@ class _PlaygroundTitleState extends State<_PlaygroundTitle> {
 class _NotesGrid extends ConsumerStatefulWidget {
   final String emptyLabel;
   final String noResultsLabel;
+  final String labelNoNotesLabel;
   final String searchQuery;
 
   const _NotesGrid({
     required this.emptyLabel,
     required this.noResultsLabel,
+    required this.labelNoNotesLabel,
     required this.searchQuery,
   });
 
@@ -216,10 +220,15 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
     });
   }
 
-  List<Note> _applyQuery(String query) {
-    if (query.isEmpty) return _notes;
+  List<Note> _applyLabelFilter(String? labelId) {
+    if (labelId == null) return _notes;
+    return _notes.where((n) => n.labelIds.contains(labelId)).toList();
+  }
+
+  List<Note> _applyQuery(List<Note> notes, String query) {
+    if (query.isEmpty) return notes;
     final q = query.toLowerCase();
-    return _notes
+    return notes
         .where((n) =>
             (n.title?.toLowerCase().contains(q) ?? false) ||
             (n.body?.toLowerCase().contains(q) ?? false))
@@ -238,11 +247,19 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
 
     final theme = Theme.of(context);
     final query = widget.searchQuery;
-    final displayedNotes = _applyQuery(query);
+    final selectedLabelId = ref.watch(selectedLabelProvider);
+    final labelFilteredNotes = _applyLabelFilter(selectedLabelId);
+    final displayedNotes = _applyQuery(labelFilteredNotes, query);
 
     if (_notes.isEmpty) {
       return Center(
           child: Text(widget.emptyLabel, style: theme.textTheme.bodyLarge));
+    }
+
+    if (labelFilteredNotes.isEmpty) {
+      return Center(
+          child:
+              Text(widget.labelNoNotesLabel, style: theme.textTheme.bodyLarge));
     }
 
     if (displayedNotes.isEmpty) {
