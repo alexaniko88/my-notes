@@ -23,5 +23,18 @@
   "signOutConfirm": "Cerrar sesión",
   "exitAppTitle": "¿Salir de la app?",
   "exitAppConfirm": "Salir",
-  "exitAppCancel": "Cancelar"
+  "exitAppCancel": "Cancelar",
+  "labelsSectionTitle": "Etiquetas",
+  "labelsEdit": "Editar",
+  "createNewLabel": "Crear etiqueta",
+  "editLabelsTitle": "Editar etiquetas",
+  "deleteLabelDialogTitle": "¿Eliminar etiqueta?",
+  "deleteLabelDialogBody": "Eliminaremos esta etiqueta y la quitaremos de todas tus notas. Tus notas no se eliminarán.",
+  "deleteLabelConfirm": "Eliminar",
+  "labelsLoadError": "No se pudieron cargar las etiquetas",
+  "labelSaveError": "No se pudo guardar la etiqueta. Inténtalo de nuevo.",
+  "labelNoNotes": "No hay notas con esta etiqueta",
+  "labelSearchHint": "Nombre de la etiqueta",
+  "labelCreateNew": "Crear \"{name}\"",
+  "labelMaxReached": "Puedes añadir hasta {count} etiquetas"
 }

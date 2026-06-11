@@ -92,4 +92,49 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exitAppCancel => 'Cancelar';
+
+  @override
+  String get labelsSectionTitle => 'Etiquetas';
+
+  @override
+  String get labelsEdit => 'Editar';
+
+  @override
+  String get createNewLabel => 'Crear etiqueta';
+
+  @override
+  String get editLabelsTitle => 'Editar etiquetas';
+
+  @override
+  String get deleteLabelDialogTitle => '¿Eliminar etiqueta?';
+
+  @override
+  String get deleteLabelDialogBody =>
+      'Eliminaremos esta etiqueta y la quitaremos de todas tus notas. Tus notas no se eliminarán.';
+
+  @override
+  String get deleteLabelConfirm => 'Eliminar';
+
+  @override
+  String get labelsLoadError => 'No se pudieron cargar las etiquetas';
+
+  @override
+  String get labelSaveError =>
+      'No se pudo guardar la etiqueta. Inténtalo de nuevo.';
+
+  @override
+  String get labelNoNotes => 'No hay notas con esta etiqueta';
+
+  @override
+  String get labelSearchHint => 'Nombre de la etiqueta';
+
+  @override
+  String labelCreateNew(String name) {
+    return 'Crear \"$name\"';
+  }
+
+  @override
+  String labelMaxReached(int count) {
+    return 'Puedes añadir hasta $count etiquetas';
+  }
 }

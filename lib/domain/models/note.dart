@@ -3,10 +3,12 @@ import 'package:meta/meta.dart';
 
 @immutable
 class Note extends Equatable {
+  static const maxLabels = 5;
+
   final String id;
   final String? title;
   final String? body;
-  final String? label;
+  final List<String> labelIds;
   final int? color;
   final int position;
   final bool isPinned;
@@ -21,19 +23,28 @@ class Note extends Equatable {
     required this.updatedAt,
     this.title,
     this.body,
-    this.label,
+    this.labelIds = const [],
     this.color,
   });
 
   @override
-  List<Object?> get props =>
-      [id, title, body, label, color, position, isPinned, createdAt, updatedAt];
+  List<Object?> get props => [
+        id,
+        title,
+        body,
+        labelIds,
+        color,
+        position,
+        isPinned,
+        createdAt,
+        updatedAt,
+      ];
 
   Note copyWith({
     String? id,
     String? title,
     String? body,
-    String? label,
+    List<String>? labelIds,
     int? color,
     int? position,
     bool? isPinned,
@@ -41,14 +52,13 @@ class Note extends Equatable {
     DateTime? updatedAt,
     bool clearTitle = false,
     bool clearBody = false,
-    bool clearLabel = false,
     bool clearColor = false,
   }) {
     return Note(
       id: id ?? this.id,
       title: clearTitle ? null : title ?? this.title,
       body: clearBody ? null : body ?? this.body,
-      label: clearLabel ? null : label ?? this.label,
+      labelIds: labelIds ?? this.labelIds,
       color: clearColor ? null : color ?? this.color,
       position: position ?? this.position,
       isPinned: isPinned ?? this.isPinned,

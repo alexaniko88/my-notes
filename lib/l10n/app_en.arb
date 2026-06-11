@@ -121,5 +121,67 @@
   "exitAppCancel": "Cancel",
   "@exitAppCancel": {
     "description": "Cancel button in the exit-app dialog"
+  },
+  "labelsSectionTitle": "Labels",
+  "@labelsSectionTitle": {
+    "description": "Header of the labels section in the navigation drawer"
+  },
+  "labelsEdit": "Edit",
+  "@labelsEdit": {
+    "description": "Button in the labels section header that opens label editing"
+  },
+  "createNewLabel": "Create new label",
+  "@createNewLabel": {
+    "description": "Row in the labels section that creates a new label"
+  },
+  "editLabelsTitle": "Edit labels",
+  "@editLabelsTitle": {
+    "description": "App bar title of the edit labels screen"
+  },
+  "deleteLabelDialogTitle": "Delete label?",
+  "@deleteLabelDialogTitle": {
+    "description": "Title of the confirmation dialog before deleting a label"
+  },
+  "deleteLabelDialogBody": "We'll delete this label and remove it from all of your notes. Your notes won't be deleted.",
+  "@deleteLabelDialogBody": {
+    "description": "Body of the confirmation dialog before deleting a label"
+  },
+  "deleteLabelConfirm": "Delete",
+  "@deleteLabelConfirm": {
+    "description": "Confirm button in the delete-label dialog"
+  },
+  "labelsLoadError": "Couldn't load labels",
+  "@labelsLoadError": {
+    "description": "Shown on the edit labels screen when the labels stream fails"
+  },
+  "labelSaveError": "Couldn't save label. Try again.",
+  "@labelSaveError": {
+    "description": "Snackbar shown when adding, renaming, or deleting a label fails"
+  },
+  "labelNoNotes": "No notes with this label",
+  "@labelNoNotes": {
+    "description": "Shown when the active label filter matches no notes"
+  },
+  "labelSearchHint": "Enter label name",
+  "@labelSearchHint": {
+    "description": "Hint in the label picker search field"
+  },
+  "labelCreateNew": "Create \"{name}\"",
+  "@labelCreateNew": {
+    "description": "Row in the label picker that creates a label from the search query",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "labelMaxReached": "You can add up to {count} labels",
+  "@labelMaxReached": {
+    "description": "Snackbar shown when trying to select more labels than allowed on a note",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

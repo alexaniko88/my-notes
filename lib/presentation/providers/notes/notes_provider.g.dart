@@ -74,7 +74,7 @@ final class NotesNotifierProvider
   NotesNotifier create() => NotesNotifier();
 }
 
-String _$notesNotifierHash() => r'a948301a451a61b49f367c5dc8df81bdb424d0fd';
+String _$notesNotifierHash() => r'4effb60fc01eec73845ab634f5e7c73d6ca1a380';
 
 abstract class _$NotesNotifier extends $StreamNotifier<List<Note>> {
   Stream<List<Note>> build();

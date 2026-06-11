@@ -79,4 +79,25 @@ class FirebaseNoteRepository implements NoteRepository {
       throw NoteException('Failed to delete note', cause: e);
     }
   }
+
+  @override
+  Future<void> clearLabel(String labelId) async {
+    try {
+      final snapshot = await _notesCollection
+          .where('labelIds', arrayContains: labelId)
+          .get();
+      if (snapshot.docs.isEmpty) {
+        return;
+      }
+      final batch = _notesCollection.firestore.batch();
+      for (final doc in snapshot.docs) {
+        batch.update(doc.reference, {
+          'labelIds': FieldValue.arrayRemove([labelId]),
+        });
+      }
+      await batch.commit();
+    } on FirebaseException catch (e) {
+      throw NoteException('Failed to clear label from notes', cause: e);
+    }
+  }
 }

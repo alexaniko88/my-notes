@@ -10,4 +10,7 @@ abstract class NoteRepository {
   Future<String> update(Note note);
 
   Future<String> delete(String id);
+
+  /// Removes the label reference from every note that links [labelId].
+  Future<void> clearLabel(String labelId);
 }

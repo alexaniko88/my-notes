@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note_type.dart';
+import 'package:my_notes/presentation/providers/labels/labels_provider.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
+import 'package:my_notes/presentation/widgets/common/app_icon.dart';
+import 'package:my_notes/presentation/widgets/labels/label_tag.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
+import 'package:my_notes/shared/navigation/app_route.dart';
 
 class NoteScreen extends ConsumerStatefulWidget {
   final String? noteId;
@@ -23,6 +27,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
     with WidgetsBindingObserver {
   late final TextEditingController _titleController;
   late final TextEditingController _bodyController;
+  List<String> _labelIds = [];
   int? _noteColor;
   String? _noteId;
   bool _isSaving = false;
@@ -37,6 +42,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
       final note = ref.read(noteProvider(_noteId!));
       _titleController = TextEditingController(text: note?.title ?? '');
       _bodyController = TextEditingController(text: note?.body ?? '');
+      _labelIds = [...?note?.labelIds];
       _noteColor = note?.color;
     } else {
       _titleController = TextEditingController();
@@ -63,6 +69,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
         _noteId = await ref.read(notesProvider.notifier).add(
               title: title,
               body: body,
+              labelIds: _labelIds,
             );
       } finally {
         _isSaving = false;
@@ -77,6 +84,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
               note.copyWith(
                 title: title,
                 body: body,
+                labelIds: _labelIds,
                 clearTitle: title == null,
                 clearBody: body == null,
               ),
@@ -90,6 +98,16 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   void _saveAndPop() {
     _save();
     GoRouter.of(context).pop();
+  }
+
+  Future<void> _openLabelPicker() async {
+    final result = await context.push<List<String>>(
+      AppRoute.noteLabels.path,
+      extra: List<String>.of(_labelIds),
+    );
+    if (result != null && mounted) {
+      setState(() => _labelIds = result);
+    }
   }
 
   @override
@@ -114,6 +132,9 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
     final noteColor = _noteColor;
     final backgroundColor =
         noteColor != null ? Color(noteColor) : theme.scaffoldBackgroundColor;
+    final allLabels = ref.watch(labelsProvider).asData?.value ?? const [];
+    final noteLabels =
+        allLabels.where((label) => _labelIds.contains(label.id)).toList();
 
     return PopScope(
       canPop: false,
@@ -125,6 +146,12 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
         appBar: AppBar(
           backgroundColor: backgroundColor,
           leading: BackButton(onPressed: _saveAndPop),
+          actions: [
+            IconButton(
+              icon: const AppIcon(name: AppIconName.labelOutlined),
+              onPressed: _openLabelPicker,
+            ),
+          ],
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: spacing.md),
@@ -155,6 +182,23 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
                   ),
                 ),
               ),
+              // reserved label area — sits above the keyboard because the
+              // body field above shrinks when the viewport resizes
+              if (noteLabels.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: spacing.sm),
+                  child: Wrap(
+                    spacing: spacing.sm,
+                    runSpacing: spacing.xs,
+                    children: [
+                      for (final label in noteLabels)
+                        LabelTag(
+                          name: label.name,
+                          onTap: _openLabelPicker,
+                        ),
+                    ],
+                  ),
+                ),
             ],
           ),
         ),

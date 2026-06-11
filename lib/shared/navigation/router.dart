@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:my_notes/presentation/providers/auth/auth_provider.dart';
 import 'package:my_notes/presentation/screens/auth/auth_screen.dart';
 import 'package:my_notes/presentation/screens/home_screen.dart';
+import 'package:my_notes/presentation/screens/labels/edit_labels_screen.dart';
+import 'package:my_notes/presentation/screens/labels/label_picker_screen.dart';
 import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/presentation/screens/note/note_screen.dart';
 import 'package:my_notes/presentation/screens/playground/playground_item_screen.dart';
@@ -42,6 +44,11 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
+        path: AppRoute.editLabels.path,
+        name: AppRoute.editLabels.name,
+        builder: (context, state) => const EditLabelsScreen(),
+      ),
+      GoRoute(
         path: AppRoute.playground.path,
         name: AppRoute.playground.name,
         builder: (context, state) => const PlaygroundScreen(),
@@ -52,6 +59,13 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => PlaygroundItemScreen(
           config: state.extra!
               as PlaygroundItemConfig, // always set — only pushed from PlaygroundScreen with extra
+        ),
+      ),
+      GoRoute(
+        path: AppRoute.noteLabels.path,
+        name: AppRoute.noteLabels.name,
+        builder: (context, state) => LabelPickerScreen(
+          initialSelectedIds: state.extra as List<String>? ?? const [],
         ),
       ),
       GoRoute(
