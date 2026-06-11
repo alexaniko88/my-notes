@@ -5,11 +5,13 @@ import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 /// pointed tip on the right.
 class LabelTag extends StatelessWidget {
   final String name;
+  final bool small;
   final VoidCallback? onTap;
 
   const LabelTag({
     super.key,
     required this.name,
+    this.small = false,
     this.onTap,
   });
 
@@ -19,9 +21,25 @@ class LabelTag extends StatelessWidget {
     final dimensions = context.dimensions;
 
     final backgroundColor = theme.colorScheme.secondaryContainer;
-    final textStyle = theme.textTheme.labelLarge?.copyWith(
-      color: theme.colorScheme.onSecondaryContainer,
-    );
+    final textColor = theme.colorScheme.onSecondaryContainer;
+    final textStyle = small
+        ? theme.textTheme.labelSmall?.copyWith(color: textColor)
+        : theme.textTheme.labelLarge?.copyWith(color: textColor);
+
+    // the right side gets extra room so the text stays clear of the tip
+    final padding = small
+        ? EdgeInsets.only(
+            left: dimensions.spacing.xs,
+            right: dimensions.spacing.sm,
+            top: dimensions.spacing.xs,
+            bottom: dimensions.spacing.xs,
+          )
+        : EdgeInsets.only(
+            left: dimensions.spacing.sm,
+            right: dimensions.spacing.md,
+            top: dimensions.spacing.xs,
+            bottom: dimensions.spacing.xs,
+          );
 
     return GestureDetector(
       onTap: onTap,
@@ -29,14 +47,13 @@ class LabelTag extends StatelessWidget {
         clipper: const _LabelTagClipper(),
         child: Container(
           color: backgroundColor,
-          padding: EdgeInsets.only(
-            left: dimensions.spacing.sm,
-            // extra room so the text stays clear of the pointed tip
-            right: dimensions.spacing.md,
-            top: dimensions.spacing.xs,
-            bottom: dimensions.spacing.xs,
+          padding: padding,
+          child: Text(
+            name,
+            style: textStyle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          child: Text(name, style: textStyle),
         ),
       ),
     );
