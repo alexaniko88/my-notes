@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_notes/presentation/providers/auth/auth_provider.dart';
 import 'package:my_notes/presentation/screens/auth/auth_screen.dart';
 import 'package:my_notes/presentation/screens/home_screen.dart';
+import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/presentation/screens/note/note_screen.dart';
 import 'package:my_notes/presentation/screens/playground/playground_item_screen.dart';
 import 'package:my_notes/presentation/screens/playground/playground_screen.dart';
@@ -57,8 +58,8 @@ GoRouter appRouter(Ref ref) {
         path: AppRoute.note.path,
         name: AppRoute.note.name,
         builder: (context, state) => NoteScreen(
-          noteId: state.pathParameters[
-              'id']!, // go_router guarantees :id present on this route
+          noteId: state.uri.queryParameters['id'],
+          noteType: state.extra as NoteType? ?? NoteType.text,
         ),
       ),
     ],

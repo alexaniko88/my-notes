@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
+import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/home/app_drawer.dart';
@@ -14,16 +15,20 @@ import 'package:my_notes/presentation/widgets/notes/note_card.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _searchController = TextEditingController();
   bool _isSearching = false;
+
+  void _createTextNote() {
+    context.pushNamed(AppRoute.note.name, extra: NoteType.text);
+  }
 
   void _startSearch() => setState(() => _isSearching = true);
 
@@ -63,10 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final options = [
-      (AppIconName.textFields, l10n.fabOptionText),
-      (AppIconName.imageOutlined, l10n.fabOptionImage),
-      (AppIconName.micOutlined, l10n.fabOptionAudio),
-      (AppIconName.pictureAsPdfOutlined, l10n.fabOptionPdf),
+      (AppIconName.textFields, l10n.fabOptionText, _createTextNote),
+      (AppIconName.imageOutlined, l10n.fabOptionImage, null),
+      (AppIconName.micOutlined, l10n.fabOptionAudio, null),
+      (AppIconName.pictureAsPdfOutlined, l10n.fabOptionPdf, null),
     ];
 
     return PopScope(
@@ -200,7 +205,7 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
   @override
   void initState() {
     super.initState();
-    _notes = List.of(ref.read(notesProvider));
+    _notes = List.of(ref.read(notesProvider).asData?.value ?? []);
   }
 
   void _onReorder(int fromIndex, int toIndex) {
@@ -223,8 +228,12 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(notesProvider, (List<Note>? _, List<Note> next) {
-      setState(() => _notes = List.of(next));
+    ref.listen(notesProvider,
+        (AsyncValue<List<Note>>? _, AsyncValue<List<Note>> next) {
+      final notes = next.asData?.value;
+      if (notes != null) {
+        setState(() => _notes = List.of(notes));
+      }
     });
 
     final theme = Theme.of(context);
@@ -357,7 +366,7 @@ class _DraggableNoteItem extends StatelessWidget {
             child: GestureDetector(
               onTap: () => context.pushNamed(
                 AppRoute.note.name,
-                pathParameters: {'id': note.id},
+                queryParameters: {'id': note.id},
               ),
               child: NoteCard(note: note, searchQuery: searchQuery),
             ),

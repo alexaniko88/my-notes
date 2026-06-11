@@ -48,13 +48,54 @@ final class NoteRepositoryProvider
   }
 }
 
-String _$noteRepositoryHash() => r'f54200dfddf4fb6cc4303ff3520bc2d1cd1e213b';
+String _$noteRepositoryHash() => r'0b399e600acb9a155b99283ed3b060738299a727';
+
+@ProviderFor(NotesNotifier)
+final notesProvider = NotesNotifierProvider._();
+
+final class NotesNotifierProvider
+    extends $StreamNotifierProvider<NotesNotifier, List<Note>> {
+  NotesNotifierProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'notesProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$notesNotifierHash();
+
+  @$internal
+  @override
+  NotesNotifier create() => NotesNotifier();
+}
+
+String _$notesNotifierHash() => r'a948301a451a61b49f367c5dc8df81bdb424d0fd';
+
+abstract class _$NotesNotifier extends $StreamNotifier<List<Note>> {
+  Stream<List<Note>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<List<Note>>, List<Note>>;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<List<Note>>, List<Note>>,
+        AsyncValue<List<Note>>,
+        Object?,
+        Object?>;
+    element.handleCreate(ref, build);
+  }
+}
 
 @ProviderFor(note)
 final noteProvider = NoteFamily._();
 
-final class NoteProvider extends $FunctionalProvider<Note, Note, Note>
-    with $Provider<Note> {
+final class NoteProvider extends $FunctionalProvider<Note?, Note?, Note?>
+    with $Provider<Note?> {
   NoteProvider._(
       {required NoteFamily super.from, required String super.argument})
       : super(
@@ -77,11 +118,11 @@ final class NoteProvider extends $FunctionalProvider<Note, Note, Note>
 
   @$internal
   @override
-  $ProviderElement<Note> $createElement($ProviderPointer pointer) =>
+  $ProviderElement<Note?> $createElement($ProviderPointer pointer) =>
       $ProviderElement(pointer);
 
   @override
-  Note create(Ref ref) {
+  Note? create(Ref ref) {
     final argument = this.argument as String;
     return note(
       ref,
@@ -90,10 +131,10 @@ final class NoteProvider extends $FunctionalProvider<Note, Note, Note>
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(Note value) {
+  Override overrideWithValue(Note? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<Note>(value),
+      providerOverride: $SyncValueProvider<Note?>(value),
     );
   }
 
@@ -108,10 +149,10 @@ final class NoteProvider extends $FunctionalProvider<Note, Note, Note>
   }
 }
 
-String _$noteHash() => r'0745703fb79fae02f1d1dea3d988dc847575ef25';
+String _$noteHash() => r'9eb48421da1f6cc19e5f297f15d462ba7857e259';
 
 final class NoteFamily extends $Family
-    with $FunctionalFamilyOverride<Note, String> {
+    with $FunctionalFamilyOverride<Note?, String> {
   NoteFamily._()
       : super(
           retry: null,
@@ -128,50 +169,4 @@ final class NoteFamily extends $Family
 
   @override
   String toString() => r'noteProvider';
-}
-
-@ProviderFor(NotesNotifier)
-final notesProvider = NotesNotifierProvider._();
-
-final class NotesNotifierProvider
-    extends $NotifierProvider<NotesNotifier, List<Note>> {
-  NotesNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'notesProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
-
-  @override
-  String debugGetCreateSourceHash() => _$notesNotifierHash();
-
-  @$internal
-  @override
-  NotesNotifier create() => NotesNotifier();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Note> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<List<Note>>(value),
-    );
-  }
-}
-
-String _$notesNotifierHash() => r'a8a8921761a79f26a3fae50b104b20804e795242';
-
-abstract class _$NotesNotifier extends $Notifier<List<Note>> {
-  List<Note> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<List<Note>, List<Note>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<List<Note>, List<Note>>, List<Note>, Object?, Object?>;
-    element.handleCreate(ref, build);
-  }
 }
