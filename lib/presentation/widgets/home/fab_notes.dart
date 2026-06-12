@@ -4,7 +4,7 @@ import 'package:my_notes/presentation/widgets/home/fab_option_item.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 
 class FabNotes extends StatefulWidget {
-  final List<(AppIconName, String)> options;
+  final List<(AppIconName, String, VoidCallback?)> options;
 
   const FabNotes({super.key, required this.options});
 
@@ -12,7 +12,8 @@ class FabNotes extends StatefulWidget {
   State<FabNotes> createState() => _FabNotesState();
 }
 
-class _FabNotesState extends State<FabNotes> with SingleTickerProviderStateMixin {
+class _FabNotesState extends State<FabNotes>
+    with SingleTickerProviderStateMixin {
   static const _toggleDuration = Duration(milliseconds: 250);
 
   final _fabSize = 56.0;
@@ -50,6 +51,7 @@ class _FabNotesState extends State<FabNotes> with SingleTickerProviderStateMixin
           controller: _controller,
           options: widget.options,
           bottom: optionsBottom,
+          onClose: _toggle,
         ),
         Positioned(
           right: spacing.md,
@@ -87,9 +89,7 @@ class _FabScrim extends StatelessWidget {
           duration: _duration,
           child: GestureDetector(
             onTap: onTap,
-            child: ColoredBox(
-              color: context.colors.fabScrim,
-            ),
+            child: ColoredBox(color: context.colors.fabScrim),
           ),
         ),
       ),
@@ -100,14 +100,16 @@ class _FabScrim extends StatelessWidget {
 class _FabSpeedDialOptions extends StatelessWidget {
   final bool isOpen;
   final AnimationController controller;
-  final List<(AppIconName, String)> options;
+  final List<(AppIconName, String, VoidCallback?)> options;
   final double bottom;
+  final VoidCallback onClose;
 
   const _FabSpeedDialOptions({
     required this.isOpen,
     required this.controller,
     required this.options,
     required this.bottom,
+    required this.onClose,
   });
 
   Animation<double> _itemAnimation(int index) {
@@ -138,6 +140,13 @@ class _FabSpeedDialOptions extends StatelessWidget {
                 icon: options[i].$1,
                 label: options[i].$2,
                 animation: _itemAnimation(i),
+                onPressed:
+                    options[i].$3 != null
+                        ? () {
+                          onClose();
+                          options[i].$3!();
+                        }
+                        : null,
               ),
             );
           }),

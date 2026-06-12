@@ -63,7 +63,7 @@ import 'app_localizations_es.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -86,16 +86,16 @@ abstract class AppLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('es')
+    Locale('es'),
   ];
 
   /// The application title
@@ -194,53 +194,41 @@ abstract class AppLocalizations {
   /// **'Sign In'**
   String get signIn;
 
-  /// Sign-up button label and screen title
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get signUp;
-
-  /// Email input field label
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get emailLabel;
-
-  /// Password input field label
-  ///
-  /// In en, this message translates to:
-  /// **'Password'**
-  String get passwordLabel;
-
-  /// Prompt shown below the sign-in form
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t have an account?'**
-  String get noAccount;
-
-  /// Prompt shown below the sign-up form
-  ///
-  /// In en, this message translates to:
-  /// **'Already have an account?'**
-  String get haveAccount;
-
   /// Label for the Google sign-up button
   ///
   /// In en, this message translates to:
   /// **'Continue with Google'**
   String get continueWithGoogle;
 
-  /// Validation error when sign-in fields are empty
+  /// Error shown when sign-in fails due to a network issue
   ///
   /// In en, this message translates to:
-  /// **'Please enter your email and password.'**
-  String get authErrorEmptyFields;
+  /// **'Network error. Check your connection and try again.'**
+  String get authErrorNetwork;
+
+  /// Generic error shown when sign-in fails for an unknown reason
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authErrorUnknown;
 
   /// Sign-out action in the navigation drawer
   ///
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get signOut;
+
+  /// Title of the confirmation dialog before signing out
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutConfirmTitle;
+
+  /// Confirm button in the sign-out dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOutConfirm;
 
   /// Title of the confirmation dialog shown when the user tries to exit the app
   ///
@@ -259,6 +247,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get exitAppCancel;
+
+  /// Header of the labels section in the navigation drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Labels'**
+  String get labelsSectionTitle;
+
+  /// Button in the labels section header that opens label editing
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get labelsEdit;
+
+  /// Row in the labels section that creates a new label
+  ///
+  /// In en, this message translates to:
+  /// **'Create new label'**
+  String get createNewLabel;
+
+  /// App bar title of the edit labels screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit labels'**
+  String get editLabelsTitle;
+
+  /// Title of the confirmation dialog before deleting a label
+  ///
+  /// In en, this message translates to:
+  /// **'Delete label?'**
+  String get deleteLabelDialogTitle;
+
+  /// Body of the confirmation dialog before deleting a label
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll delete this label and remove it from all of your notes. Your notes won\'t be deleted.'**
+  String get deleteLabelDialogBody;
+
+  /// Confirm button in the delete-label dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteLabelConfirm;
+
+  /// Shown on the edit labels screen when the labels stream fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load labels'**
+  String get labelsLoadError;
+
+  /// Snackbar shown when adding, renaming, or deleting a label fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save label. Try again.'**
+  String get labelSaveError;
+
+  /// Shown when the active label filter matches no notes
+  ///
+  /// In en, this message translates to:
+  /// **'No notes with this label'**
+  String get labelNoNotes;
+
+  /// Hint in the label picker search field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter label name'**
+  String get labelSearchHint;
+
+  /// Row in the label picker that creates a label from the search query
+  ///
+  /// In en, this message translates to:
+  /// **'Create \"{name}\"'**
+  String labelCreateNew(String name);
+
+  /// Snackbar shown when trying to select more labels than allowed on a note
+  ///
+  /// In en, this message translates to:
+  /// **'You can add up to {count} labels'**
+  String labelMaxReached(int count);
 }
 
 class _AppLocalizationsDelegate
@@ -288,8 +354,9 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }

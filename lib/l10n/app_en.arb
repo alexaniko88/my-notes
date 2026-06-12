@@ -86,37 +86,29 @@
   "@signIn": {
     "description": "Sign-in button label and screen title"
   },
-  "signUp": "Sign Up",
-  "@signUp": {
-    "description": "Sign-up button label and screen title"
-  },
-  "emailLabel": "Email",
-  "@emailLabel": {
-    "description": "Email input field label"
-  },
-  "passwordLabel": "Password",
-  "@passwordLabel": {
-    "description": "Password input field label"
-  },
-  "noAccount": "Don't have an account?",
-  "@noAccount": {
-    "description": "Prompt shown below the sign-in form"
-  },
-  "haveAccount": "Already have an account?",
-  "@haveAccount": {
-    "description": "Prompt shown below the sign-up form"
-  },
   "continueWithGoogle": "Continue with Google",
   "@continueWithGoogle": {
     "description": "Label for the Google sign-up button"
   },
-  "authErrorEmptyFields": "Please enter your email and password.",
-  "@authErrorEmptyFields": {
-    "description": "Validation error when sign-in fields are empty"
+  "authErrorNetwork": "Network error. Check your connection and try again.",
+  "@authErrorNetwork": {
+    "description": "Error shown when sign-in fails due to a network issue"
+  },
+  "authErrorUnknown": "Something went wrong. Please try again.",
+  "@authErrorUnknown": {
+    "description": "Generic error shown when sign-in fails for an unknown reason"
   },
   "signOut": "Sign Out",
   "@signOut": {
     "description": "Sign-out action in the navigation drawer"
+  },
+  "signOutConfirmTitle": "Are you sure you want to sign out?",
+  "@signOutConfirmTitle": {
+    "description": "Title of the confirmation dialog before signing out"
+  },
+  "signOutConfirm": "Sign Out",
+  "@signOutConfirm": {
+    "description": "Confirm button in the sign-out dialog"
   },
   "exitAppTitle": "Exit app?",
   "@exitAppTitle": {
@@ -129,5 +121,67 @@
   "exitAppCancel": "Cancel",
   "@exitAppCancel": {
     "description": "Cancel button in the exit-app dialog"
+  },
+  "labelsSectionTitle": "Labels",
+  "@labelsSectionTitle": {
+    "description": "Header of the labels section in the navigation drawer"
+  },
+  "labelsEdit": "Edit",
+  "@labelsEdit": {
+    "description": "Button in the labels section header that opens label editing"
+  },
+  "createNewLabel": "Create new label",
+  "@createNewLabel": {
+    "description": "Row in the labels section that creates a new label"
+  },
+  "editLabelsTitle": "Edit labels",
+  "@editLabelsTitle": {
+    "description": "App bar title of the edit labels screen"
+  },
+  "deleteLabelDialogTitle": "Delete label?",
+  "@deleteLabelDialogTitle": {
+    "description": "Title of the confirmation dialog before deleting a label"
+  },
+  "deleteLabelDialogBody": "We'll delete this label and remove it from all of your notes. Your notes won't be deleted.",
+  "@deleteLabelDialogBody": {
+    "description": "Body of the confirmation dialog before deleting a label"
+  },
+  "deleteLabelConfirm": "Delete",
+  "@deleteLabelConfirm": {
+    "description": "Confirm button in the delete-label dialog"
+  },
+  "labelsLoadError": "Couldn't load labels",
+  "@labelsLoadError": {
+    "description": "Shown on the edit labels screen when the labels stream fails"
+  },
+  "labelSaveError": "Couldn't save label. Try again.",
+  "@labelSaveError": {
+    "description": "Snackbar shown when adding, renaming, or deleting a label fails"
+  },
+  "labelNoNotes": "No notes with this label",
+  "@labelNoNotes": {
+    "description": "Shown when the active label filter matches no notes"
+  },
+  "labelSearchHint": "Enter label name",
+  "@labelSearchHint": {
+    "description": "Hint in the label picker search field"
+  },
+  "labelCreateNew": "Create \"{name}\"",
+  "@labelCreateNew": {
+    "description": "Row in the label picker that creates a label from the search query",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "labelMaxReached": "You can add up to {count} labels",
+  "@labelMaxReached": {
+    "description": "Snackbar shown when trying to select more labels than allowed on a note",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

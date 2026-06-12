@@ -31,9 +31,8 @@ class PlaygroundItemScreen extends StatelessWidget {
         padding: EdgeInsets.all(spacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: config.variants
-              .map((v) => _VariantSection(variant: v))
-              .toList(),
+          children:
+              config.variants.map((v) => _VariantSection(variant: v)).toList(),
         ),
       ),
     );

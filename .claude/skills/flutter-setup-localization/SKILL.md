@@ -30,8 +30,8 @@ Copy and track this checklist when initializing internationalization in a Flutte
 ### 1. Add Dependencies
 Add the required localization packages to the project. Execute the following commands in the terminal:
 ```bash
-flutter pub add flutter_localizations --sdk=flutter
-flutter pub add intl:any
+fvm flutter pub add flutter_localizations --sdk=flutter
+fvm flutter pub add intl:any
 ```
 
 Verify your `pubspec.yaml` includes the following under `dependencies`:
@@ -110,9 +110,9 @@ Create corresponding files for other locales (e.g., `app_es.arb`):
 ### 2. Generate Localization Classes
 Run the following command to trigger code generation:
 ```bash
-flutter pub get
+fvm flutter pub get
 ```
-*Feedback Loop:* Run validator -> review terminal output for ARB syntax errors -> fix missing commas or mismatched placeholders -> re-run `flutter pub get`.
+*Feedback Loop:* Run validator -> review terminal output for ARB syntax errors -> fix missing commas or mismatched placeholders -> re-run `fvm flutter pub get`.
 
 ### 3. Consume Localized Strings
 Access the localized strings in your widget tree using `AppLocalizations.of(context)`. Ensure the widget calling this is a descendant of `MaterialApp`.

@@ -10,7 +10,8 @@ class ThemeNotifier extends _$ThemeNotifier {
 
   void setTheme(ThemeMode mode) => state = mode;
 
-  void toggle() => state = switch (state) {
+  void toggle() =>
+      state = switch (state) {
         ThemeMode.light => ThemeMode.dark,
         ThemeMode.dark => ThemeMode.light,
         ThemeMode.system => ThemeMode.dark,

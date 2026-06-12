@@ -14,6 +14,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '1',
+          position: 0,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -26,6 +27,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '2',
+          position: 1,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -38,6 +40,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '3',
+          position: 3,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -51,6 +54,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '4',
+          position: 4,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
@@ -65,10 +69,12 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '5',
+          position: 5,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
-          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+          body:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
               'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
               'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
         ),
@@ -79,11 +85,14 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '6',
+          position: 6,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
-          title: 'This is a very long title that might wrap onto multiple lines',
-          body: 'And here is a body that also has quite a bit of content. '
+          title:
+              'This is a very long title that might wrap onto multiple lines',
+          body:
+              'And here is a body that also has quite a bit of content. '
               'It keeps going to show how the card handles overflow gracefully.',
         ),
       ),
@@ -93,6 +102,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '7',
+          position: 7,
           isPinned: false,
           createdAt: _yesterday,
           updatedAt: _yesterday,
@@ -106,6 +116,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '8',
+          position: 8,
           isPinned: false,
           createdAt: _pastDate,
           updatedAt: _pastDate,
@@ -120,6 +131,7 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
       child: NoteCard(
         note: Note(
           id: '9',
+          position: 9,
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,

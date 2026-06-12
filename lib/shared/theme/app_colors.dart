@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors extends ThemeExtension<AppColors> {
-  const AppColors({
-    required this.searchHighlight,
-    required this.fabScrim,
-  });
+  const AppColors({required this.searchHighlight, required this.fabScrim});
 
   final Color searchHighlight;
   final Color fabScrim;

@@ -37,10 +37,6 @@ class AppTextButton extends StatelessWidget {
       );
     }
 
-    return TextButton(
-      onPressed: onPressed,
-      style: style,
-      child: Text(label),
-    );
+    return TextButton(onPressed: onPressed, style: style, child: Text(label));
   }
 }

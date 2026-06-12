@@ -65,28 +65,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signIn => 'Sign In';
 
   @override
-  String get signUp => 'Sign Up';
-
-  @override
-  String get emailLabel => 'Email';
-
-  @override
-  String get passwordLabel => 'Password';
-
-  @override
-  String get noAccount => 'Don\'t have an account?';
-
-  @override
-  String get haveAccount => 'Already have an account?';
-
-  @override
   String get continueWithGoogle => 'Continue with Google';
 
   @override
-  String get authErrorEmptyFields => 'Please enter your email and password.';
+  String get authErrorNetwork =>
+      'Network error. Check your connection and try again.';
+
+  @override
+  String get authErrorUnknown => 'Something went wrong. Please try again.';
 
   @override
   String get signOut => 'Sign Out';
+
+  @override
+  String get signOutConfirmTitle => 'Are you sure you want to sign out?';
+
+  @override
+  String get signOutConfirm => 'Sign Out';
 
   @override
   String get exitAppTitle => 'Exit app?';
@@ -96,4 +91,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exitAppCancel => 'Cancel';
+
+  @override
+  String get labelsSectionTitle => 'Labels';
+
+  @override
+  String get labelsEdit => 'Edit';
+
+  @override
+  String get createNewLabel => 'Create new label';
+
+  @override
+  String get editLabelsTitle => 'Edit labels';
+
+  @override
+  String get deleteLabelDialogTitle => 'Delete label?';
+
+  @override
+  String get deleteLabelDialogBody =>
+      'We\'ll delete this label and remove it from all of your notes. Your notes won\'t be deleted.';
+
+  @override
+  String get deleteLabelConfirm => 'Delete';
+
+  @override
+  String get labelsLoadError => 'Couldn\'t load labels';
+
+  @override
+  String get labelSaveError => 'Couldn\'t save label. Try again.';
+
+  @override
+  String get labelNoNotes => 'No notes with this label';
+
+  @override
+  String get labelSearchHint => 'Enter label name';
+
+  @override
+  String labelCreateNew(String name) {
+    return 'Create \"$name\"';
+  }
+
+  @override
+  String labelMaxReached(int count) {
+    return 'You can add up to $count labels';
+  }
 }
