@@ -9,10 +9,10 @@ class FirebaseNoteRepository implements NoteRepository {
   final CollectionReference<Map<String, dynamic>> _notesCollection;
 
   FirebaseNoteRepository({required String userId})
-      : _notesCollection = FirebaseFirestore.instance
-            .collection(FirestorePaths.users)
-            .doc(userId)
-            .collection(FirestorePaths.notes);
+    : _notesCollection = FirebaseFirestore.instance
+          .collection(FirestorePaths.users)
+          .doc(userId)
+          .collection(FirestorePaths.notes);
 
   @override
   Stream<List<Note>> watchAll() {
@@ -20,13 +20,16 @@ class FirebaseNoteRepository implements NoteRepository {
         .orderBy('position')
         .snapshots()
         .map(
-          (snapshot) => snapshot.docs
-              .map((doc) => NoteDto.fromFirestore(doc.data(), doc.id).toNote())
-              .toList(),
+          (snapshot) =>
+              snapshot.docs
+                  .map(
+                    (doc) => NoteDto.fromFirestore(doc.data(), doc.id).toNote(),
+                  )
+                  .toList(),
         )
         .handleError((Object e) {
-      throw NoteException('Failed to watch notes', cause: e);
-    });
+          throw NoteException('Failed to watch notes', cause: e);
+        });
   }
 
   @override
@@ -83,9 +86,10 @@ class FirebaseNoteRepository implements NoteRepository {
   @override
   Future<void> clearLabel(String labelId) async {
     try {
-      final snapshot = await _notesCollection
-          .where('labelIds', arrayContains: labelId)
-          .get();
+      final snapshot =
+          await _notesCollection
+              .where('labelIds', arrayContains: labelId)
+              .get();
       if (snapshot.docs.isEmpty) {
         return;
       }

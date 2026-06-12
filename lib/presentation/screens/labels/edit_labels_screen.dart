@@ -92,20 +92,21 @@ class _EditLabelsScreenState extends ConsumerState<EditLabelsScreen> {
     final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.deleteLabelDialogTitle),
-        content: Text(l10n.deleteLabelDialogBody),
-        actions: [
-          AppTextButton(
-            label: l10n.exitAppCancel,
-            onPressed: () => Navigator.of(ctx).pop(false),
+      builder:
+          (ctx) => AlertDialog(
+            title: Text(l10n.deleteLabelDialogTitle),
+            content: Text(l10n.deleteLabelDialogBody),
+            actions: [
+              AppTextButton(
+                label: l10n.exitAppCancel,
+                onPressed: () => Navigator.of(ctx).pop(false),
+              ),
+              AppTextButton(
+                label: l10n.deleteLabelConfirm,
+                onPressed: () => Navigator.of(ctx).pop(true),
+              ),
+            ],
           ),
-          AppTextButton(
-            label: l10n.deleteLabelConfirm,
-            onPressed: () => Navigator.of(ctx).pop(true),
-          ),
-        ],
-      ),
     );
     if (confirmed != true || !mounted) {
       return;
@@ -125,9 +126,9 @@ class _EditLabelsScreenState extends ConsumerState<EditLabelsScreen> {
       return;
     }
     final l10n = context.l10n;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.labelSaveError)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.labelSaveError)));
   }
 
   @override
@@ -143,30 +144,31 @@ class _EditLabelsScreenState extends ConsumerState<EditLabelsScreen> {
       ),
       body: labelsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => Center(child: Text(l10n.labelsLoadError)),
-        data: (labels) => ListView(
-          padding: EdgeInsets.symmetric(vertical: dimensions.spacing.sm),
-          children: [
-            LabelCreateField(
-              isActive: _isCreating,
-              controller: _createController,
-              onActivate: _activateCreate,
-              onCancel: _cancelCreate,
-              onConfirm: _confirmCreate,
+        error: (_, _) => Center(child: Text(l10n.labelsLoadError)),
+        data:
+            (labels) => ListView(
+              padding: EdgeInsets.symmetric(vertical: dimensions.spacing.sm),
+              children: [
+                LabelCreateField(
+                  isActive: _isCreating,
+                  controller: _createController,
+                  onActivate: _activateCreate,
+                  onCancel: _cancelCreate,
+                  onConfirm: _confirmCreate,
+                ),
+                for (final label in labels)
+                  LabelEditTile(
+                    key: ValueKey(label.id),
+                    label: label.name,
+                    isEditing: _editingLabelId == label.id,
+                    controller:
+                        _editingLabelId == label.id ? _editController : null,
+                    onStartEdit: () => _startEdit(label),
+                    onDelete: () => _onDelete(label),
+                    onConfirm: (name) => _confirmEdit(label.id, name),
+                  ),
+              ],
             ),
-            for (final label in labels)
-              LabelEditTile(
-                key: ValueKey(label.id),
-                label: label.name,
-                isEditing: _editingLabelId == label.id,
-                controller:
-                    _editingLabelId == label.id ? _editController : null,
-                onStartEdit: () => _startEdit(label),
-                onDelete: () => _onDelete(label),
-                onConfirm: (name) => _confirmEdit(label.id, name),
-              ),
-          ],
-        ),
       ),
     );
   }

@@ -22,24 +22,26 @@ class LabelTag extends StatelessWidget {
 
     final backgroundColor = theme.colorScheme.secondaryContainer;
     final textColor = theme.colorScheme.onSecondaryContainer;
-    final textStyle = small
-        ? theme.textTheme.labelSmall?.copyWith(color: textColor)
-        : theme.textTheme.labelLarge?.copyWith(color: textColor);
+    final textStyle =
+        small
+            ? theme.textTheme.labelSmall?.copyWith(color: textColor)
+            : theme.textTheme.labelLarge?.copyWith(color: textColor);
 
     // the right side gets extra room so the text stays clear of the tip
-    final padding = small
-        ? EdgeInsets.only(
-            left: dimensions.spacing.xs,
-            right: dimensions.spacing.sm,
-            top: dimensions.spacing.xs,
-            bottom: dimensions.spacing.xs,
-          )
-        : EdgeInsets.only(
-            left: dimensions.spacing.sm,
-            right: dimensions.spacing.md,
-            top: dimensions.spacing.xs,
-            bottom: dimensions.spacing.xs,
-          );
+    final padding =
+        small
+            ? EdgeInsets.only(
+              left: dimensions.spacing.xs,
+              right: dimensions.spacing.sm,
+              top: dimensions.spacing.xs,
+              bottom: dimensions.spacing.xs,
+            )
+            : EdgeInsets.only(
+              left: dimensions.spacing.sm,
+              right: dimensions.spacing.md,
+              top: dimensions.spacing.xs,
+              bottom: dimensions.spacing.xs,
+            );
 
     return GestureDetector(
       onTap: onTap,

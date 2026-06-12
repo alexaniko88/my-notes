@@ -25,7 +25,8 @@ class FirebaseAuthRepository implements AuthRepository {
       final user = result.user;
       if (user == null) {
         throw const AuthUnknownException(
-            'signInWithCredential returned null user');
+          'signInWithCredential returned null user',
+        );
       }
 
       return _mapUser(user)!; // guaranteed non-null — checked above

@@ -16,15 +16,15 @@ final class NoteRepositoryProvider
     extends $FunctionalProvider<NoteRepository, NoteRepository, NoteRepository>
     with $Provider<NoteRepository> {
   NoteRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'noteRepositoryProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'noteRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$noteRepositoryHash();
@@ -56,15 +56,15 @@ final notesProvider = NotesNotifierProvider._();
 final class NotesNotifierProvider
     extends $StreamNotifierProvider<NotesNotifier, List<Note>> {
   NotesNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'notesProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'notesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$notesNotifierHash();
@@ -82,11 +82,14 @@ abstract class _$NotesNotifier extends $StreamNotifier<List<Note>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<List<Note>>, List<Note>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<List<Note>>, List<Note>>,
-        AsyncValue<List<Note>>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<Note>>, List<Note>>,
+              AsyncValue<List<Note>>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -96,15 +99,16 @@ final noteProvider = NoteFamily._();
 
 final class NoteProvider extends $FunctionalProvider<Note?, Note?, Note?>
     with $Provider<Note?> {
-  NoteProvider._(
-      {required NoteFamily super.from, required String super.argument})
-      : super(
-          retry: null,
-          name: r'noteProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  NoteProvider._({
+    required NoteFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'noteProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$noteHash();
@@ -124,10 +128,7 @@ final class NoteProvider extends $FunctionalProvider<Note?, Note?, Note?>
   @override
   Note? create(Ref ref) {
     final argument = this.argument as String;
-    return note(
-      ref,
-      argument,
-    );
+    return note(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -154,18 +155,15 @@ String _$noteHash() => r'9eb48421da1f6cc19e5f297f15d462ba7857e259';
 final class NoteFamily extends $Family
     with $FunctionalFamilyOverride<Note?, String> {
   NoteFamily._()
-      : super(
-          retry: null,
-          name: r'noteProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'noteProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  NoteProvider call(
-    String id,
-  ) =>
-      NoteProvider._(argument: id, from: this);
+  NoteProvider call(String id) => NoteProvider._(argument: id, from: this);
 
   @override
   String toString() => r'noteProvider';

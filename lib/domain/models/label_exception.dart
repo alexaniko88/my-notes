@@ -12,7 +12,8 @@ class LabelException extends Equatable implements Exception {
   List<Object?> get props => [message, cause];
 
   @override
-  String toString() => cause != null
-      ? 'LabelException: $message (cause: $cause)'
-      : 'LabelException: $message';
+  String toString() =>
+      cause != null
+          ? 'LabelException: $message (cause: $cause)'
+          : 'LabelException: $message';
 }

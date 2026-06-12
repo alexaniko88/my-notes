@@ -73,7 +73,8 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
           isPinned: false,
           createdAt: _now,
           updatedAt: _now,
-          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+          body:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
               'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
               'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
         ),
@@ -90,7 +91,8 @@ final noteCardPlaygroundItem = PlaygroundItemConfig(
           updatedAt: _now,
           title:
               'This is a very long title that might wrap onto multiple lines',
-          body: 'And here is a body that also has quite a bit of content. '
+          body:
+              'And here is a body that also has quite a bit of content. '
               'It keeps going to show how the card handles overflow gracefully.',
         ),
       ),

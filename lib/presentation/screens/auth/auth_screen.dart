@@ -47,11 +47,13 @@ class AuthScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     GoogleSignInButton(
-                      onPressed: isLoading
-                          ? null
-                          : () => ref
-                              .read(authProvider.notifier)
-                              .signInWithGoogle(),
+                      onPressed:
+                          isLoading
+                              ? null
+                              : () =>
+                                  ref
+                                      .read(authProvider.notifier)
+                                      .signInWithGoogle(),
                     ),
                     if (errorMessage != null) ...[
                       Gap(dimensions.spacing.sm),

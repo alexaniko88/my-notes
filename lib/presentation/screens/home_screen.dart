@@ -42,19 +42,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.exitAppTitle),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(l10n.exitAppCancel),
+      builder:
+          (ctx) => AlertDialog(
+            title: Text(l10n.exitAppTitle),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(false),
+                child: Text(l10n.exitAppCancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: Text(l10n.exitAppConfirm),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: Text(l10n.exitAppConfirm),
-          ),
-        ],
-      ),
     );
     if (confirmed ?? false) SystemNavigator.pop();
   }
@@ -86,44 +87,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       },
       child: Scaffold(
         drawer: const AppDrawer(),
-        appBar: _isSearching
-            ? AppBar(
-                leading: BackButton(onPressed: _stopSearch),
-                title: TextField(
-                  controller: _searchController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: l10n.searchHint,
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (_) => setState(() {}),
-                ),
-                actions: [
-                  if (_searchController.text.isNotEmpty)
-                    IconButton(
-                      icon: const AppIcon(name: AppIconName.close),
-                      onPressed: () {
-                        _searchController.clear();
-                        setState(() {});
-                      },
+        appBar:
+            _isSearching
+                ? AppBar(
+                  leading: BackButton(onPressed: _stopSearch),
+                  title: TextField(
+                    controller: _searchController,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: l10n.searchHint,
+                      border: InputBorder.none,
                     ),
-                ],
-              )
-            : AppBar(
-                leading: Builder(
-                  builder: (context) => IconButton(
-                    icon: const AppIcon(name: AppIconName.menu),
-                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    onChanged: (_) => setState(() {}),
                   ),
+                  actions: [
+                    if (_searchController.text.isNotEmpty)
+                      IconButton(
+                        icon: const AppIcon(name: AppIconName.close),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() {});
+                        },
+                      ),
+                  ],
+                )
+                : AppBar(
+                  leading: Builder(
+                    builder:
+                        (context) => IconButton(
+                          icon: const AppIcon(name: AppIconName.menu),
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                        ),
+                  ),
+                  title: _PlaygroundTitle(label: l10n.appTitle),
+                  actions: [
+                    IconButton(
+                      icon: const AppIcon(name: AppIconName.search),
+                      onPressed: _startSearch,
+                    ),
+                  ],
                 ),
-                title: _PlaygroundTitle(label: l10n.appTitle),
-                actions: [
-                  IconButton(
-                    icon: const AppIcon(name: AppIconName.search),
-                    onPressed: _startSearch,
-                  ),
-                ],
-              ),
         body: Stack(
           children: [
             _NotesGrid(
@@ -229,16 +232,20 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
     if (query.isEmpty) return notes;
     final q = query.toLowerCase();
     return notes
-        .where((n) =>
-            (n.title?.toLowerCase().contains(q) ?? false) ||
-            (n.body?.toLowerCase().contains(q) ?? false))
+        .where(
+          (n) =>
+              (n.title?.toLowerCase().contains(q) ?? false) ||
+              (n.body?.toLowerCase().contains(q) ?? false),
+        )
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(notesProvider,
-        (AsyncValue<List<Note>>? _, AsyncValue<List<Note>> next) {
+    ref.listen(notesProvider, (
+      AsyncValue<List<Note>>? _,
+      AsyncValue<List<Note>> next,
+    ) {
       final notes = next.asData?.value;
       if (notes != null) {
         setState(() => _notes = List.of(notes));
@@ -253,18 +260,20 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
 
     if (_notes.isEmpty) {
       return Center(
-          child: Text(widget.emptyLabel, style: theme.textTheme.bodyLarge));
+        child: Text(widget.emptyLabel, style: theme.textTheme.bodyLarge),
+      );
     }
 
     if (labelFilteredNotes.isEmpty) {
       return Center(
-          child:
-              Text(widget.labelNoNotesLabel, style: theme.textTheme.bodyLarge));
+        child: Text(widget.labelNoNotesLabel, style: theme.textTheme.bodyLarge),
+      );
     }
 
     if (displayedNotes.isEmpty) {
       return Center(
-          child: Text(widget.noResultsLabel, style: theme.textTheme.bodyLarge));
+        child: Text(widget.noResultsLabel, style: theme.textTheme.bodyLarge),
+      );
     }
 
     final spacing = context.dimensions.spacing;
@@ -272,10 +281,10 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
         (MediaQuery.sizeOf(context).width - spacing.md * 2 - spacing.sm) / 2;
 
     final leftItems = [
-      for (var i = 0; i < displayedNotes.length; i += 2) (i, displayedNotes[i])
+      for (var i = 0; i < displayedNotes.length; i += 2) (i, displayedNotes[i]),
     ];
     final rightItems = [
-      for (var i = 1; i < displayedNotes.length; i += 2) (i, displayedNotes[i])
+      for (var i = 1; i < displayedNotes.length; i += 2) (i, displayedNotes[i]),
     ];
 
     return SingleChildScrollView(
@@ -381,10 +390,11 @@ class _DraggableNoteItem extends StatelessWidget {
               child: NoteCard(note: note, searchQuery: searchQuery),
             ),
             child: GestureDetector(
-              onTap: () => context.pushNamed(
-                AppRoute.note.name,
-                queryParameters: {'id': note.id},
-              ),
+              onTap:
+                  () => context.pushNamed(
+                    AppRoute.note.name,
+                    queryParameters: {'id': note.id},
+                  ),
               child: NoteCard(note: note, searchQuery: searchQuery),
             ),
           ),

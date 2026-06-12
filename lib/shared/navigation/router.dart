@@ -17,7 +17,7 @@ part 'router.g.dart';
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
   final listenable = _AuthListenable();
-  ref.listen(authStateProvider, (_, __) => listenable.notify());
+  ref.listen(authStateProvider, (_, _) => listenable.notify());
   ref.onDispose(listenable.dispose);
 
   return GoRouter(
@@ -56,25 +56,29 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoute.playgroundItem.path,
         name: AppRoute.playgroundItem.name,
-        builder: (context, state) => PlaygroundItemScreen(
-          config: state.extra!
-              as PlaygroundItemConfig, // always set — only pushed from PlaygroundScreen with extra
-        ),
+        builder:
+            (context, state) => PlaygroundItemScreen(
+              config:
+                  state.extra!
+                      as PlaygroundItemConfig, // always set — only pushed from PlaygroundScreen with extra
+            ),
       ),
       GoRoute(
         path: AppRoute.noteLabels.path,
         name: AppRoute.noteLabels.name,
-        builder: (context, state) => LabelPickerScreen(
-          initialSelectedIds: state.extra as List<String>? ?? const [],
-        ),
+        builder:
+            (context, state) => LabelPickerScreen(
+              initialSelectedIds: state.extra as List<String>? ?? const [],
+            ),
       ),
       GoRoute(
         path: AppRoute.note.path,
         name: AppRoute.note.name,
-        builder: (context, state) => NoteScreen(
-          noteId: state.uri.queryParameters['id'],
-          noteType: state.extra as NoteType? ?? NoteType.text,
-        ),
+        builder:
+            (context, state) => NoteScreen(
+              noteId: state.uri.queryParameters['id'],
+              noteType: state.extra as NoteType? ?? NoteType.text,
+            ),
       ),
     ],
   );

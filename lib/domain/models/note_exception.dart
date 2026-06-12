@@ -12,7 +12,8 @@ class NoteException extends Equatable implements Exception {
   List<Object?> get props => [message, cause];
 
   @override
-  String toString() => cause != null
-      ? 'NoteException: $message (cause: $cause)'
-      : 'NoteException: $message';
+  String toString() =>
+      cause != null
+          ? 'NoteException: $message (cause: $cause)'
+          : 'NoteException: $message';
 }

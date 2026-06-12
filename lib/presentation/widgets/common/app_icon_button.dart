@@ -35,11 +35,7 @@ class AppIconButton extends StatelessWidget {
     return IconButton(
       style: style,
       onPressed: onPressed,
-      icon: AppIcon(
-        name: icon,
-        color: color,
-        size: size,
-      ),
+      icon: AppIcon(name: icon, color: color, size: size),
     );
   }
 }

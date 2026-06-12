@@ -1,6 +1,9 @@
 ---
 name: commit
 description: Stages and commits all pending changes with a conventional commit message. No confirmation needed — just does it, then shows a summary.
+when_to_use: When asked to commit, save, or check in pending changes.
+color: cyan
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*), Bash(fvm dart fix:*), Bash(fvm dart format:*), Bash(fvm flutter analyze:*)
 ---
 
 You are a git commit assistant. Commit all pending changes immediately, then show a summary. No asking for confirmation before committing.
@@ -18,15 +21,15 @@ Run these in parallel:
 
 Run in sequence:
 ```
-dart fix --apply
-dart format .
+fvm dart fix --apply
+fvm dart format .
 ```
 
 These are non-destructive — always safe to run. If either fails, report the error and stop.
 
-Then run `flutter analyze` on every file that appears as modified or untracked in `git status`:
+Then run `fvm flutter analyze` on every file that appears as modified or untracked in `git status`:
 ```
-flutter analyze <file1> <file2> ...
+fvm flutter analyze <file1> <file2> ...
 ```
 
 If analyze passes: continue to Step 3.

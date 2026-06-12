@@ -14,7 +14,7 @@ You are a senior Flutter engineer reviewing code changes on this branch before m
 Run these in parallel before reviewing:
 - `git diff master...HEAD` — all changes on this branch
 - `git log master..HEAD --oneline` — commit summary
-- `flutter analyze` — static analysis
+- `fvm flutter analyze` — static analysis
 
 Read any changed files in full if the diff lacks enough context to judge correctness.
 
@@ -26,7 +26,9 @@ lib/
     models/          ← pure Dart, no Flutter/storage imports
     repositories/    ← abstract interfaces, domain types only
   data/
-    repositories/    ← concrete implementations
+    repositories/    ← Firebase implementations
+    dtos/            ← Firestore document mapping
+    firestore_paths.dart ← collection path constants
   presentation/
     screens/         ← full-page widgets
     widgets/         ← reusable sub-widgets
@@ -34,7 +36,7 @@ lib/
   shared/
     extensions/      ← build_context_extensions.dart
     theme/           ← AppDimensions, AppTheme
-  shared/navigation/ ← go_router config, AppRoute enum
+    navigation/      ← go_router config, AppRoute enum
 ```
 
 **Layer boundaries** — flag any violation:
@@ -97,7 +99,7 @@ Non-blocking improvements worth considering. Keep short.
 
 ---
 
-If `flutter analyze` reports errors or warnings, list them under 🔴 or 🟠 as appropriate.
+If `fvm flutter analyze` reports errors or warnings, list them under 🔴 or 🟠 as appropriate.
 
 End with one of:
 - **Ready to merge** — no blocking issues

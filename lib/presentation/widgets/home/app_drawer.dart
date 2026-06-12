@@ -28,19 +28,20 @@ class AppDrawer extends ConsumerWidget {
     final l10n = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.signOutConfirmTitle),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(l10n.exitAppCancel),
+      builder:
+          (ctx) => AlertDialog(
+            title: Text(l10n.signOutConfirmTitle),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(false),
+                child: Text(l10n.exitAppCancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: Text(l10n.signOutConfirm),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: Text(l10n.signOutConfirm),
-          ),
-        ],
-      ),
     );
     if (confirmed == true) {
       ref.read(authProvider.notifier).signOut();

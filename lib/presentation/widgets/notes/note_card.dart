@@ -12,11 +12,7 @@ class NoteCard extends ConsumerWidget {
   final Note note;
   final String searchQuery;
 
-  const NoteCard({
-    super.key,
-    required this.note,
-    this.searchQuery = '',
-  });
+  const NoteCard({super.key, required this.note, this.searchQuery = ''});
 
   TextSpan _highlight({
     required String text,
@@ -24,10 +20,7 @@ class NoteCard extends ConsumerWidget {
     required Color highlightColor,
   }) {
     if (searchQuery.isEmpty) {
-      return TextSpan(
-        text: text,
-        style: highlightStyle,
-      );
+      return TextSpan(text: text, style: highlightStyle);
     }
 
     final q = searchQuery.toLowerCase();
@@ -38,20 +31,12 @@ class NoteCard extends ConsumerWidget {
     while (true) {
       final index = lower.indexOf(q, start);
       if (index == -1) {
-        spans.add(
-          TextSpan(
-            text: text.substring(start),
-            style: highlightStyle,
-          ),
-        );
+        spans.add(TextSpan(text: text.substring(start), style: highlightStyle));
         break;
       }
       if (index > start) {
         spans.add(
-          TextSpan(
-            text: text.substring(start, index),
-            style: highlightStyle,
-          ),
+          TextSpan(text: text.substring(start, index), style: highlightStyle),
         );
       }
       spans.add(
@@ -87,8 +72,9 @@ class NoteCard extends ConsumerWidget {
     final title = note.title;
     final body = note.body;
 
-    final titleStyle =
-        theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold);
+    final titleStyle = theme.textTheme.titleSmall?.copyWith(
+      fontWeight: FontWeight.bold,
+    );
     final bodyStyle = theme.textTheme.bodyMedium;
     final highlightColor = context.colors.searchHighlight;
     final lastUpdatedTheme = theme.textTheme.labelSmall?.copyWith(

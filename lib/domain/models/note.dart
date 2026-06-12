@@ -29,16 +29,16 @@ class Note extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        title,
-        body,
-        labelIds,
-        color,
-        position,
-        isPinned,
-        createdAt,
-        updatedAt,
-      ];
+    id,
+    title,
+    body,
+    labelIds,
+    color,
+    position,
+    isPinned,
+    createdAt,
+    updatedAt,
+  ];
 
   Note copyWith({
     String? id,

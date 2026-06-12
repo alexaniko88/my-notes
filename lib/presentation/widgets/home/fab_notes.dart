@@ -89,9 +89,7 @@ class _FabScrim extends StatelessWidget {
           duration: _duration,
           child: GestureDetector(
             onTap: onTap,
-            child: ColoredBox(
-              color: context.colors.fabScrim,
-            ),
+            child: ColoredBox(color: context.colors.fabScrim),
           ),
         ),
       ),
@@ -142,12 +140,13 @@ class _FabSpeedDialOptions extends StatelessWidget {
                 icon: options[i].$1,
                 label: options[i].$2,
                 animation: _itemAnimation(i),
-                onPressed: options[i].$3 != null
-                    ? () {
-                        onClose();
-                        options[i].$3!();
-                      }
-                    : null,
+                onPressed:
+                    options[i].$3 != null
+                        ? () {
+                          onClose();
+                          options[i].$3!();
+                        }
+                        : null,
               ),
             );
           }),
