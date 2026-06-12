@@ -95,7 +95,7 @@ Broken rules from the coding rules section above.
 Format: `file:line — rule broken — fix`
 
 ### 🟢 Suggestions (optional)
-Non-blocking improvements worth considering. Keep short.
+Non-blocking improvements worth considering. Keep these very short: one line per finding (`file:line — suggestion`), no explanations, no code samples. The detail belongs to 🔴/🟡/🟠 findings only.
 
 ---
 
