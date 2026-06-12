@@ -14,11 +14,7 @@ class NoteScreen extends ConsumerStatefulWidget {
   final String? noteId;
   final NoteType? noteType;
 
-  const NoteScreen({
-    super.key,
-    this.noteId,
-    this.noteType,
-  });
+  const NoteScreen({super.key, this.noteId, this.noteType});
 
   @override
   ConsumerState<NoteScreen> createState() => _NoteScreenState();
@@ -68,11 +64,9 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
       if (title == null && body == null) return;
       _isSaving = true;
       try {
-        _noteId = await ref.read(notesProvider.notifier).add(
-              title: title,
-              body: body,
-              labelIds: _labelIds,
-            );
+        _noteId = await ref
+            .read(notesProvider.notifier)
+            .add(title: title, body: body, labelIds: _labelIds);
       } finally {
         _isSaving = false;
       }
@@ -82,7 +76,9 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
       if (note == null) return;
       _isSaving = true;
       try {
-        await ref.read(notesProvider.notifier).updateNote(
+        await ref
+            .read(notesProvider.notifier)
+            .updateNote(
               note.copyWith(
                 title: title,
                 body: body,
@@ -125,8 +121,9 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   // with the cursor at the end, as if the field still filled the screen.
   void _focusBody() {
     _bodyFocusNode.requestFocus();
-    _bodyController.selection =
-        TextSelection.collapsed(offset: _bodyController.text.length);
+    _bodyController.selection = TextSelection.collapsed(
+      offset: _bodyController.text.length,
+    );
   }
 
   @override

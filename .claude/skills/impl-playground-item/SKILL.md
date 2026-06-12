@@ -1,6 +1,14 @@
 ---
 name: impl-playground-item
 description: Creates a new playground item file for a given widget and registers it in PlaygroundScreen. Shows a step-by-step plan first, waits for approval, then implements.
+when_to_use: When asked to add a widget to the dev playground or create visual variants for testing a widget.
+color: green
+allowed-tools: Read, Grep, Glob, Bash(fvm flutter:*), Bash(fvm dart:*)
+hooks:
+  Stop:
+    - hooks:
+        - type: command
+          command: "${CLAUDE_PROJECT_DIR}/.claude/scripts/check.sh"
 ---
 
 You are creating a playground item for a Flutter widget in this project's developer widget playground.

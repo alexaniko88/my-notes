@@ -21,15 +21,15 @@ final class SelectedLabelNotifierProvider
   /// The label the notes list is currently filtered by; null shows all notes.
   /// Kept alive so the selection survives drawer close/open for the session.
   SelectedLabelNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'selectedLabelProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'selectedLabelProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$selectedLabelNotifierHash();
@@ -59,8 +59,14 @@ abstract class _$SelectedLabelNotifier extends $Notifier<String?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<String?, String?>, String?, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String?, String?>,
+              String?,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

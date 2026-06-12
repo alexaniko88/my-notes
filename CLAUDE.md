@@ -4,32 +4,34 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+This project pins its Flutter SDK with **FVM** (`.fvmrc`, currently 3.41.6). Always prefix `flutter` and `dart` commands with `fvm` — bare `flutter`/`dart` may resolve to a stale global SDK. In shells without the `fvm` command (e.g. hooks), use the project symlink `.fvm/flutter_sdk/bin/flutter` / `.fvm/flutter_sdk/bin/dart` instead.
+
 ```bash
 # Run app
-flutter run
+fvm flutter run
 
 # Run on specific device
-flutter run -d <device-id>
-flutter devices  # list available devices
+fvm flutter run -d <device-id>
+fvm flutter devices  # list available devices
 
 # Build
-flutter build apk          # Android
-flutter build ios          # iOS
-flutter build macos        # macOS
+fvm flutter build apk          # Android
+fvm flutter build ios          # iOS
+fvm flutter build macos        # macOS
 
 # Test
-flutter test                          # all tests
-flutter test test/path/to/test.dart   # single test file
-flutter test --name "test name"       # single test by name
+fvm flutter test                          # all tests
+fvm flutter test test/path/to/test.dart   # single test file
+fvm flutter test --name "test name"       # single test by name
 
 # Lint & analyze
-flutter analyze
-dart fix --apply
+fvm flutter analyze
+fvm dart fix --apply
 
 # Dependencies
-flutter pub get
-flutter pub add <package>  # then remove ^ from the version in pubspec.yaml — always pin exact versions
-flutter pub upgrade
+fvm flutter pub get
+fvm flutter pub add <package>  # then remove ^ from the version in pubspec.yaml — always pin exact versions
+fvm flutter pub upgrade
 ```
 
 ## App Overview
@@ -55,31 +57,47 @@ Google Keep-inspired notes app. Users create notes (text, image, PDF, voice), vi
   fileUrl: String?,     // Firebase Storage download URL
   color: int?,          // card background color (ARGB)
   isPinned: bool,
+  labelIds: List<String>,  // refs into the labels collection
   createdAt: Timestamp,
   updatedAt: Timestamp,
 }
 ```
+
+### Label data model
+
+```dart
+// Firestore collection: users/{userId}/labels/{labelId}
+{
+  id: String,
+  name: String,  // max 30 chars (Label.maxNameLength)
+}
+```
+
+Collection paths are centralized in `lib/data/firestore_paths.dart`.
 
 ## Architecture
 
 Structure:
 - `lib/main.dart` — entry point
 - `lib/domain/` — models and repository interfaces
-  - `models/note.dart`
-  - `repositories/note_repository.dart`
-- `lib/data/` — repository implementations
-  - `repositories/in_memory_note_repository.dart`
+  - `models/` — `note.dart`, `note_type.dart`, `label.dart`, `app_user.dart`, typed exceptions (`note_exception.dart`, `label_exception.dart`, `auth_exception.dart`)
+  - `repositories/` — `note_repository.dart`, `label_repository.dart`, `auth_repository.dart` (abstract interfaces)
+- `lib/data/` — data layer
+  - `repositories/` — Firebase implementations: `firebase_note_repository.dart`, `firebase_label_repository.dart`, `firebase_auth_repository.dart`
+  - `dtos/` — Firestore mapping: `note_dto.dart`, `label_dto.dart`
+  - `firestore_paths.dart` — centralized collection path constants
 - `lib/presentation/` — UI layer
-  - `screens/` — full screens (`home_screen.dart`, `auth/auth_screen.dart`, `note/note_screen.dart`, `playground/`)
+  - `screens/` — full screens (`home_screen.dart`, `auth/`, `note/`, `labels/`, `playground/`)
   - `widgets/` — reusable widgets
     - `common/` — app-wide: `AppIcon`, `AppButton`, `AppTextButton`
     - `auth/` — auth-specific widgets
     - `home/` — home screen widgets (`FabNotes`, `FabOptionItem`)
     - `notes/` — note card widget
-  - `providers/` — Riverpod providers (`notes`, `theme`)
+    - `labels/` — label widgets (`LabelTag`, `LabelEditTile`, `LabelCreateField`)
+  - `providers/` — Riverpod providers (`auth`, `labels`, `notes`, `theme`)
 - `lib/shared/` — cross-cutting utilities
   - `extensions/` — `BuildContext`, `DateTime` extensions
-  - `navigation/` — `go_router` setup and route definitions
+  - `navigation/` — `go_router` setup (`router.dart`) and route definitions (`app_route.dart`)
   - `theme/` — `AppTheme`, `AppColors`, `AppDimensions`
 - `lib/gen/` — generated localization files (do not edit)
 - `test/` — unit and widget tests

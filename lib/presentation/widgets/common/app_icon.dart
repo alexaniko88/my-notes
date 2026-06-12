@@ -27,12 +27,7 @@ class AppIcon extends StatelessWidget {
   final double? size;
   final Color? color;
 
-  const AppIcon({
-    super.key,
-    required this.name,
-    this.size,
-    this.color,
-  });
+  const AppIcon({super.key, required this.name, this.size, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +36,23 @@ class AppIcon extends StatelessWidget {
 }
 
 IconData _iconData(AppIconName name) => switch (name) {
-      AppIconName.add => Icons.add,
-      AppIconName.check => Icons.check,
-      AppIconName.chevronRight => Icons.chevron_right,
-      AppIconName.close => Icons.close,
-      AppIconName.deleteOutlined => Icons.delete_outline,
-      AppIconName.editOutlined => Icons.edit_outlined,
-      AppIconName.emailOutlined => Icons.email_outlined,
-      AppIconName.imageOutlined => Icons.image_outlined,
-      AppIconName.labelOutlined => Icons.label_outline,
-      AppIconName.lockOutlined => Icons.lock_outlined,
-      AppIconName.logout => Icons.logout,
-      AppIconName.menu => Icons.menu,
-      AppIconName.micOutlined => Icons.mic_outlined,
-      AppIconName.pictureAsPdfOutlined => Icons.picture_as_pdf_outlined,
-      AppIconName.search => Icons.search,
-      AppIconName.stickyNote2Outlined => Icons.sticky_note_2_outlined,
-      AppIconName.textFields => Icons.text_fields,
-      AppIconName.visibilityOffOutlined => Icons.visibility_off_outlined,
-      AppIconName.visibilityOutlined => Icons.visibility_outlined,
-    };
+  AppIconName.add => Icons.add,
+  AppIconName.check => Icons.check,
+  AppIconName.chevronRight => Icons.chevron_right,
+  AppIconName.close => Icons.close,
+  AppIconName.deleteOutlined => Icons.delete_outline,
+  AppIconName.editOutlined => Icons.edit_outlined,
+  AppIconName.emailOutlined => Icons.email_outlined,
+  AppIconName.imageOutlined => Icons.image_outlined,
+  AppIconName.labelOutlined => Icons.label_outline,
+  AppIconName.lockOutlined => Icons.lock_outlined,
+  AppIconName.logout => Icons.logout,
+  AppIconName.menu => Icons.menu,
+  AppIconName.micOutlined => Icons.mic_outlined,
+  AppIconName.pictureAsPdfOutlined => Icons.picture_as_pdf_outlined,
+  AppIconName.search => Icons.search,
+  AppIconName.stickyNote2Outlined => Icons.sticky_note_2_outlined,
+  AppIconName.textFields => Icons.text_fields,
+  AppIconName.visibilityOffOutlined => Icons.visibility_off_outlined,
+  AppIconName.visibilityOutlined => Icons.visibility_outlined,
+};

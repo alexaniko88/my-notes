@@ -29,16 +29,16 @@ class NoteDto extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        title,
-        body,
-        labelIds,
-        color,
-        position,
-        isPinned,
-        createdAt,
-        updatedAt,
-      ];
+    id,
+    title,
+    body,
+    labelIds,
+    color,
+    position,
+    isPinned,
+    createdAt,
+    updatedAt,
+  ];
 
   factory NoteDto.fromFirestore(Map<String, dynamic> data, String id) {
     return NoteDto(

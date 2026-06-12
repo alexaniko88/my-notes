@@ -8,17 +8,11 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final _AppButtonType _type;
 
-  const AppButton.primary({
-    super.key,
-    required this.label,
-    this.onPressed,
-  }) : _type = _AppButtonType.primary;
+  const AppButton.primary({super.key, required this.label, this.onPressed})
+    : _type = _AppButtonType.primary;
 
-  const AppButton.secondary({
-    super.key,
-    required this.label,
-    this.onPressed,
-  }) : _type = _AppButtonType.secondary;
+  const AppButton.secondary({super.key, required this.label, this.onPressed})
+    : _type = _AppButtonType.secondary;
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +24,25 @@ class AppButton extends StatelessWidget {
 
     return switch (_type) {
       _AppButtonType.primary => FilledButton(
-          onPressed: onPressed,
-          style: FilledButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: dimensions.spacing.md),
-            shape: shape,
-          ),
-          child: Text(label),
+        onPressed: onPressed,
+        style: FilledButton.styleFrom(
+          padding: EdgeInsets.symmetric(vertical: dimensions.spacing.md),
+          shape: shape,
         ),
+        child: Text(label),
+      ),
       _AppButtonType.secondary => OutlinedButton(
-          onPressed: onPressed,
-          style: OutlinedButton.styleFrom(
-            padding: EdgeInsets.symmetric(
-              horizontal: dimensions.spacing.lg,
-              vertical: dimensions.spacing.md,
-            ),
-            shape: shape,
-            side: BorderSide(color: theme.colorScheme.outline),
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.symmetric(
+            horizontal: dimensions.spacing.lg,
+            vertical: dimensions.spacing.md,
           ),
-          child: Text(label),
+          shape: shape,
+          side: BorderSide(color: theme.colorScheme.outline),
         ),
+        child: Text(label),
+      ),
     };
   }
 }

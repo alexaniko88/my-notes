@@ -48,10 +48,7 @@ class DrawerLabelsSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(l10n.labelsSectionTitle, style: headerStyle),
-                AppTextButton(
-                  label: l10n.labelsEdit,
-                  onPressed: onEdit,
-                ),
+                AppTextButton(label: l10n.labelsEdit, onPressed: onEdit),
               ],
             ),
           ),
@@ -71,9 +68,10 @@ class DrawerLabelsSection extends StatelessWidget {
                   shape: _selectedTileShape,
                   leading: const AppIcon(name: AppIconName.labelOutlined),
                   title: Text(label.name),
-                  onTap: labelTapCallback == null
-                      ? null
-                      : () => labelTapCallback(label),
+                  onTap:
+                      labelTapCallback == null
+                          ? null
+                          : () => labelTapCallback(label),
                 );
               },
             ),

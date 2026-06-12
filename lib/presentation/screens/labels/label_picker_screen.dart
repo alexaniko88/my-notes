@@ -13,10 +13,7 @@ import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 class LabelPickerScreen extends ConsumerStatefulWidget {
   final List<String> initialSelectedIds;
 
-  const LabelPickerScreen({
-    super.key,
-    this.initialSelectedIds = const [],
-  });
+  const LabelPickerScreen({super.key, this.initialSelectedIds = const []});
 
   @override
   ConsumerState<LabelPickerScreen> createState() => _LabelPickerScreenState();
@@ -79,9 +76,9 @@ class _LabelPickerScreenState extends ConsumerState<LabelPickerScreen> {
       return;
     }
     final l10n = context.l10n;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.labelSaveError)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.labelSaveError)));
   }
 
   @override
@@ -119,16 +116,18 @@ class _LabelPickerScreenState extends ConsumerState<LabelPickerScreen> {
         ),
         body: labelsAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (_, __) => Center(child: Text(l10n.labelsLoadError)),
+          error: (_, _) => Center(child: Text(l10n.labelsLoadError)),
           data: (labels) {
             final lowerQuery = query.toLowerCase();
-            final filteredLabels = query.isEmpty
-                ? labels
-                : labels
-                    .where((l) => l.name.toLowerCase().contains(lowerQuery))
-                    .toList();
-            final hasExactMatch =
-                labels.any((l) => l.name.toLowerCase() == lowerQuery);
+            final filteredLabels =
+                query.isEmpty
+                    ? labels
+                    : labels
+                        .where((l) => l.name.toLowerCase().contains(lowerQuery))
+                        .toList();
+            final hasExactMatch = labels.any(
+              (l) => l.name.toLowerCase() == lowerQuery,
+            );
             final showCreateRow = query.isNotEmpty && !hasExactMatch;
 
             return ListView(

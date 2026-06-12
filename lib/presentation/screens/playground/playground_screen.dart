@@ -8,9 +8,7 @@ import 'package:my_notes/shared/navigation/app_route.dart';
 class PlaygroundScreen extends StatelessWidget {
   const PlaygroundScreen({super.key});
 
-  static final _configs = <PlaygroundItemConfig>[
-    noteCardPlaygroundItem,
-  ];
+  static final _configs = <PlaygroundItemConfig>[noteCardPlaygroundItem];
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +16,17 @@ class PlaygroundScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Playground')),
       body: ListView.separated(
         itemCount: _configs.length,
-        separatorBuilder: (_, __) => const Divider(height: 1),
-        itemBuilder: (context, index) => ListTile(
-          title: Text(_configs[index].label),
-          trailing: const AppIcon(name: AppIconName.chevronRight),
-          onTap: () => context.push(
-            AppRoute.playgroundItem.path,
-            extra: _configs[index],
-          ),
-        ),
+        separatorBuilder: (_, _) => const Divider(height: 1),
+        itemBuilder:
+            (context, index) => ListTile(
+              title: Text(_configs[index].label),
+              trailing: const AppIcon(name: AppIconName.chevronRight),
+              onTap:
+                  () => context.push(
+                    AppRoute.playgroundItem.path,
+                    extra: _configs[index],
+                  ),
+            ),
       ),
     );
   }

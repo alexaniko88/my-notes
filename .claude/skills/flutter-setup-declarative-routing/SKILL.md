@@ -37,9 +37,9 @@ Follow this workflow to bootstrap a new Flutter application with `go_router` and
 ### 1. Scaffold the Application
 Run the following commands to create the app and add the required routing package:
 ```bash
-flutter create <app-name>
+fvm flutter create <app-name>
 cd <app-name>
-flutter pub add go_router
+fvm flutter pub add go_router
 ```
 
 ### 2. Configure the Router

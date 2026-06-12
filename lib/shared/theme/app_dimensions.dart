@@ -21,13 +21,12 @@ class AppDimensions extends ThemeExtension<AppDimensions> {
     AppIconSize? iconSize,
     AppImageSize? imageSize,
     AppBorderRadius? borderRadius,
-  }) =>
-      AppDimensions(
-        spacing: spacing ?? this.spacing,
-        iconSize: iconSize ?? this.iconSize,
-        imageSize: imageSize ?? this.imageSize,
-        borderRadius: borderRadius ?? this.borderRadius,
-      );
+  }) => AppDimensions(
+    spacing: spacing ?? this.spacing,
+    iconSize: iconSize ?? this.iconSize,
+    imageSize: imageSize ?? this.imageSize,
+    borderRadius: borderRadius ?? this.borderRadius,
+  );
 
   @override
   AppDimensions lerp(ThemeExtension<AppDimensions>? other, double t) {
@@ -59,22 +58,17 @@ class AppSpacing {
   final double xxl;
 
   static AppSpacing lerp(AppSpacing a, AppSpacing b, double t) => AppSpacing(
-        xs: a.xs + (b.xs - a.xs) * t,
-        sm: a.sm + (b.sm - a.sm) * t,
-        md: a.md + (b.md - a.md) * t,
-        lg: a.lg + (b.lg - a.lg) * t,
-        xl: a.xl + (b.xl - a.xl) * t,
-        xxl: a.xxl + (b.xxl - a.xxl) * t,
-      );
+    xs: a.xs + (b.xs - a.xs) * t,
+    sm: a.sm + (b.sm - a.sm) * t,
+    md: a.md + (b.md - a.md) * t,
+    lg: a.lg + (b.lg - a.lg) * t,
+    xl: a.xl + (b.xl - a.xl) * t,
+    xxl: a.xxl + (b.xxl - a.xxl) * t,
+  );
 }
 
 class AppIconSize {
-  const AppIconSize({
-    this.sm = 16,
-    this.md = 24,
-    this.lg = 32,
-    this.xl = 48,
-  });
+  const AppIconSize({this.sm = 16, this.md = 24, this.lg = 32, this.xl = 48});
 
   final double sm;
   final double md;

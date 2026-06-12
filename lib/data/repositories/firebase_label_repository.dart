@@ -9,10 +9,10 @@ class FirebaseLabelRepository implements LabelRepository {
   final CollectionReference<Map<String, dynamic>> _labelsCollection;
 
   FirebaseLabelRepository({required String userId})
-      : _labelsCollection = FirebaseFirestore.instance
-            .collection(FirestorePaths.users)
-            .doc(userId)
-            .collection(FirestorePaths.labels);
+    : _labelsCollection = FirebaseFirestore.instance
+          .collection(FirestorePaths.users)
+          .doc(userId)
+          .collection(FirestorePaths.labels);
 
   @override
   Stream<List<Label>> watchAll() {
@@ -20,15 +20,17 @@ class FirebaseLabelRepository implements LabelRepository {
         .orderBy('name')
         .snapshots()
         .map(
-          (snapshot) => snapshot.docs
-              .map(
-                (doc) => LabelDto.fromFirestore(doc.data(), doc.id).toLabel(),
-              )
-              .toList(),
+          (snapshot) =>
+              snapshot.docs
+                  .map(
+                    (doc) =>
+                        LabelDto.fromFirestore(doc.data(), doc.id).toLabel(),
+                  )
+                  .toList(),
         )
         .handleError((Object e) {
-      throw LabelException('Failed to watch labels', cause: e);
-    });
+          throw LabelException('Failed to watch labels', cause: e);
+        });
   }
 
   @override
