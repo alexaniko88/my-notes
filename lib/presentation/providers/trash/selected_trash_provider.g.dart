@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'selected_label_provider.dart';
+part of 'selected_trash_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -8,62 +8,62 @@ part of 'selected_label_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// The label the notes list is currently filtered by; null shows all notes.
+/// Whether the notes list is currently filtered to show trashed notes.
 /// Kept alive so the selection survives drawer close/open for the session.
 
-@ProviderFor(SelectedLabelNotifier)
-final selectedLabelProvider = SelectedLabelNotifierProvider._();
+@ProviderFor(SelectedTrashNotifier)
+final selectedTrashProvider = SelectedTrashNotifierProvider._();
 
-/// The label the notes list is currently filtered by; null shows all notes.
+/// Whether the notes list is currently filtered to show trashed notes.
 /// Kept alive so the selection survives drawer close/open for the session.
-final class SelectedLabelNotifierProvider
-    extends $NotifierProvider<SelectedLabelNotifier, String?> {
-  /// The label the notes list is currently filtered by; null shows all notes.
+final class SelectedTrashNotifierProvider
+    extends $NotifierProvider<SelectedTrashNotifier, bool> {
+  /// Whether the notes list is currently filtered to show trashed notes.
   /// Kept alive so the selection survives drawer close/open for the session.
-  SelectedLabelNotifierProvider._()
+  SelectedTrashNotifierProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'selectedLabelProvider',
+        name: r'selectedTrashProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$selectedLabelNotifierHash();
+  String debugGetCreateSourceHash() => _$selectedTrashNotifierHash();
 
   @$internal
   @override
-  SelectedLabelNotifier create() => SelectedLabelNotifier();
+  SelectedTrashNotifier create() => SelectedTrashNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(String? value) {
+  Override overrideWithValue(bool value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<String?>(value),
+      providerOverride: $SyncValueProvider<bool>(value),
     );
   }
 }
 
-String _$selectedLabelNotifierHash() =>
-    r'bb44886196546a2bf9c470f3b12ef52c90ebbb1a';
+String _$selectedTrashNotifierHash() =>
+    r'9cb8cb9b557a74882e4f9cca762249326a298f85';
 
-/// The label the notes list is currently filtered by; null shows all notes.
+/// Whether the notes list is currently filtered to show trashed notes.
 /// Kept alive so the selection survives drawer close/open for the session.
 
-abstract class _$SelectedLabelNotifier extends $Notifier<String?> {
-  String? build();
+abstract class _$SelectedTrashNotifier extends $Notifier<bool> {
+  bool build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<String?, String?>;
+    final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<String?, String?>,
-              String?,
+              AnyNotifier<bool, bool>,
+              bool,
               Object?,
               Object?
             >;

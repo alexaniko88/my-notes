@@ -135,4 +135,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String labelMaxReached(int count) {
     return 'You can add up to $count labels';
   }
+
+  @override
+  String get trash => 'Trash';
+
+  @override
+  String get trashEmptyState => 'No notes in Trash';
+
+  @override
+  String get trashRetentionNotice => 'Notes in Trash are deleted after 7 days';
+
+  @override
+  String get noteDelete => 'Delete';
 }

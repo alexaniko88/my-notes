@@ -137,4 +137,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String labelMaxReached(int count) {
     return 'Puedes añadir hasta $count etiquetas';
   }
+
+  @override
+  String get trash => 'Papelera';
+
+  @override
+  String get trashEmptyState => 'No hay notas en la papelera';
+
+  @override
+  String get trashRetentionNotice =>
+      'Las notas de la papelera se eliminan después de 7 días';
+
+  @override
+  String get noteDelete => 'Eliminar';
 }

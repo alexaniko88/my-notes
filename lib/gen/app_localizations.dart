@@ -325,6 +325,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can add up to {count} labels'**
   String labelMaxReached(int count);
+
+  /// Trash section in the navigation drawer and the trash screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Trash'**
+  String get trash;
+
+  /// Shown on the trash screen when there are no deleted notes
+  ///
+  /// In en, this message translates to:
+  /// **'No notes in Trash'**
+  String get trashEmptyState;
+
+  /// Notice on the trash screen explaining the auto-delete retention period
+  ///
+  /// In en, this message translates to:
+  /// **'Notes in Trash are deleted after 7 days'**
+  String get trashRetentionNotice;
+
+  /// Delete action in the note options menu
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get noteDelete;
 }
 
 class _AppLocalizationsDelegate

@@ -7,6 +7,7 @@ import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon_button.dart';
 import 'package:my_notes/presentation/widgets/labels/label_tag.dart';
+import 'package:my_notes/presentation/widgets/notes/note_options_sheet.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
 
@@ -29,6 +30,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   int? _noteColor;
   String? _noteId;
   bool _isSaving = false;
+  bool _isDeleting = false;
 
   @override
   void initState() {
@@ -56,7 +58,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   }
 
   Future<void> _save() async {
-    if (_isSaving) return;
+    if (_isSaving || _isDeleting) return;
     final title = _titleController.text.isEmpty ? null : _titleController.text;
     final body = _bodyController.text.isEmpty ? null : _bodyController.text;
 
@@ -108,6 +110,30 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
     }
   }
 
+  void _showOptions(DateTime updatedAt) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder:
+          (sheetContext) => NoteOptionsSheet(
+            updatedAt: updatedAt,
+            onDelete: () {
+              Navigator.of(sheetContext).pop();
+              _deleteNote();
+            },
+          ),
+    );
+  }
+
+  Future<void> _deleteNote() async {
+    final noteId = _noteId;
+    if (noteId == null) return;
+    _isDeleting = true;
+    await ref.read(notesProvider.notifier).moveToTrash(noteId);
+    if (mounted) {
+      GoRouter.of(context).pop();
+    }
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -143,6 +169,8 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
     final allLabels = ref.watch(labelsProvider).asData?.value ?? const [];
     final noteLabels =
         allLabels.where((label) => _labelIds.contains(label.id)).toList();
+    final noteId = _noteId;
+    final note = noteId != null ? ref.watch(noteProvider(noteId)) : null;
 
     return PopScope(
       canPop: false,
@@ -151,6 +179,20 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
       },
       child: Scaffold(
         backgroundColor: backgroundColor,
+        bottomNavigationBar:
+            note == null
+                ? null
+                : BottomAppBar(
+                  color: backgroundColor,
+                  child: Row(
+                    children: [
+                      AppIconButton(
+                        icon: AppIconName.moreVert,
+                        onPressed: () => _showOptions(note.updatedAt),
+                      ),
+                    ],
+                  ),
+                ),
         appBar: AppBar(
           backgroundColor: backgroundColor,
           leading: BackButton(onPressed: _saveAndPop),
