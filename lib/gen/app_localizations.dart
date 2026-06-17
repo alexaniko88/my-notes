@@ -361,6 +361,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete forever'**
   String get noteDeleteForever;
+
+  /// Drawer item that shows all notes without any filter
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get allNotes;
+
+  /// Snackbar shown when trashing, restoring, or deleting a note fails
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get noteActionError;
+
+  /// Title of the confirmation dialog before permanently deleting a note
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever?'**
+  String get deleteForeverDialogTitle;
+
+  /// Body of the confirmation dialog before permanently deleting a note
+  ///
+  /// In en, this message translates to:
+  /// **'This note will be permanently deleted.'**
+  String get deleteForeverDialogBody;
 }
 
 class _AppLocalizationsDelegate

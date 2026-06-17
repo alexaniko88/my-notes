@@ -8,6 +8,7 @@ import 'package:my_notes/presentation/providers/labels/selected_label_provider.d
 import 'package:my_notes/presentation/providers/trash/selected_trash_provider.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/common/app_text_button.dart';
+import 'package:my_notes/presentation/widgets/home/drawer_all_notes_section.dart';
 import 'package:my_notes/presentation/widgets/home/drawer_labels_section.dart';
 import 'package:my_notes/presentation/widgets/home/drawer_trash_section.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
@@ -19,6 +20,12 @@ class AppDrawer extends ConsumerWidget {
   void _openEditLabels(BuildContext context) {
     Scaffold.of(context).closeDrawer();
     context.push(AppRoute.editLabels.path);
+  }
+
+  void _onAllNotesTap(BuildContext context, WidgetRef ref) {
+    ref.read(selectedLabelProvider.notifier).clear();
+    ref.read(selectedTrashProvider.notifier).clear();
+    Scaffold.of(context).closeDrawer();
   }
 
   void _onTrashTap(BuildContext context, WidgetRef ref) {
@@ -67,12 +74,17 @@ class AppDrawer extends ConsumerWidget {
     final labels = ref.watch(labelsProvider).asData?.value ?? const [];
     final selectedLabelId = ref.watch(selectedLabelProvider);
     final isTrashSelected = ref.watch(selectedTrashProvider);
+    final isAllNotesSelected = selectedLabelId == null && !isTrashSelected;
 
     return Drawer(
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            DrawerAllNotesSection(
+              isSelected: isAllNotesSelected,
+              onTap: () => _onAllNotesTap(context, ref),
+            ),
             DrawerLabelsSection(
               labels: labels,
               selectedLabelId: selectedLabelId,

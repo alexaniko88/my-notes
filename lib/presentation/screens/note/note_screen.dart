@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
+import 'package:my_notes/domain/models/note_exception.dart';
 import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/presentation/providers/labels/labels_provider.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon_button.dart';
+import 'package:my_notes/presentation/widgets/common/app_text_button.dart';
 import 'package:my_notes/presentation/widgets/labels/label_tag.dart';
 import 'package:my_notes/presentation/widgets/notes/note_options_sheet.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
@@ -24,6 +26,8 @@ class NoteScreen extends ConsumerStatefulWidget {
 
 class _NoteScreenState extends ConsumerState<NoteScreen>
     with WidgetsBindingObserver {
+  static const _disabledOpacity = 0.5;
+
   late final TextEditingController _titleController;
   late final TextEditingController _bodyController;
   final FocusNode _bodyFocusNode = FocusNode();
@@ -77,6 +81,8 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
       final notes = ref.read(notesProvider).asData?.value ?? [];
       final note = notes.where((n) => n.id == _noteId).firstOrNull;
       if (note == null) return;
+      // Trashed notes are read-only; never rewrite them on the way out.
+      if (note.isTrashed) return;
       _isSaving = true;
       try {
         await ref
@@ -141,31 +147,74 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   Future<void> _moveToTrash() async {
     final noteId = _noteId;
     if (noteId == null) return;
-    _isClosing = true;
-    await ref.read(notesProvider.notifier).moveToTrash(noteId);
-    if (mounted) {
-      GoRouter.of(context).pop();
-    }
+    await _runClosingAction(
+      () => ref.read(notesProvider.notifier).moveToTrash(noteId),
+    );
   }
 
   Future<void> _restoreNote() async {
     final noteId = _noteId;
     if (noteId == null) return;
-    _isClosing = true;
-    await ref.read(notesProvider.notifier).restore(noteId);
-    if (mounted) {
-      GoRouter.of(context).pop();
-    }
+    await _runClosingAction(
+      () => ref.read(notesProvider.notifier).restore(noteId),
+    );
   }
 
   Future<void> _deleteForever() async {
     final noteId = _noteId;
     if (noteId == null) return;
+    final confirmed = await _confirmDeleteForever();
+    if (confirmed != true || !mounted) return;
+    await _runClosingAction(
+      () => ref.read(notesProvider.notifier).delete(noteId),
+    );
+  }
+
+  // Runs a trash action that should pop the screen on success. On failure the
+  // screen stays open, re-enables saving, and surfaces a snackbar.
+  Future<void> _runClosingAction(Future<void> Function() action) async {
     _isClosing = true;
-    await ref.read(notesProvider.notifier).delete(noteId);
-    if (mounted) {
-      GoRouter.of(context).pop();
+    try {
+      await action();
+      if (mounted) {
+        GoRouter.of(context).pop();
+      }
+    } on NoteException {
+      _isClosing = false;
+      _showActionError();
     }
+  }
+
+  Future<bool?> _confirmDeleteForever() {
+    final l10n = context.l10n;
+    return showDialog<bool>(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: Text(l10n.deleteForeverDialogTitle),
+            content: Text(l10n.deleteForeverDialogBody),
+            actions: [
+              AppTextButton(
+                label: l10n.exitAppCancel,
+                onPressed: () => Navigator.of(ctx).pop(false),
+              ),
+              AppTextButton(
+                label: l10n.noteDeleteForever,
+                onPressed: () => Navigator.of(ctx).pop(true),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _showActionError() {
+    if (!mounted) {
+      return;
+    }
+    final l10n = context.l10n;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.noteActionError)));
   }
 
   @override
@@ -247,63 +296,71 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: spacing.md),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _titleController,
-                style: theme.textTheme.headlineSmall,
-                maxLines: 1,
-                decoration: InputDecoration(
-                  hintText: l10n.noteTitleHint,
-                  hintStyle: titleHintStyle,
-                  border: InputBorder.none,
+          child: Opacity(
+            opacity: isTrashed ? _disabledOpacity : 1.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _titleController,
+                  readOnly: isTrashed,
+                  textCapitalization: TextCapitalization.sentences,
+                  style: theme.textTheme.headlineSmall,
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    hintText: l10n.noteTitleHint,
+                    hintStyle: titleHintStyle,
+                    border: InputBorder.none,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: _focusBody,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextField(
-                          controller: _bodyController,
-                          focusNode: _bodyFocusNode,
-                          style: theme.textTheme.bodyLarge,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            hintText: l10n.noteBodyHint,
-                            hintStyle: bodyHintStyle,
-                            border: InputBorder.none,
-                          ),
-                        ),
-                        // labels flow right after the body text
-                        if (noteLabels.isNotEmpty)
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: spacing.sm,
-                              bottom: spacing.lg,
-                            ),
-                            child: Wrap(
-                              spacing: spacing.sm,
-                              runSpacing: spacing.xs,
-                              children: [
-                                for (final label in noteLabels)
-                                  LabelTag(
-                                    name: label.name,
-                                    onTap: isTrashed ? null : _openLabelPicker,
-                                  ),
-                              ],
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: isTrashed ? null : _focusBody,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: _bodyController,
+                            focusNode: _bodyFocusNode,
+                            readOnly: isTrashed,
+                            textCapitalization: TextCapitalization.sentences,
+                            style: theme.textTheme.bodyLarge,
+                            maxLines: null,
+                            decoration: InputDecoration(
+                              hintText: l10n.noteBodyHint,
+                              hintStyle: bodyHintStyle,
+                              border: InputBorder.none,
                             ),
                           ),
-                      ],
+                          // labels flow right after the body text
+                          if (noteLabels.isNotEmpty)
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: spacing.sm,
+                                bottom: spacing.lg,
+                              ),
+                              child: Wrap(
+                                spacing: spacing.sm,
+                                runSpacing: spacing.xs,
+                                children: [
+                                  for (final label in noteLabels)
+                                    LabelTag(
+                                      name: label.name,
+                                      onTap:
+                                          isTrashed ? null : _openLabelPicker,
+                                    ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

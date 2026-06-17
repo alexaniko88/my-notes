@@ -153,4 +153,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noteDeleteForever => 'Delete forever';
+
+  @override
+  String get allNotes => 'Notes';
+
+  @override
+  String get noteActionError => 'Something went wrong. Try again.';
+
+  @override
+  String get deleteForeverDialogTitle => 'Delete forever?';
+
+  @override
+  String get deleteForeverDialogBody =>
+      'This note will be permanently deleted.';
 }

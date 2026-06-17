@@ -156,4 +156,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noteDeleteForever => 'Eliminar para siempre';
+
+  @override
+  String get allNotes => 'Notas';
+
+  @override
+  String get noteActionError => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
+  String get deleteForeverDialogTitle => '¿Eliminar para siempre?';
+
+  @override
+  String get deleteForeverDialogBody =>
+      'Esta nota se eliminará permanentemente.';
 }
