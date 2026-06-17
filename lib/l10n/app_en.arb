@@ -183,5 +183,45 @@
         "type": "int"
       }
     }
+  },
+  "trash": "Trash",
+  "@trash": {
+    "description": "Trash section in the navigation drawer and the trash screen title"
+  },
+  "trashEmptyState": "No notes in Trash",
+  "@trashEmptyState": {
+    "description": "Shown on the trash screen when there are no deleted notes"
+  },
+  "trashRetentionNotice": "Notes in Trash are deleted after 7 days",
+  "@trashRetentionNotice": {
+    "description": "Notice on the trash screen explaining the auto-delete retention period"
+  },
+  "noteDelete": "Delete",
+  "@noteDelete": {
+    "description": "Delete action in the note options menu"
+  },
+  "noteRestore": "Restore",
+  "@noteRestore": {
+    "description": "Restore action in the trashed note options menu"
+  },
+  "noteDeleteForever": "Delete forever",
+  "@noteDeleteForever": {
+    "description": "Permanent delete action in the trashed note options menu"
+  },
+  "allNotes": "Notes",
+  "@allNotes": {
+    "description": "Drawer item that shows all notes without any filter"
+  },
+  "noteActionError": "Something went wrong. Try again.",
+  "@noteActionError": {
+    "description": "Snackbar shown when trashing, restoring, or deleting a note fails"
+  },
+  "deleteForeverDialogTitle": "Delete forever?",
+  "@deleteForeverDialogTitle": {
+    "description": "Title of the confirmation dialog before permanently deleting a note"
+  },
+  "deleteForeverDialogBody": "This note will be permanently deleted.",
+  "@deleteForeverDialogBody": {
+    "description": "Body of the confirmation dialog before permanently deleting a note"
   }
 }

@@ -14,6 +14,7 @@ class NoteDto extends Equatable {
   final bool isPinned;
   final Timestamp createdAt;
   final Timestamp updatedAt;
+  final Timestamp? deletedAt;
 
   const NoteDto({
     required this.id,
@@ -25,6 +26,7 @@ class NoteDto extends Equatable {
     this.body,
     this.labelIds = const [],
     this.color,
+    this.deletedAt,
   });
 
   @override
@@ -38,6 +40,7 @@ class NoteDto extends Equatable {
     isPinned,
     createdAt,
     updatedAt,
+    deletedAt,
   ];
 
   factory NoteDto.fromFirestore(Map<String, dynamic> data, String id) {
@@ -52,10 +55,12 @@ class NoteDto extends Equatable {
       isPinned: data['isPinned'] as bool? ?? false,
       createdAt: data['createdAt'] as Timestamp? ?? Timestamp.now(),
       updatedAt: data['updatedAt'] as Timestamp? ?? Timestamp.now(),
+      deletedAt: data['deletedAt'] as Timestamp?,
     );
   }
 
   factory NoteDto.fromNote(Note note) {
+    final deletedAt = note.deletedAt;
     return NoteDto(
       id: note.id,
       title: note.title,
@@ -66,6 +71,7 @@ class NoteDto extends Equatable {
       isPinned: note.isPinned,
       createdAt: Timestamp.fromDate(note.createdAt),
       updatedAt: Timestamp.fromDate(note.updatedAt),
+      deletedAt: deletedAt != null ? Timestamp.fromDate(deletedAt) : null,
     );
   }
 
@@ -80,6 +86,7 @@ class NoteDto extends Equatable {
       isPinned: isPinned,
       createdAt: createdAt.toDate(),
       updatedAt: updatedAt.toDate(),
+      deletedAt: deletedAt?.toDate(),
     );
   }
 
@@ -93,6 +100,7 @@ class NoteDto extends Equatable {
       'isPinned': isPinned,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'deletedAt': deletedAt,
     };
   }
 }

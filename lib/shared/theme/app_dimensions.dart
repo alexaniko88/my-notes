@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 
+double _lerp(double a, double b, double t) => a + (b - a) * t;
+
+@immutable
 class AppDimensions extends ThemeExtension<AppDimensions> {
-  const AppDimensions({
-    this.spacing = const AppSpacing(),
-    this.iconSize = const AppIconSize(),
-    this.imageSize = const AppImageSize(),
-    this.borderRadius = const AppBorderRadius(),
-  });
+  static const defaults = AppDimensions();
 
   final AppSpacing spacing;
   final AppIconSize iconSize;
   final AppImageSize imageSize;
   final AppBorderRadius borderRadius;
 
-  static const defaults = AppDimensions();
+  const AppDimensions({
+    this.spacing = const AppSpacing(),
+    this.iconSize = const AppIconSize(),
+    this.imageSize = const AppImageSize(),
+    this.borderRadius = const AppBorderRadius(),
+  });
 
   @override
   AppDimensions copyWith({
@@ -30,7 +33,9 @@ class AppDimensions extends ThemeExtension<AppDimensions> {
 
   @override
   AppDimensions lerp(ThemeExtension<AppDimensions>? other, double t) {
-    if (other is! AppDimensions) return this;
+    if (other is! AppDimensions) {
+      return this;
+    }
     return AppDimensions(
       spacing: AppSpacing.lerp(spacing, other.spacing, t),
       iconSize: AppIconSize.lerp(iconSize, other.iconSize, t),
@@ -40,7 +45,15 @@ class AppDimensions extends ThemeExtension<AppDimensions> {
   }
 }
 
+@immutable
 class AppSpacing {
+  final double xs;
+  final double sm;
+  final double md;
+  final double lg;
+  final double xl;
+  final double xxl;
+
   const AppSpacing({
     this.xs = 4,
     this.sm = 8,
@@ -50,41 +63,49 @@ class AppSpacing {
     this.xxl = 48,
   });
 
-  final double xs;
+  static AppSpacing lerp(AppSpacing a, AppSpacing b, double t) => AppSpacing(
+    xs: _lerp(a.xs, b.xs, t),
+    sm: _lerp(a.sm, b.sm, t),
+    md: _lerp(a.md, b.md, t),
+    lg: _lerp(a.lg, b.lg, t),
+    xl: _lerp(a.xl, b.xl, t),
+    xxl: _lerp(a.xxl, b.xxl, t),
+  );
+}
+
+@immutable
+class AppIconSize {
   final double sm;
   final double md;
   final double lg;
   final double xl;
   final double xxl;
 
-  static AppSpacing lerp(AppSpacing a, AppSpacing b, double t) => AppSpacing(
-    xs: a.xs + (b.xs - a.xs) * t,
-    sm: a.sm + (b.sm - a.sm) * t,
-    md: a.md + (b.md - a.md) * t,
-    lg: a.lg + (b.lg - a.lg) * t,
-    xl: a.xl + (b.xl - a.xl) * t,
-    xxl: a.xxl + (b.xxl - a.xxl) * t,
-  );
-}
-
-class AppIconSize {
-  const AppIconSize({this.sm = 16, this.md = 24, this.lg = 32, this.xl = 48});
-
-  final double sm;
-  final double md;
-  final double lg;
-  final double xl;
+  const AppIconSize({
+    this.sm = 16,
+    this.md = 24,
+    this.lg = 32,
+    this.xl = 48,
+    this.xxl = 64,
+  });
 
   static AppIconSize lerp(AppIconSize a, AppIconSize b, double t) =>
       AppIconSize(
-        sm: a.sm + (b.sm - a.sm) * t,
-        md: a.md + (b.md - a.md) * t,
-        lg: a.lg + (b.lg - a.lg) * t,
-        xl: a.xl + (b.xl - a.xl) * t,
+        sm: _lerp(a.sm, b.sm, t),
+        md: _lerp(a.md, b.md, t),
+        lg: _lerp(a.lg, b.lg, t),
+        xl: _lerp(a.xl, b.xl, t),
+        xxl: _lerp(a.xxl, b.xxl, t),
       );
 }
 
+@immutable
 class AppImageSize {
+  final double xs;
+  final double sm;
+  final double md;
+  final double lg;
+
   const AppImageSize({
     this.xs = 40,
     this.sm = 72,
@@ -92,21 +113,22 @@ class AppImageSize {
     this.lg = 200,
   });
 
-  final double xs;
-  final double sm;
-  final double md;
-  final double lg;
-
   static AppImageSize lerp(AppImageSize a, AppImageSize b, double t) =>
       AppImageSize(
-        xs: a.xs + (b.xs - a.xs) * t,
-        sm: a.sm + (b.sm - a.sm) * t,
-        md: a.md + (b.md - a.md) * t,
-        lg: a.lg + (b.lg - a.lg) * t,
+        xs: _lerp(a.xs, b.xs, t),
+        sm: _lerp(a.sm, b.sm, t),
+        md: _lerp(a.md, b.md, t),
+        lg: _lerp(a.lg, b.lg, t),
       );
 }
 
+@immutable
 class AppBorderRadius {
+  final double sm;
+  final double md;
+  final double lg;
+  final double xl;
+
   const AppBorderRadius({
     this.sm = 8,
     this.md = 12,
@@ -114,16 +136,11 @@ class AppBorderRadius {
     this.xl = 24,
   });
 
-  final double sm;
-  final double md;
-  final double lg;
-  final double xl;
-
   static AppBorderRadius lerp(AppBorderRadius a, AppBorderRadius b, double t) =>
       AppBorderRadius(
-        sm: a.sm + (b.sm - a.sm) * t,
-        md: a.md + (b.md - a.md) * t,
-        lg: a.lg + (b.lg - a.lg) * t,
-        xl: a.xl + (b.xl - a.xl) * t,
+        sm: _lerp(a.sm, b.sm, t),
+        md: _lerp(a.md, b.md, t),
+        lg: _lerp(a.lg, b.lg, t),
+        xl: _lerp(a.xl, b.xl, t),
       );
 }

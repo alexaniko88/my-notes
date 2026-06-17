@@ -135,4 +135,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String labelMaxReached(int count) {
     return 'You can add up to $count labels';
   }
+
+  @override
+  String get trash => 'Trash';
+
+  @override
+  String get trashEmptyState => 'No notes in Trash';
+
+  @override
+  String get trashRetentionNotice => 'Notes in Trash are deleted after 7 days';
+
+  @override
+  String get noteDelete => 'Delete';
+
+  @override
+  String get noteRestore => 'Restore';
+
+  @override
+  String get noteDeleteForever => 'Delete forever';
+
+  @override
+  String get allNotes => 'Notes';
+
+  @override
+  String get noteActionError => 'Something went wrong. Try again.';
+
+  @override
+  String get deleteForeverDialogTitle => 'Delete forever?';
+
+  @override
+  String get deleteForeverDialogBody =>
+      'This note will be permanently deleted.';
 }

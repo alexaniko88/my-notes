@@ -7,8 +7,10 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/domain/models/note_type.dart';
+import 'package:my_notes/presentation/providers/labels/labels_provider.dart';
 import 'package:my_notes/presentation/providers/labels/selected_label_provider.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
+import 'package:my_notes/presentation/providers/trash/selected_trash_provider.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/home/app_drawer.dart';
 import 'package:my_notes/presentation/widgets/home/fab_notes.dart';
@@ -76,6 +78,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       (AppIconName.pictureAsPdfOutlined, l10n.fabOptionPdf, null),
     ];
 
+    final isTrashSelected = ref.watch(selectedTrashProvider);
+    final selectedLabelId = ref.watch(selectedLabelProvider);
+    final labels = ref.watch(labelsProvider).asData?.value ?? const [];
+    final selectedLabelName =
+        labels.where((label) => label.id == selectedLabelId).firstOrNull?.name;
+
+    final activeNotes = ref.watch(activeNotesProvider);
+    final trashedNotes = ref.watch(trashedNotesProvider);
+    final List<Note> currentNotes;
+    if (isTrashSelected) {
+      currentNotes = trashedNotes;
+    } else if (selectedLabelId != null) {
+      currentNotes =
+          activeNotes
+              .where((note) => note.labelIds.contains(selectedLabelId))
+              .toList();
+    } else {
+      currentNotes = activeNotes;
+    }
+    final hasNotes = currentNotes.isNotEmpty;
+
+    final Widget titleWidget;
+    if (isTrashSelected) {
+      titleWidget = Text(
+        l10n.trash,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    } else if (selectedLabelName != null) {
+      titleWidget = Text(
+        selectedLabelName,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    } else {
+      titleWidget = _PlaygroundTitle(label: l10n.appTitle);
+    }
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -119,12 +159,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           onPressed: () => Scaffold.of(context).openDrawer(),
                         ),
                   ),
-                  title: _PlaygroundTitle(label: l10n.appTitle),
+                  title: titleWidget,
                   actions: [
-                    IconButton(
-                      icon: const AppIcon(name: AppIconName.search),
-                      onPressed: _startSearch,
-                    ),
+                    if (hasNotes)
+                      IconButton(
+                        icon: const AppIcon(name: AppIconName.search),
+                        onPressed: _startSearch,
+                      ),
                   ],
                 ),
         body: Stack(
@@ -133,9 +174,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               emptyLabel: l10n.notesEmptyState,
               noResultsLabel: l10n.searchNoResults,
               labelNoNotesLabel: l10n.labelNoNotes,
+              trashEmptyLabel: l10n.trashEmptyState,
+              trashRetentionLabel: l10n.trashRetentionNotice,
               searchQuery: _searchController.text,
             ),
-            FabNotes(options: options),
+            if (!isTrashSelected) FabNotes(options: options),
           ],
         ),
       ),
@@ -193,12 +236,16 @@ class _NotesGrid extends ConsumerStatefulWidget {
   final String emptyLabel;
   final String noResultsLabel;
   final String labelNoNotesLabel;
+  final String trashEmptyLabel;
+  final String trashRetentionLabel;
   final String searchQuery;
 
   const _NotesGrid({
     required this.emptyLabel,
     required this.noResultsLabel,
     required this.labelNoNotesLabel,
+    required this.trashEmptyLabel,
+    required this.trashRetentionLabel,
     required this.searchQuery,
   });
 
@@ -212,7 +259,7 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
   @override
   void initState() {
     super.initState();
-    _notes = List.of(ref.read(notesProvider).asData?.value ?? []);
+    _notes = List.of(ref.read(activeNotesProvider));
   }
 
   void _onReorder(int fromIndex, int toIndex) {
@@ -242,18 +289,26 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(notesProvider, (
-      AsyncValue<List<Note>>? _,
-      AsyncValue<List<Note>> next,
-    ) {
-      final notes = next.asData?.value;
-      if (notes != null) {
-        setState(() => _notes = List.of(notes));
-      }
+    ref.listen(activeNotesProvider, (List<Note>? _, List<Note> next) {
+      setState(() => _notes = List.of(next));
     });
 
     final theme = Theme.of(context);
     final query = widget.searchQuery;
+    final isTrashSelected = ref.watch(selectedTrashProvider);
+
+    if (isTrashSelected) {
+      final trashedNotes = ref.watch(trashedNotesProvider);
+      if (trashedNotes.isEmpty) {
+        return _NotesEmptyState(
+          icon: AppIconName.deleteOutlined,
+          title: widget.trashEmptyLabel,
+          subtitle: widget.trashRetentionLabel,
+        );
+      }
+      return _notesMasonry(context, trashedNotes, onReorder: null);
+    }
+
     final selectedLabelId = ref.watch(selectedLabelProvider);
     final labelFilteredNotes = _applyLabelFilter(selectedLabelId);
     final displayedNotes = _applyQuery(labelFilteredNotes, query);
@@ -265,8 +320,9 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
     }
 
     if (labelFilteredNotes.isEmpty) {
-      return Center(
-        child: Text(widget.labelNoNotesLabel, style: theme.textTheme.bodyLarge),
+      return _NotesEmptyState(
+        icon: AppIconName.labelOutlined,
+        title: widget.labelNoNotesLabel,
       );
     }
 
@@ -276,15 +332,21 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
       );
     }
 
+    return _notesMasonry(context, displayedNotes, onReorder: _onReorder);
+  }
+
+  Widget _notesMasonry(
+    BuildContext context,
+    List<Note> notes, {
+    required void Function(int from, int to)? onReorder,
+  }) {
     final spacing = context.dimensions.spacing;
     final cardWidth =
         (MediaQuery.sizeOf(context).width - spacing.md * 2 - spacing.sm) / 2;
 
-    final leftItems = [
-      for (var i = 0; i < displayedNotes.length; i += 2) (i, displayedNotes[i]),
-    ];
+    final leftItems = [for (var i = 0; i < notes.length; i += 2) (i, notes[i])];
     final rightItems = [
-      for (var i = 1; i < displayedNotes.length; i += 2) (i, displayedNotes[i]),
+      for (var i = 1; i < notes.length; i += 2) (i, notes[i]),
     ];
 
     return SingleChildScrollView(
@@ -296,8 +358,8 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
             child: _MasonryColumn(
               items: leftItems,
               cardWidth: cardWidth,
-              searchQuery: query,
-              onReorder: _onReorder,
+              searchQuery: widget.searchQuery,
+              onReorder: onReorder,
             ),
           ),
           Gap(spacing.sm),
@@ -305,8 +367,8 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
             child: _MasonryColumn(
               items: rightItems,
               cardWidth: cardWidth,
-              searchQuery: query,
-              onReorder: _onReorder,
+              searchQuery: widget.searchQuery,
+              onReorder: onReorder,
             ),
           ),
         ],
@@ -319,7 +381,7 @@ class _MasonryColumn extends StatelessWidget {
   final List<(int, Note)> items;
   final double cardWidth;
   final String searchQuery;
-  final void Function(int from, int to) onReorder;
+  final void Function(int from, int to)? onReorder;
 
   const _MasonryColumn({
     required this.items,
@@ -357,7 +419,7 @@ class _DraggableNoteItem extends StatelessWidget {
   final int index;
   final double cardWidth;
   final String searchQuery;
-  final void Function(int from, int to) onReorder;
+  final void Function(int from, int to)? onReorder;
 
   const _DraggableNoteItem({
     super.key,
@@ -370,8 +432,22 @@ class _DraggableNoteItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tappableCard = GestureDetector(
+      onTap:
+          () => context.pushNamed(
+            AppRoute.note.name,
+            queryParameters: {'id': note.id},
+          ),
+      child: NoteCard(note: note, searchQuery: searchQuery),
+    );
+
+    final reorder = onReorder;
+    if (reorder == null) {
+      return tappableCard;
+    }
+
     return DragTarget<int>(
-      onAcceptWithDetails: (details) => onReorder(details.data, index),
+      onAcceptWithDetails: (details) => reorder(details.data, index),
       builder: (context, candidateData, _) {
         return AnimatedOpacity(
           duration: _highlightDuration,
@@ -389,17 +465,58 @@ class _DraggableNoteItem extends StatelessWidget {
               opacity: 0.3,
               child: NoteCard(note: note, searchQuery: searchQuery),
             ),
-            child: GestureDetector(
-              onTap:
-                  () => context.pushNamed(
-                    AppRoute.note.name,
-                    queryParameters: {'id': note.id},
-                  ),
-              child: NoteCard(note: note, searchQuery: searchQuery),
-            ),
+            child: tappableCard,
           ),
         );
       },
+    );
+  }
+}
+
+class _NotesEmptyState extends StatelessWidget {
+  final AppIconName icon;
+  final String title;
+  final String? subtitle;
+
+  const _NotesEmptyState({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final dimensions = context.dimensions;
+
+    final color = theme.colorScheme.onSurfaceVariant;
+    final titleStyle = theme.textTheme.bodyLarge?.copyWith(color: color);
+    final subtitleStyle = theme.textTheme.labelSmall?.copyWith(
+      color: color,
+      fontStyle: FontStyle.italic,
+    );
+    final subtitleText = subtitle;
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: dimensions.spacing.xl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppIcon(name: icon, size: dimensions.iconSize.xxl, color: color),
+            Gap(dimensions.spacing.md),
+            Text(title, style: titleStyle, textAlign: TextAlign.center),
+            if (subtitleText != null) ...[
+              Gap(dimensions.spacing.sm),
+              Text(
+                subtitleText,
+                style: subtitleStyle,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

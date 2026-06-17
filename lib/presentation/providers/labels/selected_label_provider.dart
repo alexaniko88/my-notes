@@ -18,6 +18,10 @@ class SelectedLabelNotifier extends _$SelectedLabelNotifier {
     state = state == labelId ? null : labelId;
   }
 
+  void clear() {
+    state = null;
+  }
+
   void clearIf(String labelId) {
     if (state == labelId) {
       state = null;

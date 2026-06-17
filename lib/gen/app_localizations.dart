@@ -325,6 +325,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can add up to {count} labels'**
   String labelMaxReached(int count);
+
+  /// Trash section in the navigation drawer and the trash screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Trash'**
+  String get trash;
+
+  /// Shown on the trash screen when there are no deleted notes
+  ///
+  /// In en, this message translates to:
+  /// **'No notes in Trash'**
+  String get trashEmptyState;
+
+  /// Notice on the trash screen explaining the auto-delete retention period
+  ///
+  /// In en, this message translates to:
+  /// **'Notes in Trash are deleted after 7 days'**
+  String get trashRetentionNotice;
+
+  /// Delete action in the note options menu
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get noteDelete;
+
+  /// Restore action in the trashed note options menu
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get noteRestore;
+
+  /// Permanent delete action in the trashed note options menu
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get noteDeleteForever;
+
+  /// Drawer item that shows all notes without any filter
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get allNotes;
+
+  /// Snackbar shown when trashing, restoring, or deleting a note fails
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get noteActionError;
+
+  /// Title of the confirmation dialog before permanently deleting a note
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever?'**
+  String get deleteForeverDialogTitle;
+
+  /// Body of the confirmation dialog before permanently deleting a note
+  ///
+  /// In en, this message translates to:
+  /// **'This note will be permanently deleted.'**
+  String get deleteForeverDialogBody;
 }
 
 class _AppLocalizationsDelegate

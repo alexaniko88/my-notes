@@ -84,6 +84,54 @@ class FirebaseNoteRepository implements NoteRepository {
   }
 
   @override
+  Future<void> moveToTrash(String id) async {
+    try {
+      await _notesCollection.doc(id).update({'deletedAt': Timestamp.now()});
+    } on FirebaseException catch (e) {
+      if (e.code == 'not-found') {
+        throw NoteException('Note not found', cause: e);
+      }
+      throw NoteException('Failed to move note to trash', cause: e);
+    }
+  }
+
+  @override
+  Future<void> restore(String id) async {
+    try {
+      await _notesCollection.doc(id).update({'deletedAt': null});
+    } on FirebaseException catch (e) {
+      if (e.code == 'not-found') {
+        throw NoteException('Note not found', cause: e);
+      }
+      throw NoteException('Failed to restore note', cause: e);
+    }
+  }
+
+  @override
+  Future<int> purgeExpired(DateTime cutoff) async {
+    try {
+      final snapshot =
+          await _notesCollection
+              .where(
+                'deletedAt',
+                isLessThanOrEqualTo: Timestamp.fromDate(cutoff),
+              )
+              .get();
+      if (snapshot.docs.isEmpty) {
+        return 0;
+      }
+      final batch = _notesCollection.firestore.batch();
+      for (final doc in snapshot.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
+      return snapshot.docs.length;
+    } on FirebaseException catch (e) {
+      throw NoteException('Failed to purge expired notes', cause: e);
+    }
+  }
+
+  @override
   Future<void> clearLabel(String labelId) async {
     try {
       final snapshot =

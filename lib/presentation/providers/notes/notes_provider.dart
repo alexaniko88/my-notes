@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:my_notes/data/repositories/firebase_note_repository.dart';
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/domain/models/note_exception.dart';
@@ -22,7 +24,22 @@ class NotesNotifier extends _$NotesNotifier {
   NoteRepository get _repo => ref.read(noteRepositoryProvider);
 
   @override
-  Stream<List<Note>> build() => ref.watch(noteRepositoryProvider).watchAll();
+  Stream<List<Note>> build() {
+    final repo = ref.watch(noteRepositoryProvider);
+    // Best-effort cleanup of notes whose trash retention has elapsed; runs
+    // once when the notes stream initializes (app launch / auth change).
+    unawaited(_purgeExpiredTrash(repo));
+    return repo.watchAll();
+  }
+
+  Future<void> _purgeExpiredTrash(NoteRepository repo) async {
+    final cutoff = DateTime.now().subtract(Note.trashRetention);
+    try {
+      await repo.purgeExpired(cutoff);
+    } on NoteException {
+      // Purge is best-effort; ignore failures and retry on the next launch.
+    }
+  }
 
   Future<String> add({
     String? title,
@@ -58,6 +75,14 @@ class NotesNotifier extends _$NotesNotifier {
     await _repo.delete(id);
   }
 
+  Future<void> moveToTrash(String id) async {
+    await _repo.moveToTrash(id);
+  }
+
+  Future<void> restore(String id) async {
+    await _repo.restore(id);
+  }
+
   Future<void> togglePin(String id) async {
     final notes = state.asData?.value ?? [];
     final note = notes.where((n) => n.id == id).firstOrNull;
@@ -86,4 +111,27 @@ class NotesNotifier extends _$NotesNotifier {
 Note? note(Ref ref, String id) {
   final notes = ref.watch(notesProvider).asData?.value ?? [];
   return notes.where((n) => n.id == id).firstOrNull;
+}
+
+/// Active (non-trashed) notes, preserving the repository's position order.
+@riverpod
+List<Note> activeNotes(Ref ref) {
+  final notes = ref.watch(notesProvider).asData?.value ?? const [];
+  return notes.where((n) => !n.isTrashed).toList();
+}
+
+/// Trashed notes, most recently deleted first.
+@riverpod
+List<Note> trashedNotes(Ref ref) {
+  final notes = ref.watch(notesProvider).asData?.value ?? const [];
+  final trashed = notes.where((n) => n.isTrashed).toList();
+  trashed.sort((a, b) {
+    final aDeleted = a.deletedAt;
+    final bDeleted = b.deletedAt;
+    if (aDeleted == null || bDeleted == null) {
+      return 0;
+    }
+    return bDeleted.compareTo(aDeleted);
+  });
+  return trashed;
 }

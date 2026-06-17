@@ -137,4 +137,36 @@ class AppLocalizationsEs extends AppLocalizations {
   String labelMaxReached(int count) {
     return 'Puedes añadir hasta $count etiquetas';
   }
+
+  @override
+  String get trash => 'Papelera';
+
+  @override
+  String get trashEmptyState => 'No hay notas en la papelera';
+
+  @override
+  String get trashRetentionNotice =>
+      'Las notas de la papelera se eliminan después de 7 días';
+
+  @override
+  String get noteDelete => 'Eliminar';
+
+  @override
+  String get noteRestore => 'Restaurar';
+
+  @override
+  String get noteDeleteForever => 'Eliminar para siempre';
+
+  @override
+  String get allNotes => 'Notas';
+
+  @override
+  String get noteActionError => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
+  String get deleteForeverDialogTitle => '¿Eliminar para siempre?';
+
+  @override
+  String get deleteForeverDialogBody =>
+      'Esta nota se eliminará permanentemente.';
 }

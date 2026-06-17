@@ -36,5 +36,15 @@
   "labelNoNotes": "No hay notas con esta etiqueta",
   "labelSearchHint": "Nombre de la etiqueta",
   "labelCreateNew": "Crear \"{name}\"",
-  "labelMaxReached": "Puedes añadir hasta {count} etiquetas"
+  "labelMaxReached": "Puedes añadir hasta {count} etiquetas",
+  "trash": "Papelera",
+  "trashEmptyState": "No hay notas en la papelera",
+  "trashRetentionNotice": "Las notas de la papelera se eliminan después de 7 días",
+  "noteDelete": "Eliminar",
+  "noteRestore": "Restaurar",
+  "noteDeleteForever": "Eliminar para siempre",
+  "allNotes": "Notas",
+  "noteActionError": "Algo salió mal. Inténtalo de nuevo.",
+  "deleteForeverDialogTitle": "¿Eliminar para siempre?",
+  "deleteForeverDialogBody": "Esta nota se eliminará permanentemente."
 }

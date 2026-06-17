@@ -74,7 +74,7 @@ final class NotesNotifierProvider
   NotesNotifier create() => NotesNotifier();
 }
 
-String _$notesNotifierHash() => r'4effb60fc01eec73845ab634f5e7c73d6ca1a380';
+String _$notesNotifierHash() => r'a2b0b8e3580572426a2f98f037b88647281e8b00';
 
 abstract class _$NotesNotifier extends $StreamNotifier<List<Note>> {
   Stream<List<Note>> build();
@@ -168,3 +168,95 @@ final class NoteFamily extends $Family
   @override
   String toString() => r'noteProvider';
 }
+
+/// Active (non-trashed) notes, preserving the repository's position order.
+
+@ProviderFor(activeNotes)
+final activeNotesProvider = ActiveNotesProvider._();
+
+/// Active (non-trashed) notes, preserving the repository's position order.
+
+final class ActiveNotesProvider
+    extends $FunctionalProvider<List<Note>, List<Note>, List<Note>>
+    with $Provider<List<Note>> {
+  /// Active (non-trashed) notes, preserving the repository's position order.
+  ActiveNotesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeNotesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$activeNotesHash();
+
+  @$internal
+  @override
+  $ProviderElement<List<Note>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  List<Note> create(Ref ref) {
+    return activeNotes(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<Note> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<Note>>(value),
+    );
+  }
+}
+
+String _$activeNotesHash() => r'f066d58b0e9d930d7c7185c3d6d2f5f81acf5d7c';
+
+/// Trashed notes, most recently deleted first.
+
+@ProviderFor(trashedNotes)
+final trashedNotesProvider = TrashedNotesProvider._();
+
+/// Trashed notes, most recently deleted first.
+
+final class TrashedNotesProvider
+    extends $FunctionalProvider<List<Note>, List<Note>, List<Note>>
+    with $Provider<List<Note>> {
+  /// Trashed notes, most recently deleted first.
+  TrashedNotesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'trashedNotesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$trashedNotesHash();
+
+  @$internal
+  @override
+  $ProviderElement<List<Note>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  List<Note> create(Ref ref) {
+    return trashedNotes(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<Note> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<Note>>(value),
+    );
+  }
+}
+
+String _$trashedNotesHash() => r'c178e8ecf69690df3bd35277653b5a829e086b88';
