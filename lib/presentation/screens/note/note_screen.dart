@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/presentation/providers/labels/labels_provider.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
@@ -30,7 +31,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   int? _noteColor;
   String? _noteId;
   bool _isSaving = false;
-  bool _isDeleting = false;
+  bool _isClosing = false;
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   }
 
   Future<void> _save() async {
-    if (_isSaving || _isDeleting) return;
+    if (_isSaving || _isClosing) return;
     final title = _titleController.text.isEmpty ? null : _titleController.text;
     final body = _bodyController.text.isEmpty ? null : _bodyController.text;
 
@@ -110,25 +111,58 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
     }
   }
 
-  void _showOptions(DateTime updatedAt) {
+  void _showOptions(Note note) {
     showModalBottomSheet<void>(
       context: context,
-      builder:
-          (sheetContext) => NoteOptionsSheet(
-            updatedAt: updatedAt,
-            onDelete: () {
+      builder: (sheetContext) {
+        if (note.isTrashed) {
+          return TrashedNoteOptionsSheet(
+            onRestore: () {
               Navigator.of(sheetContext).pop();
-              _deleteNote();
+              _restoreNote();
             },
-          ),
+            onDeleteForever: () {
+              Navigator.of(sheetContext).pop();
+              _deleteForever();
+            },
+          );
+        }
+        return NoteOptionsSheet(
+          updatedAt: note.updatedAt,
+          onDelete: () {
+            Navigator.of(sheetContext).pop();
+            _moveToTrash();
+          },
+        );
+      },
     );
   }
 
-  Future<void> _deleteNote() async {
+  Future<void> _moveToTrash() async {
     final noteId = _noteId;
     if (noteId == null) return;
-    _isDeleting = true;
+    _isClosing = true;
     await ref.read(notesProvider.notifier).moveToTrash(noteId);
+    if (mounted) {
+      GoRouter.of(context).pop();
+    }
+  }
+
+  Future<void> _restoreNote() async {
+    final noteId = _noteId;
+    if (noteId == null) return;
+    _isClosing = true;
+    await ref.read(notesProvider.notifier).restore(noteId);
+    if (mounted) {
+      GoRouter.of(context).pop();
+    }
+  }
+
+  Future<void> _deleteForever() async {
+    final noteId = _noteId;
+    if (noteId == null) return;
+    _isClosing = true;
+    await ref.read(notesProvider.notifier).delete(noteId);
     if (mounted) {
       GoRouter.of(context).pop();
     }
@@ -171,6 +205,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
         allLabels.where((label) => _labelIds.contains(label.id)).toList();
     final noteId = _noteId;
     final note = noteId != null ? ref.watch(noteProvider(noteId)) : null;
+    final isTrashed = note?.isTrashed ?? false;
 
     return PopScope(
       canPop: false,
@@ -188,7 +223,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
                     children: [
                       AppIconButton(
                         icon: AppIconName.moreVert,
-                        onPressed: () => _showOptions(note.updatedAt),
+                        onPressed: () => _showOptions(note),
                       ),
                     ],
                   ),
@@ -197,12 +232,18 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
           backgroundColor: backgroundColor,
           leading: BackButton(onPressed: _saveAndPop),
           actionsPadding: EdgeInsets.only(right: spacing.sm),
-          actions: [
-            AppIconButton(
-              icon: AppIconName.labelOutlined,
-              onPressed: _openLabelPicker,
-            ),
-          ],
+          // Trashed notes expose only the Restore / Delete-forever options
+          // (in the bottom bar); every editing action is hidden. Keep new
+          // actions inside this list so they stay gated behind isTrashed.
+          actions:
+              isTrashed
+                  ? const []
+                  : [
+                    AppIconButton(
+                      icon: AppIconName.labelOutlined,
+                      onPressed: _openLabelPicker,
+                    ),
+                  ],
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: spacing.md),
@@ -252,7 +293,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
                                 for (final label in noteLabels)
                                   LabelTag(
                                     name: label.name,
-                                    onTap: _openLabelPicker,
+                                    onTap: isTrashed ? null : _openLabelPicker,
                                   ),
                               ],
                             ),

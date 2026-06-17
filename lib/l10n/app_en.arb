@@ -199,5 +199,13 @@
   "noteDelete": "Delete",
   "@noteDelete": {
     "description": "Delete action in the note options menu"
+  },
+  "noteRestore": "Restore",
+  "@noteRestore": {
+    "description": "Restore action in the trashed note options menu"
+  },
+  "noteDeleteForever": "Delete forever",
+  "@noteDeleteForever": {
+    "description": "Permanent delete action in the trashed note options menu"
   }
 }

@@ -50,3 +50,38 @@ class NoteOptionsSheet extends StatelessWidget {
     );
   }
 }
+
+class TrashedNoteOptionsSheet extends StatelessWidget {
+  final VoidCallback onRestore;
+  final VoidCallback onDeleteForever;
+
+  const TrashedNoteOptionsSheet({
+    super.key,
+    required this.onRestore,
+    required this.onDeleteForever,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ListTile(
+            leading: const AppIcon(name: AppIconName.restore),
+            title: Text(l10n.noteRestore),
+            onTap: onRestore,
+          ),
+          ListTile(
+            leading: const AppIcon(name: AppIconName.deleteForever),
+            title: Text(l10n.noteDeleteForever),
+            onTap: onDeleteForever,
+          ),
+        ],
+      ),
+    );
+  }
+}

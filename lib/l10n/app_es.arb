@@ -40,5 +40,7 @@
   "trash": "Papelera",
   "trashEmptyState": "No hay notas en la papelera",
   "trashRetentionNotice": "Las notas de la papelera se eliminan después de 7 días",
-  "noteDelete": "Eliminar"
+  "noteDelete": "Eliminar",
+  "noteRestore": "Restaurar",
+  "noteDeleteForever": "Eliminar para siempre"
 }

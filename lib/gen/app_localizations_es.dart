@@ -150,4 +150,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noteDelete => 'Eliminar';
+
+  @override
+  String get noteRestore => 'Restaurar';
+
+  @override
+  String get noteDeleteForever => 'Eliminar para siempre';
 }

@@ -349,6 +349,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get noteDelete;
+
+  /// Restore action in the trashed note options menu
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get noteRestore;
+
+  /// Permanent delete action in the trashed note options menu
+  ///
+  /// In en, this message translates to:
+  /// **'Delete forever'**
+  String get noteDeleteForever;
 }
 
 class _AppLocalizationsDelegate

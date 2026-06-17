@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/domain/models/note_type.dart';
+import 'package:my_notes/presentation/providers/labels/labels_provider.dart';
 import 'package:my_notes/presentation/providers/labels/selected_label_provider.dart';
 import 'package:my_notes/presentation/providers/notes/notes_provider.dart';
 import 'package:my_notes/presentation/providers/trash/selected_trash_provider.dart';
@@ -77,6 +78,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       (AppIconName.pictureAsPdfOutlined, l10n.fabOptionPdf, null),
     ];
 
+    final isTrashSelected = ref.watch(selectedTrashProvider);
+    final selectedLabelId = ref.watch(selectedLabelProvider);
+    final labels = ref.watch(labelsProvider).asData?.value ?? const [];
+    final selectedLabelName =
+        labels.where((label) => label.id == selectedLabelId).firstOrNull?.name;
+
+    final activeNotes = ref.watch(activeNotesProvider);
+    final trashedNotes = ref.watch(trashedNotesProvider);
+    final List<Note> currentNotes;
+    if (isTrashSelected) {
+      currentNotes = trashedNotes;
+    } else if (selectedLabelId != null) {
+      currentNotes =
+          activeNotes
+              .where((note) => note.labelIds.contains(selectedLabelId))
+              .toList();
+    } else {
+      currentNotes = activeNotes;
+    }
+    final hasNotes = currentNotes.isNotEmpty;
+
+    final Widget titleWidget;
+    if (isTrashSelected) {
+      titleWidget = Text(
+        l10n.trash,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    } else if (selectedLabelName != null) {
+      titleWidget = Text(
+        selectedLabelName,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    } else {
+      titleWidget = _PlaygroundTitle(label: l10n.appTitle);
+    }
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -120,12 +159,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           onPressed: () => Scaffold.of(context).openDrawer(),
                         ),
                   ),
-                  title: _PlaygroundTitle(label: l10n.appTitle),
+                  title: titleWidget,
                   actions: [
-                    IconButton(
-                      icon: const AppIcon(name: AppIconName.search),
-                      onPressed: _startSearch,
-                    ),
+                    if (hasNotes)
+                      IconButton(
+                        icon: const AppIcon(name: AppIconName.search),
+                        onPressed: _startSearch,
+                      ),
                   ],
                 ),
         body: Stack(
@@ -138,7 +178,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               trashRetentionLabel: l10n.trashRetentionNotice,
               searchQuery: _searchController.text,
             ),
-            FabNotes(options: options),
+            if (!isTrashSelected) FabNotes(options: options),
           ],
         ),
       ),
