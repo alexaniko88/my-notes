@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
+import 'package:my_notes/domain/models/note_exception.dart';
 import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/presentation/providers/labels/labels_provider.dart';
 import 'package:my_notes/presentation/providers/labels/selected_label_provider.dart';
@@ -176,6 +177,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               labelNoNotesLabel: l10n.labelNoNotes,
               trashEmptyLabel: l10n.trashEmptyState,
               trashRetentionLabel: l10n.trashRetentionNotice,
+              pinnedLabel: l10n.sectionPinned,
+              othersLabel: l10n.sectionOthers,
               searchQuery: _searchController.text,
             ),
             if (!isTrashSelected) FabNotes(options: options),
@@ -238,6 +241,8 @@ class _NotesGrid extends ConsumerStatefulWidget {
   final String labelNoNotesLabel;
   final String trashEmptyLabel;
   final String trashRetentionLabel;
+  final String pinnedLabel;
+  final String othersLabel;
   final String searchQuery;
 
   const _NotesGrid({
@@ -246,6 +251,8 @@ class _NotesGrid extends ConsumerStatefulWidget {
     required this.labelNoNotesLabel,
     required this.trashEmptyLabel,
     required this.trashRetentionLabel,
+    required this.pinnedLabel,
+    required this.othersLabel,
     required this.searchQuery,
   });
 
@@ -254,25 +261,60 @@ class _NotesGrid extends ConsumerStatefulWidget {
 }
 
 class _NotesGridState extends ConsumerState<_NotesGrid> {
-  late List<Note> _notes;
+  // Pinned and unpinned notes are tracked separately so each section can be
+  // reordered independently; both are re-synced whenever the source changes.
+  late List<Note> _pinned;
+  late List<Note> _others;
 
   @override
   void initState() {
     super.initState();
-    _notes = List.of(ref.read(activeNotesProvider));
+    _syncFrom(ref.read(activeNotesProvider));
   }
 
-  void _onReorder(int fromIndex, int toIndex) {
-    if (fromIndex == toIndex) return;
+  void _syncFrom(List<Note> notes) {
+    _pinned = notes.where((n) => n.isPinned).toList();
+    _others = notes.where((n) => !n.isPinned).toList();
+  }
+
+  // Reorders within a single section. [from]/[to] index into the displayed
+  // (filtered) list, so they are mapped back to the underlying [local] list
+  // by note identity to stay correct under an active label/search filter.
+  void _reorderWithin(
+    List<Note> local,
+    List<Note> displayed,
+    int from,
+    int to,
+  ) {
+    if (from == to) return;
+    final movedNote = displayed[from];
+    final targetNote = displayed[to];
+    final localFrom = local.indexOf(movedNote);
+    final localTo = local.indexOf(targetNote);
+    if (localFrom == -1 || localTo == -1) return;
     setState(() {
-      final note = _notes.removeAt(fromIndex);
-      _notes.insert(toIndex, note);
+      final note = local.removeAt(localFrom);
+      local.insert(localTo, note);
     });
+    unawaited(_persistReorder());
   }
 
-  List<Note> _applyLabelFilter(String? labelId) {
-    if (labelId == null) return _notes;
-    return _notes.where((n) => n.labelIds.contains(labelId)).toList();
+  // Persists the new ordering of both sections. Best-effort: a failed write
+  // leaves the stored order intact, which the next stream emission restores.
+  Future<void> _persistReorder() async {
+    try {
+      await ref.read(notesProvider.notifier).persistOrder([
+        ..._pinned,
+        ..._others,
+      ]);
+    } on NoteException {
+      // Ignored — reordering is non-critical and self-heals on the next sync.
+    }
+  }
+
+  List<Note> _applyLabelFilter(List<Note> notes, String? labelId) {
+    if (labelId == null) return notes;
+    return notes.where((n) => n.labelIds.contains(labelId)).toList();
   }
 
   List<Note> _applyQuery(List<Note> notes, String query) {
@@ -290,10 +332,11 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
   @override
   Widget build(BuildContext context) {
     ref.listen(activeNotesProvider, (List<Note>? _, List<Note> next) {
-      setState(() => _notes = List.of(next));
+      setState(() => _syncFrom(next));
     });
 
     final theme = Theme.of(context);
+    final spacing = context.dimensions.spacing;
     final query = widget.searchQuery;
     final isTrashSelected = ref.watch(selectedTrashProvider);
 
@@ -306,38 +349,87 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
           subtitle: widget.trashRetentionLabel,
         );
       }
-      return _notesMasonry(context, trashedNotes, onReorder: null);
+      return _scrollContainer([
+        _notesMasonry(context, trashedNotes, section: null, onReorder: null),
+      ]);
     }
 
     final selectedLabelId = ref.watch(selectedLabelProvider);
-    final labelFilteredNotes = _applyLabelFilter(selectedLabelId);
-    final displayedNotes = _applyQuery(labelFilteredNotes, query);
+    final pinnedFiltered = _applyLabelFilter(_pinned, selectedLabelId);
+    final othersFiltered = _applyLabelFilter(_others, selectedLabelId);
+    final pinnedDisplayed = _applyQuery(pinnedFiltered, query);
+    final othersDisplayed = _applyQuery(othersFiltered, query);
 
-    if (_notes.isEmpty) {
+    if (_pinned.isEmpty && _others.isEmpty) {
       return Center(
         child: Text(widget.emptyLabel, style: theme.textTheme.bodyLarge),
       );
     }
 
-    if (labelFilteredNotes.isEmpty) {
+    if (pinnedFiltered.isEmpty && othersFiltered.isEmpty) {
       return _NotesEmptyState(
         icon: AppIconName.labelOutlined,
         title: widget.labelNoNotesLabel,
       );
     }
 
-    if (displayedNotes.isEmpty) {
+    if (pinnedDisplayed.isEmpty && othersDisplayed.isEmpty) {
       return Center(
         child: Text(widget.noResultsLabel, style: theme.textTheme.bodyLarge),
       );
     }
 
-    return _notesMasonry(context, displayedNotes, onReorder: _onReorder);
+    final children = <Widget>[];
+
+    // Section headers only appear once something is pinned; with no pinned
+    // notes the grid stays a single headerless list, as before.
+    if (pinnedDisplayed.isNotEmpty) {
+      children.add(_NotesSectionHeader(title: widget.pinnedLabel));
+      children.add(
+        _notesMasonry(
+          context,
+          pinnedDisplayed,
+          section: _NoteSection.pinned,
+          onReorder:
+              (from, to) => _reorderWithin(_pinned, pinnedDisplayed, from, to),
+        ),
+      );
+      if (othersDisplayed.isNotEmpty) {
+        children.add(Gap(spacing.lg));
+        children.add(_NotesSectionHeader(title: widget.othersLabel));
+      }
+    }
+
+    if (othersDisplayed.isNotEmpty) {
+      children.add(
+        _notesMasonry(
+          context,
+          othersDisplayed,
+          section: _NoteSection.others,
+          onReorder:
+              (from, to) => _reorderWithin(_others, othersDisplayed, from, to),
+        ),
+      );
+    }
+
+    return _scrollContainer(children);
+  }
+
+  Widget _scrollContainer(List<Widget> children) {
+    final spacing = context.dimensions.spacing;
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(spacing.md),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    );
   }
 
   Widget _notesMasonry(
     BuildContext context,
     List<Note> notes, {
+    required _NoteSection? section,
     required void Function(int from, int to)? onReorder,
   }) {
     final spacing = context.dimensions.spacing;
@@ -349,44 +441,45 @@ class _NotesGridState extends ConsumerState<_NotesGrid> {
       for (var i = 1; i < notes.length; i += 2) (i, notes[i]),
     ];
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(spacing.md),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: _MasonryColumn(
-              items: leftItems,
-              cardWidth: cardWidth,
-              searchQuery: widget.searchQuery,
-              onReorder: onReorder,
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: _NoteCardColumn(
+            items: leftItems,
+            cardWidth: cardWidth,
+            searchQuery: widget.searchQuery,
+            section: section,
+            onReorder: onReorder,
           ),
-          Gap(spacing.sm),
-          Expanded(
-            child: _MasonryColumn(
-              items: rightItems,
-              cardWidth: cardWidth,
-              searchQuery: widget.searchQuery,
-              onReorder: onReorder,
-            ),
+        ),
+        Gap(spacing.sm),
+        Expanded(
+          child: _NoteCardColumn(
+            items: rightItems,
+            cardWidth: cardWidth,
+            searchQuery: widget.searchQuery,
+            section: section,
+            onReorder: onReorder,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
 
-class _MasonryColumn extends StatelessWidget {
+class _NoteCardColumn extends StatelessWidget {
   final List<(int, Note)> items;
   final double cardWidth;
   final String searchQuery;
+  final _NoteSection? section;
   final void Function(int from, int to)? onReorder;
 
-  const _MasonryColumn({
+  const _NoteCardColumn({
     required this.items,
     required this.cardWidth,
     required this.searchQuery,
+    required this.section,
     required this.onReorder,
   });
 
@@ -404,6 +497,7 @@ class _MasonryColumn extends StatelessWidget {
             index: items[i].$1,
             cardWidth: cardWidth,
             searchQuery: searchQuery,
+            section: section,
             onReorder: onReorder,
           ),
         ],
@@ -419,6 +513,7 @@ class _DraggableNoteItem extends StatelessWidget {
   final int index;
   final double cardWidth;
   final String searchQuery;
+  final _NoteSection? section;
   final void Function(int from, int to)? onReorder;
 
   const _DraggableNoteItem({
@@ -427,6 +522,7 @@ class _DraggableNoteItem extends StatelessWidget {
     required this.index,
     required this.cardWidth,
     required this.searchQuery,
+    required this.section,
     required this.onReorder,
   });
 
@@ -442,23 +538,31 @@ class _DraggableNoteItem extends StatelessWidget {
     );
 
     final reorder = onReorder;
-    if (reorder == null) {
+    final section = this.section;
+    if (reorder == null || section == null) {
       return tappableCard;
     }
 
-    return DragTarget<int>(
-      onAcceptWithDetails: (details) => reorder(details.data, index),
+    return DragTarget<_DragData>(
+      // Only accept drops from the same section so the Pinned and Others
+      // lists reorder independently of one another.
+      onWillAcceptWithDetails: (details) => details.data.section == section,
+      onAcceptWithDetails: (details) => reorder(details.data.index, index),
       builder: (context, candidateData, _) {
         return AnimatedOpacity(
           duration: _highlightDuration,
           opacity: candidateData.isNotEmpty ? 0.6 : 1.0,
-          child: LongPressDraggable<int>(
-            data: index,
+          child: LongPressDraggable<_DragData>(
+            data: (index: index, section: section),
             feedback: SizedBox(
               width: cardWidth,
               child: Material(
                 color: Colors.transparent,
-                child: NoteCard(note: note, searchQuery: searchQuery),
+                child: NoteCard(
+                  note: note,
+                  searchQuery: searchQuery,
+                  isSelected: true,
+                ),
               ),
             ),
             childWhenDragging: Opacity(
@@ -469,6 +573,36 @@ class _DraggableNoteItem extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Which home-screen section a note card belongs to. Drag-and-drop reordering
+/// is confined to a single section.
+enum _NoteSection { pinned, others }
+
+/// Payload carried by a dragged note card: its index within the section's
+/// displayed list plus the section it came from.
+typedef _DragData = ({int index, _NoteSection section});
+
+class _NotesSectionHeader extends StatelessWidget {
+  final String title;
+
+  const _NotesSectionHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final spacing = context.dimensions.spacing;
+    final titleStyle = theme.textTheme.labelMedium?.copyWith(
+      color: theme.colorScheme.onSurfaceVariant,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 1.0,
+    );
+
+    return Padding(
+      padding: EdgeInsets.only(left: spacing.xs, bottom: spacing.sm),
+      child: Text(title, style: titleStyle),
     );
   }
 }

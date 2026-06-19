@@ -223,5 +223,13 @@
   "deleteForeverDialogBody": "This note will be permanently deleted.",
   "@deleteForeverDialogBody": {
     "description": "Body of the confirmation dialog before permanently deleting a note"
+  },
+  "sectionPinned": "Pinned",
+  "@sectionPinned": {
+    "description": "Header for the section of pinned notes on the home screen"
+  },
+  "sectionOthers": "Others",
+  "@sectionOthers": {
+    "description": "Header for the section of unpinned notes shown below the pinned section"
   }
 }

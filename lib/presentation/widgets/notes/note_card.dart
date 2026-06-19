@@ -11,8 +11,14 @@ import 'package:my_notes/shared/extensions/date_time_extensions.dart';
 class NoteCard extends ConsumerWidget {
   final Note note;
   final String searchQuery;
+  final bool isSelected;
 
-  const NoteCard({super.key, required this.note, this.searchQuery = ''});
+  const NoteCard({
+    super.key,
+    required this.note,
+    this.searchQuery = '',
+    this.isSelected = false,
+  });
 
   TextSpan _highlight({
     required String text,
@@ -58,9 +64,7 @@ class NoteCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final dimensions = context.dimensions;
-    final spacing = dimensions.spacing;
-    final radius = dimensions.borderRadius;
+    final spacing = context.dimensions.spacing;
 
     final allLabels = ref.watch(labelsProvider).asData?.value ?? const [];
     final noteLabels =
@@ -81,13 +85,11 @@ class NoteCard extends ConsumerWidget {
       color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
       fontStyle: FontStyle.italic,
     );
+    final cardBorder = context.cardBorder;
 
     return Card(
       color: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radius.md),
-        side: BorderSide(color: theme.colorScheme.outlineVariant),
-      ),
+      shape: isSelected ? cardBorder.selected : cardBorder.standard,
       child: Padding(
         padding: EdgeInsets.all(spacing.md),
         child: Column(
