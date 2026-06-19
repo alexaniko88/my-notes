@@ -1,6 +1,6 @@
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/presentation/screens/playground/playground_item_screen.dart';
-import 'package:my_notes/presentation/widgets/notes/note_card.dart';
+import 'package:my_notes/presentation/widgets/note/note_card.dart';
 
 final _now = DateTime.now();
 final _yesterday = _now.subtract(const Duration(days: 1));

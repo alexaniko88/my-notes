@@ -11,7 +11,7 @@ import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon_button.dart';
 import 'package:my_notes/presentation/widgets/common/app_text_button.dart';
 import 'package:my_notes/presentation/widgets/labels/label_tag.dart';
-import 'package:my_notes/presentation/widgets/notes/note_options_sheet.dart';
+import 'package:my_notes/presentation/widgets/note/note_options_sheet.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
 
