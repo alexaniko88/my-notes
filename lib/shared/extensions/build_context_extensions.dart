@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_notes/gen/app_localizations.dart';
+import 'package:my_notes/shared/theme/app_card_border.dart';
 import 'package:my_notes/shared/theme/app_colors.dart';
 import 'package:my_notes/shared/theme/app_dimensions.dart';
 
@@ -8,6 +9,8 @@ extension BuildContextExtensions on BuildContext {
   AppDimensions get dimensions => Theme.of(this).extension<AppDimensions>()!;
   // ! safe: AppColors is always registered in both lightTheme and darkTheme
   AppColors get colors => Theme.of(this).extension<AppColors>()!;
+  // ! safe: AppCardBorder is always registered in both lightTheme and darkTheme
+  AppCardBorder get cardBorder => Theme.of(this).extension<AppCardBorder>()!;
   // ! safe: AppLocalizations delegate is always registered in MaterialApp
   AppLocalizations get l10n => AppLocalizations.of(this)!;
 }

@@ -46,5 +46,7 @@
   "allNotes": "Notas",
   "noteActionError": "Algo salió mal. Inténtalo de nuevo.",
   "deleteForeverDialogTitle": "¿Eliminar para siempre?",
-  "deleteForeverDialogBody": "Esta nota se eliminará permanentemente."
+  "deleteForeverDialogBody": "Esta nota se eliminará permanentemente.",
+  "sectionPinned": "Fijadas",
+  "sectionOthers": "Otras"
 }

@@ -46,6 +46,7 @@ class NotesNotifier extends _$NotesNotifier {
     String? body,
     List<String> labelIds = const [],
     int? color,
+    bool isPinned = false,
   }) async {
     final validLabelIds = _validateLabelIds(labelIds);
     final now = DateTime.now();
@@ -59,7 +60,7 @@ class NotesNotifier extends _$NotesNotifier {
         labelIds: validLabelIds,
         color: color,
         position: notes.length,
-        isPinned: false,
+        isPinned: isPinned,
         createdAt: now,
         updatedAt: now,
       ),
@@ -81,6 +82,20 @@ class NotesNotifier extends _$NotesNotifier {
 
   Future<void> restore(String id) async {
     await _repo.restore(id);
+  }
+
+  /// Persists the given active-note ordering, writing each note's list index
+  /// as its `position`. Only notes whose position actually changed are sent.
+  Future<void> persistOrder(List<Note> orderedActive) async {
+    final changed = <String, int>{};
+    for (var index = 0; index < orderedActive.length; index++) {
+      final note = orderedActive[index];
+      if (note.position != index) {
+        changed[note.id] = index;
+      }
+    }
+    if (changed.isEmpty) return;
+    await _repo.updatePositions(changed);
   }
 
   Future<void> togglePin(String id) async {

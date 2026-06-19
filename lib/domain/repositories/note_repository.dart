@@ -17,6 +17,11 @@ abstract class NoteRepository {
   /// Clears a note's `deletedAt`, returning it to the active list.
   Future<void> restore(String id);
 
+  /// Persists a new note ordering by writing each entry's `position`. The map
+  /// is keyed by note id; only the notes whose position changed need to be
+  /// passed. Does not modify `updatedAt`.
+  Future<void> updatePositions(Map<String, int> positionsById);
+
   /// Permanently deletes every trashed note whose `deletedAt` is at or before
   /// [cutoff]. Returns the number of notes purged.
   Future<int> purgeExpired(DateTime cutoff);

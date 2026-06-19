@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_notes/domain/models/note.dart';
 import 'package:my_notes/domain/models/note_exception.dart';
@@ -10,7 +11,7 @@ import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon_button.dart';
 import 'package:my_notes/presentation/widgets/common/app_text_button.dart';
 import 'package:my_notes/presentation/widgets/labels/label_tag.dart';
-import 'package:my_notes/presentation/widgets/notes/note_options_sheet.dart';
+import 'package:my_notes/presentation/widgets/note/note_options_sheet.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
 
@@ -34,6 +35,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
   List<String> _labelIds = [];
   int? _noteColor;
   String? _noteId;
+  bool _isPinned = false;
   bool _isSaving = false;
   bool _isClosing = false;
 
@@ -49,6 +51,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
       _bodyController = TextEditingController(text: note?.body ?? '');
       _labelIds = [...?note?.labelIds];
       _noteColor = note?.color;
+      _isPinned = note?.isPinned ?? false;
     } else {
       _titleController = TextEditingController();
       _bodyController = TextEditingController();
@@ -73,7 +76,12 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
       try {
         _noteId = await ref
             .read(notesProvider.notifier)
-            .add(title: title, body: body, labelIds: _labelIds);
+            .add(
+              title: title,
+              body: body,
+              labelIds: _labelIds,
+              isPinned: _isPinned,
+            );
       } finally {
         _isSaving = false;
       }
@@ -92,6 +100,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
                 title: title,
                 body: body,
                 labelIds: _labelIds,
+                isPinned: _isPinned,
                 clearTitle: title == null,
                 clearBody: body == null,
               ),
@@ -106,6 +115,8 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
     _save();
     GoRouter.of(context).pop();
   }
+
+  void _togglePin() => setState(() => _isPinned = !_isPinned);
 
   Future<void> _openLabelPicker() async {
     final result = await context.push<List<String>>(
@@ -288,6 +299,14 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
               isTrashed
                   ? const []
                   : [
+                    AppIconButton(
+                      icon:
+                          _isPinned
+                              ? AppIconName.pushPin
+                              : AppIconName.pushPinOutlined,
+                      onPressed: _togglePin,
+                    ),
+                    Gap(spacing.sm),
                     AppIconButton(
                       icon: AppIconName.labelOutlined,
                       onPressed: _openLabelPicker,

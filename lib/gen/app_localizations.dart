@@ -385,6 +385,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This note will be permanently deleted.'**
   String get deleteForeverDialogBody;
+
+  /// Header for the section of pinned notes on the home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get sectionPinned;
+
+  /// Header for the section of unpinned notes shown below the pinned section
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get sectionOthers;
 }
 
 class _AppLocalizationsDelegate

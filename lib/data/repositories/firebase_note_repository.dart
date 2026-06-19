@@ -108,6 +108,22 @@ class FirebaseNoteRepository implements NoteRepository {
   }
 
   @override
+  Future<void> updatePositions(Map<String, int> positionsById) async {
+    if (positionsById.isEmpty) {
+      return;
+    }
+    try {
+      final batch = _notesCollection.firestore.batch();
+      positionsById.forEach((id, position) {
+        batch.update(_notesCollection.doc(id), {'position': position});
+      });
+      await batch.commit();
+    } on FirebaseException catch (e) {
+      throw NoteException('Failed to reorder notes', cause: e);
+    }
+  }
+
+  @override
   Future<int> purgeExpired(DateTime cutoff) async {
     try {
       final snapshot =

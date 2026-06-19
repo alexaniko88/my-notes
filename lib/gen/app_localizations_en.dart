@@ -166,4 +166,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteForeverDialogBody =>
       'This note will be permanently deleted.';
+
+  @override
+  String get sectionPinned => 'Pinned';
+
+  @override
+  String get sectionOthers => 'Others';
 }
