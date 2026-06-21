@@ -50,6 +50,54 @@ final class NoteRepositoryProvider
 
 String _$noteRepositoryHash() => r'0b399e600acb9a155b99283ed3b060738299a727';
 
+@ProviderFor(audioStorageRepository)
+final audioStorageRepositoryProvider = AudioStorageRepositoryProvider._();
+
+final class AudioStorageRepositoryProvider
+    extends
+        $FunctionalProvider<
+          AudioStorageRepository,
+          AudioStorageRepository,
+          AudioStorageRepository
+        >
+    with $Provider<AudioStorageRepository> {
+  AudioStorageRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'audioStorageRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$audioStorageRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AudioStorageRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  AudioStorageRepository create(Ref ref) {
+    return audioStorageRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AudioStorageRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AudioStorageRepository>(value),
+    );
+  }
+}
+
+String _$audioStorageRepositoryHash() =>
+    r'a38370ebb39bed0f6d180a446ba95c09ca97f87f';
+
 @ProviderFor(NotesNotifier)
 final notesProvider = NotesNotifierProvider._();
 
@@ -74,7 +122,7 @@ final class NotesNotifierProvider
   NotesNotifier create() => NotesNotifier();
 }
 
-String _$notesNotifierHash() => r'a2b0b8e3580572426a2f98f037b88647281e8b00';
+String _$notesNotifierHash() => r'1d83b091332ade4122c5d8d0891ad7af8c0e6be2';
 
 abstract class _$NotesNotifier extends $StreamNotifier<List<Note>> {
   Stream<List<Note>> build();
