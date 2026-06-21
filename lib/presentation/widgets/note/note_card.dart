@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:my_notes/domain/models/label.dart';
 import 'package:my_notes/domain/models/note.dart';
+import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/presentation/providers/labels/labels_provider.dart';
+import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/labels/label_tag.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/extensions/date_time_extensions.dart';
@@ -116,6 +118,10 @@ class NoteCard extends ConsumerWidget {
                 maxLines: 8,
                 overflow: TextOverflow.ellipsis,
               ),
+            if (note.type == NoteType.voice) ...[
+              if (title != null) Gap(spacing.sm),
+              const _VoiceNoteIndicator(),
+            ],
             if (noteLabels.isNotEmpty) ...[
               Gap(spacing.sm),
               _NoteCardLabels(labels: noteLabels),
@@ -128,6 +134,28 @@ class NoteCard extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _VoiceNoteIndicator extends StatelessWidget {
+  const _VoiceNoteIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final spacing = context.dimensions.spacing;
+    final iconSize = context.dimensions.iconSize;
+    final labelStyle = theme.textTheme.bodyMedium;
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppIcon(name: AppIconName.mic, size: iconSize.sm),
+        Gap(spacing.xs),
+        Text(l10n.voiceNoteLabel, style: labelStyle),
+      ],
     );
   }
 }

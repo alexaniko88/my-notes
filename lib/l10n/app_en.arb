@@ -231,5 +231,45 @@
   "sectionOthers": "Others",
   "@sectionOthers": {
     "description": "Header for the section of unpinned notes shown below the pinned section"
+  },
+  "voiceRecorderTitle": "Voice note",
+  "@voiceRecorderTitle": {
+    "description": "App bar title of the voice note recorder screen"
+  },
+  "recordingTapToStart": "Tap to record",
+  "@recordingTapToStart": {
+    "description": "Prompt shown below the record button before recording starts"
+  },
+  "recordingPaused": "Paused",
+  "@recordingPaused": {
+    "description": "Label shown while a recording is paused"
+  },
+  "recordingSave": "Save",
+  "@recordingSave": {
+    "description": "Button that saves the recorded voice note"
+  },
+  "recordingDiscard": "Discard",
+  "@recordingDiscard": {
+    "description": "Button that discards the recorded voice note"
+  },
+  "recordingSaveError": "Couldn't save voice note. Check your connection and try again.",
+  "@recordingSaveError": {
+    "description": "Error shown when uploading and saving a voice note fails"
+  },
+  "recordingPermissionDenied": "Microphone access is needed to record voice notes.",
+  "@recordingPermissionDenied": {
+    "description": "Message shown when microphone permission was denied"
+  },
+  "recordingTryAgain": "Try again",
+  "@recordingTryAgain": {
+    "description": "Button that retries requesting microphone permission"
+  },
+  "recordingOpenSettings": "Open settings",
+  "@recordingOpenSettings": {
+    "description": "Button that opens the OS app settings to grant microphone permission"
+  },
+  "voiceNoteLabel": "Voice note",
+  "@voiceNoteLabel": {
+    "description": "Indicator label shown on a voice note card"
   }
 }

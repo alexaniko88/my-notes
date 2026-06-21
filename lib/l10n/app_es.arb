@@ -48,5 +48,15 @@
   "deleteForeverDialogTitle": "¿Eliminar para siempre?",
   "deleteForeverDialogBody": "Esta nota se eliminará permanentemente.",
   "sectionPinned": "Fijadas",
-  "sectionOthers": "Otras"
+  "sectionOthers": "Otras",
+  "voiceRecorderTitle": "Nota de voz",
+  "recordingTapToStart": "Toca para grabar",
+  "recordingPaused": "En pausa",
+  "recordingSave": "Guardar",
+  "recordingDiscard": "Descartar",
+  "recordingSaveError": "No se pudo guardar la nota de voz. Verifica tu conexión e inténtalo de nuevo.",
+  "recordingPermissionDenied": "Se necesita acceso al micrófono para grabar notas de voz.",
+  "recordingTryAgain": "Inténtalo de nuevo",
+  "recordingOpenSettings": "Abrir ajustes",
+  "voiceNoteLabel": "Nota de voz"
 }

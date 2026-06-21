@@ -11,6 +11,8 @@ import 'package:my_notes/presentation/widgets/common/app_icon.dart';
 import 'package:my_notes/presentation/widgets/common/app_icon_button.dart';
 import 'package:my_notes/presentation/widgets/common/app_text_button.dart';
 import 'package:my_notes/presentation/widgets/labels/label_tag.dart';
+import 'package:my_notes/presentation/widgets/note/audio_player_bar.dart';
+import 'package:my_notes/presentation/screens/note/voice_recorder_sheet.dart';
 import 'package:my_notes/presentation/widgets/note/note_options_sheet.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
@@ -150,6 +152,13 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
             Navigator.of(sheetContext).pop();
             _moveToTrash();
           },
+          onAddVoiceNote:
+              note.type == NoteType.voice
+                  ? null
+                  : () {
+                    Navigator.of(sheetContext).pop();
+                    showVoiceRecorderSheet(context, targetNoteId: note.id);
+                  },
         );
       },
     );
@@ -266,6 +275,7 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
     final noteId = _noteId;
     final note = noteId != null ? ref.watch(noteProvider(noteId)) : null;
     final isTrashed = note?.isTrashed ?? false;
+    final voiceUrl = note?.type == NoteType.voice ? note?.fileUrl : null;
 
     return PopScope(
       canPop: false,
@@ -353,6 +363,14 @@ class _NoteScreenState extends ConsumerState<NoteScreen>
                               border: InputBorder.none,
                             ),
                           ),
+                          if (voiceUrl != null) ...[
+                            Gap(spacing.md),
+                            AudioPlayerBar(
+                              source: voiceUrl,
+                              isUrl: true,
+                              onDelete: isTrashed ? null : _moveToTrash,
+                            ),
+                          ],
                           // labels flow right after the body text
                           if (noteLabels.isNotEmpty)
                             Padding(
