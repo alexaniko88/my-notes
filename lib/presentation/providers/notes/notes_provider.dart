@@ -104,6 +104,19 @@ class NotesNotifier extends _$NotesNotifier {
     };
   }
 
+  /// Records a voice recording onto an existing note: uploads the local
+  /// [filePath] to the note's Storage location and flips it to a voice note.
+  /// Throws [AudioStorageException] on upload failure (e.g. offline).
+  Future<void> attachVoice(String noteId, String filePath) async {
+    final notes = state.asData?.value ?? [];
+    final note = notes.where((n) => n.id == noteId).firstOrNull;
+    if (note == null) return;
+    final url = await ref
+        .read(audioStorageRepositoryProvider)
+        .upload(noteId: noteId, filePath: filePath);
+    await updateNote(note.copyWith(type: NoteType.voice, fileUrl: url));
+  }
+
   Future<void> updateNote(Note note) async {
     await _repo.update(note.copyWith(updatedAt: DateTime.now()));
   }

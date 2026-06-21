@@ -12,6 +12,7 @@ import 'package:my_notes/presentation/widgets/home/fab_notes.dart';
 import 'package:my_notes/presentation/widgets/home/home_app_bar.dart';
 import 'package:my_notes/presentation/widgets/home/playground_title.dart';
 import 'package:my_notes/presentation/widgets/notes/notes_grid.dart';
+import 'package:my_notes/presentation/screens/note/voice_recorder_sheet.dart';
 import 'package:my_notes/domain/models/note_type.dart';
 import 'package:my_notes/shared/extensions/build_context_extensions.dart';
 import 'package:my_notes/shared/navigation/app_route.dart';
@@ -29,6 +30,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _createTextNote() {
     context.pushNamed(AppRoute.note.name, extra: NoteType.text);
+  }
+
+  void _createVoiceNote() {
+    showVoiceRecorderSheet(context);
   }
 
   void _startSearch() => setState(() => _isSearching = true);
@@ -72,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final options = [
       (AppIconName.textFields, l10n.fabOptionText, _createTextNote),
       (AppIconName.imageOutlined, l10n.fabOptionImage, null),
-      (AppIconName.micOutlined, l10n.fabOptionAudio, null),
+      (AppIconName.micOutlined, l10n.fabOptionAudio, _createVoiceNote),
       (AppIconName.pictureAsPdfOutlined, l10n.fabOptionPdf, null),
     ];
 

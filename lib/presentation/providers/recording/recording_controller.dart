@@ -23,6 +23,7 @@ class RecordingController extends _$RecordingController {
   final Uuid _uuid = const Uuid();
   Timer? _ticker;
   StreamSubscription<Amplitude>? _amplitudeSub;
+  String? _currentPath;
 
   @override
   RecordingState build() {
@@ -30,6 +31,12 @@ class RecordingController extends _$RecordingController {
       _ticker?.cancel();
       unawaited(_amplitudeSub?.cancel());
       unawaited(_recorder.dispose());
+      // Backstop: drop the temp file if the sheet was torn down without an
+      // explicit cancel()/save (which already clear _currentPath).
+      final path = _currentPath;
+      if (path != null) {
+        unawaited(_deleteFile(path));
+      }
     });
     return const RecordingState();
   }
@@ -42,6 +49,7 @@ class RecordingController extends _$RecordingController {
     }
     final directory = await getTemporaryDirectory();
     final path = '${directory.path}/voice_${_uuid.v4()}.m4a';
+    _currentPath = path;
     await _recorder.start(
       const RecordConfig(encoder: AudioEncoder.aacLc, numChannels: 1),
       path: path,
@@ -108,6 +116,7 @@ class RecordingController extends _$RecordingController {
       }
     }
     _stopTicking();
+    _currentPath = null;
     state = const RecordingState();
   }
 
@@ -115,6 +124,7 @@ class RecordingController extends _$RecordingController {
   /// caller has taken ownership of it for upload).
   void reset() {
     _stopTicking();
+    _currentPath = null;
     state = const RecordingState();
   }
 

@@ -6,11 +6,13 @@ import 'package:my_notes/shared/extensions/date_time_extensions.dart';
 class NoteOptionsSheet extends StatelessWidget {
   final DateTime updatedAt;
   final VoidCallback onDelete;
+  final VoidCallback? onAddVoiceNote;
 
   const NoteOptionsSheet({
     super.key,
     required this.updatedAt,
     required this.onDelete,
+    this.onAddVoiceNote,
   });
 
   @override
@@ -22,6 +24,7 @@ class NoteOptionsSheet extends StatelessWidget {
     final titleStyle = theme.textTheme.titleMedium?.copyWith(
       color: theme.colorScheme.onSurfaceVariant,
     );
+    final onAddVoiceNote = this.onAddVoiceNote;
 
     return SafeArea(
       child: Column(
@@ -40,6 +43,12 @@ class NoteOptionsSheet extends StatelessWidget {
               style: titleStyle,
             ),
           ),
+          if (onAddVoiceNote != null)
+            ListTile(
+              leading: const AppIcon(name: AppIconName.micOutlined),
+              title: Text(l10n.voiceNoteLabel),
+              onTap: onAddVoiceNote,
+            ),
           ListTile(
             leading: const AppIcon(name: AppIconName.deleteOutlined),
             title: Text(l10n.noteDelete),

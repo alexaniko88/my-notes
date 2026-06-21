@@ -172,4 +172,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sectionOthers => 'Others';
+
+  @override
+  String get voiceRecorderTitle => 'Voice note';
+
+  @override
+  String get recordingTapToStart => 'Tap to record';
+
+  @override
+  String get recordingPaused => 'Paused';
+
+  @override
+  String get recordingSave => 'Save';
+
+  @override
+  String get recordingDiscard => 'Discard';
+
+  @override
+  String get recordingSaveError =>
+      'Couldn\'t save voice note. Check your connection and try again.';
+
+  @override
+  String get recordingPermissionDenied =>
+      'Microphone access is needed to record voice notes.';
+
+  @override
+  String get recordingTryAgain => 'Try again';
+
+  @override
+  String get recordingOpenSettings => 'Open settings';
+
+  @override
+  String get voiceNoteLabel => 'Voice note';
 }

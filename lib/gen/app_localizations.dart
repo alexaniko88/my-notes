@@ -397,6 +397,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Others'**
   String get sectionOthers;
+
+  /// App bar title of the voice note recorder screen
+  ///
+  /// In en, this message translates to:
+  /// **'Voice note'**
+  String get voiceRecorderTitle;
+
+  /// Prompt shown below the record button before recording starts
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to record'**
+  String get recordingTapToStart;
+
+  /// Label shown while a recording is paused
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get recordingPaused;
+
+  /// Button that saves the recorded voice note
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get recordingSave;
+
+  /// Button that discards the recorded voice note
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get recordingDiscard;
+
+  /// Error shown when uploading and saving a voice note fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save voice note. Check your connection and try again.'**
+  String get recordingSaveError;
+
+  /// Message shown when microphone permission was denied
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone access is needed to record voice notes.'**
+  String get recordingPermissionDenied;
+
+  /// Button that retries requesting microphone permission
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get recordingTryAgain;
+
+  /// Button that opens the OS app settings to grant microphone permission
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get recordingOpenSettings;
+
+  /// Indicator label shown on a voice note card
+  ///
+  /// In en, this message translates to:
+  /// **'Voice note'**
+  String get voiceNoteLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -175,4 +175,36 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get sectionOthers => 'Otras';
+
+  @override
+  String get voiceRecorderTitle => 'Nota de voz';
+
+  @override
+  String get recordingTapToStart => 'Toca para grabar';
+
+  @override
+  String get recordingPaused => 'En pausa';
+
+  @override
+  String get recordingSave => 'Guardar';
+
+  @override
+  String get recordingDiscard => 'Descartar';
+
+  @override
+  String get recordingSaveError =>
+      'No se pudo guardar la nota de voz. Verifica tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get recordingPermissionDenied =>
+      'Se necesita acceso al micrófono para grabar notas de voz.';
+
+  @override
+  String get recordingTryAgain => 'Inténtalo de nuevo';
+
+  @override
+  String get recordingOpenSettings => 'Abrir ajustes';
+
+  @override
+  String get voiceNoteLabel => 'Nota de voz';
 }
